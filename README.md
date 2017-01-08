@@ -9,12 +9,13 @@ Of course, you will need OpenSync running and a licensed copy of QuickBooks Desk
 1. Edit `build.gradle` and comment out the H2 dependency and un-comment the MySQL dependency; and 
 2. Instead of an application.properties file, QBD API uses [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/) at localhost:8888. Make a qbd-api.properties in the Spring Cloud Config server that holds these properties, substituting the placeholders for real values:
 
-    configuration.projectName = qbd-api
-    
-    spring.datasource.url = jdbc:mysql://${hostname}:3306/${databaseName}?useSSL=false
-    spring.datasource.username = ${dbUsername}
-    spring.datasource.password = ${dbPassword}
-    spring.jpa.hibernate.naming.physical-strategy = org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+```
+configuration.projectName = qbd-api
+spring.datasource.url = jdbc:mysql://${hostname}:3306/${databaseName}?useSSL=false
+spring.datasource.username = ${dbUsername}
+spring.datasource.password = ${dbPassword}
+spring.jpa.hibernate.naming.physical-strategy = org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+```
 
 The `PhysicalNamingStrategyStandardImpl` is important because QuickBooks uses UpperCamelCase instead of snake_case for their table and column names.
 

@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,8 +38,9 @@ public class TimeTracking {
     @Column(name = "EntityRef_FullName")
     private String entityRefFullName;
 
-    @Column(name = "CustomerRef_ListID")
-    private String customerRefListId;
+    @ManyToOne
+    @JoinColumn(name = "CustomerRef_ListID")
+    private Customer customer;
 
     @Column(name = "CustomerRef_FullName")
     private String customerRefFullName;
@@ -145,12 +148,12 @@ public class TimeTracking {
         this.entityRefFullName = entityRefFullName;
     }
 
-    public String getCustomerRefListId() {
-        return customerRefListId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerRefListId(String customerRefListId) {
-        this.customerRefListId = customerRefListId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getCustomerRefFullName() {
