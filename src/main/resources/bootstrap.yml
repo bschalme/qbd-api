@@ -1,0 +1,6 @@
+spring:  
+  application:
+    name: qbd-api
+  cloud:
+    config:
+      uri: http://localhost:8888
