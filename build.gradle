@@ -1,9 +1,12 @@
 buildscript {
+	ext {
+		springBootVersion = '1.4.5.RELEASE'
+	}
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
@@ -34,7 +37,7 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Camden.SR3"
+		mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Camden.SR6"
 	}
 }
 
