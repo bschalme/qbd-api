@@ -1,6 +1,7 @@
 package ca.airspeed.qbdapi.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,10 @@ public interface TimeTrackingRepository extends PagingAndSortingRepository<TimeT
 
     Page<TimeTracking> findByTxnDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @Param("txnDate") Date txnDate,
             Pageable pageable);
+
+    Page<TimeTracking> findByTxnDateBetween(@DateTimeFormat(pattern = "yyyy-MM-dd") @Param("fromDate") Date fromDate,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") @Param("toDate") Date toDate, Pageable pageable);
+
+    Page<TimeTracking> findByCustomerListIDAndBillableStatus(@Param("customerId") String customerListId,
+            @Param("billableStatus") String billableStatus, Pageable pageable);
 }

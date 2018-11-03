@@ -15,10 +15,10 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    @Primary
-    @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource primaryDataSourde() {
-        return DataSourceBuilder.create().build();
-    }
+//    @Bean
+//    @Primary
+//    @ConfigurationProperties(prefix="spring.datasource")
+//    public DataSource primaryDataSourde() {
+//        return DataSourceBuilder.create().build();
+//    }
 }

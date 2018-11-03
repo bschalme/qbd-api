@@ -6,8 +6,9 @@ Of course, you will need OpenSync running and a licensed copy of QuickBooks Desk
 
 ## To run QBD API Against a MySQL Database
 
-1. Edit `build.gradle` and comment out the H2 dependency and un-comment the MySQL dependency; and 
-2. Instead of an application.properties file, QBD API uses [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/) at localhost:8888. Make a qbd-api.properties in the Spring Cloud Config server that holds these properties, substituting the placeholders for real values:
+1. Edit `build.gradle` and comment out the H2 dependency and un-comment the MySQL dependency;
+2. Un-comment the DataSource bean in `Application.java`; and 
+3. Instead of an application.properties file, QBD API uses [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/) at localhost:8888. Make a qbd-api.properties in the Spring Cloud Config server that holds these properties, substituting the placeholders for real values:
 
 ```
 configuration.projectName = qbd-api
