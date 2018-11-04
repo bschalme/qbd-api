@@ -8,8 +8,8 @@ COPY . /opt/qbd-api/
 WORKDIR /opt/qbd-api/
 RUN ./gradlew build && \
   cp ./build/libs/qbd-api-*.jar /opt/qbd-api.jar && \
-  ./gradlew clean &&\
-  rm -rf ~/.gradle/caches/modules-2/files-2.1/
+  rm -rf /opt/qbd-api/* && \
+  rm -rf ~/.gradle/
 
 WORKDIR /opt
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "qbd-api.jar"]
