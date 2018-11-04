@@ -16,9 +16,10 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: "io.spring.dependency-management"
 
+version = '1.0.0-SNAPSHOT'
+
 jar {
     baseName = 'qbd-api'
-    version = '1.0.0-SNAPSHOT'
 }
 
 repositories {
