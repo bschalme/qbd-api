@@ -1,46 +1,94 @@
-buildscript {
-	ext {
-		springBootVersion = '2.1.0.RELEASE'
-	}
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
-    }
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "jp.classmethod.aws.lambda" version "0.39"
+    id "net.ltgt.apt-eclipse" version "0.21"
+    id "application"
 }
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: "io.spring.dependency-management"
+aws {
+    profileName = "default"
+    region = "ca-central-1"
+}
 
 version = '1.0.0-SNAPSHOT'
-
-jar {
-    baseName = 'qbd-api'
-}
+group "ca.airspeed"
 
 repositories {
     mavenCentral()
+    maven { url "https://jcenter.bintray.com" }
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-dependencies {
-    compile('org.springframework.cloud:spring-cloud-starter-config')
-    // compile("org.springframework.boot:spring-boot-configuration-processor")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.data:spring-data-rest-hal-browser")
-    compile("com.h2database:h2")
-    // compile("mysql:mysql-connector-java:5.1.47")
+configurations {
+    // for dependencies that are needed for development only
+    developmentOnly 
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-config:2.0.2.RELEASE"
+dependencies {
+    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation "io.micronaut:micronaut-http-client"
+    implementation "io.micronaut:micronaut-inject"
+    implementation "io.micronaut:micronaut-validation"
+    implementation "io.micronaut:micronaut-runtime"
+	implementation("io.micronaut.aws:micronaut-function-aws-api-proxy") {
+		exclude group: "org.apache.httpcomponents"
+		exclude group: "org.slf4j"
+	}
+    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.0.0"
+    runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.9.1"
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "io.micronaut.test:micronaut-test-junit5"
+    testImplementation "io.micronaut:micronaut-function-client"
+    testImplementation "io.micronaut:micronaut-inject-java"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0.M4'
+    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0.M4'
+    runtime("com.h2database:h2")
+    // runtime("mysql:mysql-connector-java:5.1.47")
+    developmentOnly "io.micronaut:micronaut-http-server-netty:${micronautVersion}"
+}
+
+test.classpath += configurations.developmentOnly
+shadowJar {
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer)
+}
+// use JUnit 5 platform
+test {
+    useJUnitPlatform()
+}
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
+}
+
+shadowJar {
+    mergeServiceFiles()
+}
+
+run.classpath += configurations.developmentOnly
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+
+mainClassName = "ca.airspeed.qbdapi.Application"
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
+	options.compilerArgs.add('-parameters')
+}
+task exploded(type: Copy) {
+	from sourceSets.main.output
+	into "build/exploded"
+	
+	
+	into('lib') {
+		from configurations.compileClasspath
+		from configurations.runtimeClasspath
 	}
 }
+
+shadowJar.dependsOn exploded

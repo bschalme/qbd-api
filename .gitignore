@@ -1,6 +1,7 @@
 .DS_Store
 *.class
 *.swp
+/output-sam.yaml
 
 # Environment setup files
 /setenv

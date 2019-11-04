@@ -1,26 +1,20 @@
 package ca.airspeed.qbdapi.repository;
 
 import java.util.Date;
-import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.TimeTracking;
+import io.micronaut.data.annotation.Repository;
+import io.micronaut.data.model.Page;
+import io.micronaut.data.model.Pageable;
+import io.micronaut.data.repository.PageableRepository;
 
-@RepositoryRestResource(collectionResourceRel = "timeTrackingEntries", path = "timeTrackingEntries")
-public interface TimeTrackingRepository extends PagingAndSortingRepository<TimeTracking, String> {
+@Repository
+public interface TimeTrackingRepository extends PageableRepository<TimeTracking, String> {
 
-    Page<TimeTracking> findByTxnDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @Param("txnDate") Date txnDate,
-            Pageable pageable);
+    Page<TimeTracking> findByTxnDate(Date txnDate, Pageable pageable);
 
-    Page<TimeTracking> findByTxnDateBetween(@DateTimeFormat(pattern = "yyyy-MM-dd") @Param("fromDate") Date fromDate,
-            @DateTimeFormat(pattern = "yyyy-MM-dd") @Param("toDate") Date toDate, Pageable pageable);
+    Page<TimeTracking> findByTxnDateBetween(Date fromDate, Date toDate, Pageable pageable);
 
-    Page<TimeTracking> findByCustomerListIDAndBillableStatus(@Param("customerId") String customerListId,
-            @Param("billableStatus") String billableStatus, Pageable pageable);
+    Page<TimeTracking> findByCustomerAndBillableStatus(Customer customer, String billableStatus, Pageable pageable);
 }

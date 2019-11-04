@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: ca.airspeed
+---
+testFramework: junit
+sourceLanguage: java
