@@ -4,6 +4,13 @@ Description: AWS Example API - example::example
 Globals:
   Api:
     EndpointConfiguration: REGIONAL
+Parameters:
+  NetworkStack:
+    Type: String
+    Description: The name of your stack that has the Subnet and Security Group you want to use for this stack.
+    MaxLength: 128
+    AllowedPattern: ^[A-Za-z0-9\-]+$
+    ConstraintDescription: must only contain letters (uppercase and lowercase), numbers and hyphens
 Resources:
   ExampleFunction:
     Type: AWS::Serverless::Function
@@ -12,14 +19,23 @@ Resources:
       Runtime: java8
       CodeUri: build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar
       MemorySize: 320
-      Policies: AWSLambdaBasicExecutionRole
+      Policies: AWSLambdaVPCAccessExecutionRole
       Timeout: 15
       Events:
         GetResource:
           Type: Api
           Properties:
+            Auth:
+              Authorizer: AWS_IAM
             Path: /{proxy+}
             Method: any
+      VpcConfig:
+        SecurityGroupIds:
+        - Fn::ImportValue:
+            Fn::Sub: ${NetworkStack}-SecurityGroupID
+        SubnetIds:
+        - Fn::ImportValue:
+            Fn::Sub: ${NetworkStack}-SubnetID
 
 Outputs:
   ExampleApi:
