@@ -3,8 +3,6 @@ phases:
   install:
     runtime-versions:
       java: openjdk8
-    commands:
-      - aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket qbd-api-deployment-artifacts
   build:
     commands:
       - echo Build started on `date`
@@ -12,7 +10,9 @@ phases:
       - ./gradlew shadowJar
   post_build:
     commands:
+      - aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket qbd-api-deployment-artifacts
       - echo Build completed on `date`
 artifacts:
   files:
     - build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar
+    - output-sam.yaml
