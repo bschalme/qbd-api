@@ -7,7 +7,6 @@ phases:
     commands:
       - echo Build started on `date`
       - ./gradlew build
-      - ./gradlew shadowJar
   post_build:
     commands:
       - aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket qbd-api-deployment-artifacts
