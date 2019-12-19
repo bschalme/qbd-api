@@ -31,6 +31,7 @@ dependencies {
     annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
+    annotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-inject"
@@ -49,9 +50,9 @@ dependencies {
     testImplementation "io.micronaut:micronaut-function-client"
     testImplementation "io.micronaut:micronaut-inject-java"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-    annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0.M4'
-    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0.M4'
+    compile "io.micronaut.data:micronaut-data-hibernate-jpa:$micronautDataVersion"
     runtime("com.h2database:h2")
+    runtime 'io.micronaut.configuration:micronaut-jdbc-tomcat'
     // runtime("mysql:mysql-connector-java:5.1.47")
     developmentOnly "io.micronaut:micronaut-http-server-netty:${micronautVersion}"
 }

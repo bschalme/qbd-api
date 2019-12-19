@@ -16,11 +16,11 @@ public class CustomerControllerTest {
     @Inject
     private EmbeddedServer embeddedServer;
 
-@Test
-public void getAllCustomers() throws Exception {
-    try (RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class,
-            embeddedServer.getURL())) {
-        assertEquals(HttpStatus.OK, client.toBlocking().exchange("/customers").status());
+    @Test
+    public void getAllCustomers() throws Exception {
+        try (RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class,
+                embeddedServer.getURL())) {
+            assertEquals(HttpStatus.OK, client.toBlocking().exchange("/customers").status());
+        }
     }
-}
 }
