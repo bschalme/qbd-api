@@ -2,7 +2,6 @@ package ca.airspeed.qbdapi.controller;
 
 import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +39,5 @@ public class CustomerController {
         allCustomers.link(SELF, "/customers");
         allCustomers.embedded("customers", resources);
         return allCustomers;
-    }
-
-    private List<Customer> readAllCustomers() {
-        Customer megaCorp = new Customer();
-        megaCorp.setName("MegaCorp Inc");
-        megaCorp.setListID("1");
-        Customer littleBiz = new Customer();
-        littleBiz.setListID("2");
-        littleBiz.setName("Little Biz");
-
-        return asList(megaCorp, littleBiz);
     }
 }

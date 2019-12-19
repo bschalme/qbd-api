@@ -11,9 +11,9 @@ Resources:
       Handler: ca.airspeed.qbdapi.StreamLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: build/exploded
-      MemorySize: 320
+      MemorySize: 512
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 15
+      Timeout: 25
       Events:
         GetResource:
           Type: Api
