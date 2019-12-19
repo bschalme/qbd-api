@@ -1,6 +1,12 @@
 micronaut:
   application:
     name: qbd-api
+aws:
+  client:
+    system-manager:
+      parameterstore:
+        enabled: true
+
 jackson:
   bean-introspection-module: true
 ---
