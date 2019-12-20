@@ -8,6 +8,7 @@ Resources:
   ExampleFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: 'ExampleFunction'
       Handler: ca.airspeed.qbdapi.StreamLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: build/exploded
