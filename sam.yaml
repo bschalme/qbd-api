@@ -19,7 +19,9 @@ Resources:
       Runtime: java8
       CodeUri: build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar
       MemorySize: 512
-      Policies: AWSLambdaVPCAccessExecutionRole
+      Policies:
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonSSMReadOnlyAccess
       Timeout: 15
       Environment:
         Variables:
@@ -39,6 +41,8 @@ Resources:
         SubnetIds:
         - Fn::ImportValue:
             Fn::Sub: ${NetworkStack}-SubnetID
+        - Fn::ImportValue:
+            Fn::Sub: ${NetworkStack}-Lambda1SubnetID
 
 Outputs:
   ExampleApi:

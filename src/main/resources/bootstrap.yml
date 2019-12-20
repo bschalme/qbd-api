@@ -8,3 +8,4 @@ aws:
     system-manager:
       parameterstore:
         enabled: true
+        use-secure-parameters: true
