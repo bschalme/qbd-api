@@ -1,0 +1,24 @@
+micronaut:
+  application:
+    name: qbd-api
+
+jackson:
+  bean-introspection-module: true
+---
+datasources:
+  default:
+    url: jdbc:mysql://10.0.0.161:3306/qbairspeed
+    driverClassName: com.mysql.jdbc.Driver
+    username: ${db.username:sa}
+    password: ${db.password}
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+jpa:
+  default:
+    entity-scan:
+      packages: 'ca.airspeed.qbdapi.domain'
+    properties:
+      hibernate:
+        bytecode:
+          provider: none
+        hbm2ddl:
+          auto: update
