@@ -18,12 +18,11 @@ Resources:
       Handler: ca.airspeed.qbdapi.StreamLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar
-      MemorySize: 512
+      MemorySize: 768
       Policies:
         - AWSLambdaVPCAccessExecutionRole
-        - AmazonEC2ReadOnlyAccess
         - AmazonSSMReadOnlyAccess
-      Timeout: 15
+      Timeout: 60
       Environment:
         Variables:
           MICRONAUT_ENVIRONMENTS: prod
@@ -40,8 +39,6 @@ Resources:
         - Fn::ImportValue:
             Fn::Sub: ${NetworkStack}-SecurityGroupID
         SubnetIds:
-        - Fn::ImportValue:
-            Fn::Sub: ${NetworkStack}-SubnetID
         - Fn::ImportValue:
             Fn::Sub: ${NetworkStack}-Lambda1SubnetID
 

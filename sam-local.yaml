@@ -12,9 +12,12 @@ Resources:
       Handler: ca.airspeed.qbdapi.StreamLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: build/exploded
-      MemorySize: 512
+      MemorySize: 768
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 25
+      Environment:
+        Variables:
+          MICRONAUT_ENVIRONMENTS: prod
       Events:
         GetResource:
           Type: Api
