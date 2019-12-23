@@ -12,6 +12,8 @@ datasources:
     username: ${db.username:sa}
     password: ${db.password}
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    pooled: true
+    jmxExport: true
 jpa:
   default:
     entity-scan:
