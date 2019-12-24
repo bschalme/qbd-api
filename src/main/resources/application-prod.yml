@@ -24,4 +24,5 @@ jpa:
           provider: none
         hbm2ddl:
           auto: validate
+        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
         physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
