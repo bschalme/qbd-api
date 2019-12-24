@@ -24,4 +24,4 @@ jpa:
           provider: none
         hbm2ddl:
           auto: validate
-        physical_naming_strategy: "io.micronaut.data.hibernate.naming.DefaultPhysicalNamingStrategy"
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
