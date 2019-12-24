@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import io.micronaut.http.hateoas.Resource;
@@ -258,6 +259,7 @@ public class Customer implements Resource {
     private String jobTypeRefFullName;
 
     @Column(name = "Notes")
+    @Lob
     private String notes;
 
     @Column(name = "PriceLevelRef_ListID")
