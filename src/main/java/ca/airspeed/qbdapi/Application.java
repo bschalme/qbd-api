@@ -12,11 +12,13 @@ import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
 import lombok.extern.slf4j.Slf4j;
 
-@Singleton
+// @Singleton
 @TypeHint(typeNames = {
     "org.h2.Driver",
     "org.h2.mvstore.db.MVTableEngine", 
-    "org.hibernate.dialect.H2Dialect"
+    "org.hibernate.dialect.H2Dialect",
+    "com.mysql.jdbc.Driver",
+    "org.hibernate.dialect.MySQL5InnoDBDialect"
 })
 @Slf4j
 public class Application {
