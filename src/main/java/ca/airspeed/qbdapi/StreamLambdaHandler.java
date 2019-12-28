@@ -12,19 +12,17 @@ import io.micronaut.function.aws.proxy.MicronautLambdaContainerHandler;
 
 public class StreamLambdaHandler implements RequestStreamHandler {
 
-    private static MicronautLambdaContainerHandler handler;
-    static {
-        try {
-            handler = new MicronautLambdaContainerHandler();
-        } catch (ContainerInitializationException e) {
-            // if we fail here. We re-throw the exception to force another cold start
-            e.printStackTrace();
-            throw new RuntimeException("Could not initialize Micronaut", e);
-        }
-    }
+    private MicronautLambdaContainerHandler handler;
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+        if (handler == null) {
+            try {
+                handler = new MicronautLambdaContainerHandler();
+            } catch (ContainerInitializationException e) {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+        }
         handler.proxyStream(inputStream, outputStream, context);
 
     }
