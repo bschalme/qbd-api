@@ -2,7 +2,6 @@ package ca.airspeed.qbdapi.controller;
 
 import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
-import static org.apache.commons.collections4.CollectionUtils.size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +40,10 @@ public class CustomerController {
             resources.add(resource);
         }
         Page<CustomerResource> result = Page.of(resources, pageable, resources.size());
+        List<CustomerResource> content = result.getContent();
+        int contentSize = content == null ? 0 : content.size();
         log.debug("Resulting Page numberOfElements: {}, size of content: {}, offset = {}.",
-                result.getNumberOfElements(), size(result.getContent()), result.getOffset());
+                result.getNumberOfElements(), contentSize, result.getOffset());
         return result;
     }
 
