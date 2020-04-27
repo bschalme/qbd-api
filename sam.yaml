@@ -11,12 +11,6 @@ Parameters:
     MaxLength: 128
     AllowedPattern: ^[A-Za-z0-9\-]+$
     ConstraintDescription: must only contain letters (uppercase and lowercase), numbers and hyphens
-  DbUsername:
-    Type: String
-    Default: 'qbairspeed'
-  DbPassword:
-    Type: String
-    Default: 'H46Sa4X'
 Resources:
   ExampleFunction:
     Type: AWS::Serverless::Function
