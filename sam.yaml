@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: AWS Example API - example::example
+Description: AWS QBD API - example::example
 Globals:
   Api:
     EndpointConfiguration: REGIONAL
@@ -11,6 +11,12 @@ Parameters:
     MaxLength: 128
     AllowedPattern: ^[A-Za-z0-9\-]+$
     ConstraintDescription: must only contain letters (uppercase and lowercase), numbers and hyphens
+  DbUsername:
+    Type: String
+    Default: 'qbairspeed'
+  DbPassword:
+    Type: String
+    Default: 'H46Sa4X'
 Resources:
   ExampleFunction:
     Type: AWS::Serverless::Function
@@ -26,6 +32,8 @@ Resources:
       Environment:
         Variables:
           MICRONAUT_ENVIRONMENTS: prod
+          DB_USERNAME: !Ref DbUsername
+          DB_PASSWORD: !Ref DbPassword
       Events:
         GetResource:
           Type: Api
@@ -43,8 +51,8 @@ Resources:
             Fn::Sub: ${NetworkStack}-Lambda1SubnetID
 
 Outputs:
-  ExampleApi:
+  QbdApi:
     Description: URL for application
     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping'
     Export:
-      Name: ExampleApi
+      Name: QbdApi

@@ -33,6 +33,7 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-inject"
     implementation "io.micronaut:micronaut-validation"
@@ -44,7 +45,7 @@ dependencies {
     implementation "io.micronaut.data:micronaut-data-hibernate-jpa:$micronautDataVersion"
     implementation "io.micronaut:micronaut-discovery-client"
     implementation "io.micronaut.configuration:micronaut-aws-common"
-    implementation "com.amazonaws:aws-java-sdk-ssm:1.11.699"
+    implementation "com.amazonaws:aws-java-sdk-ssm:1.11.719"
     runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.13.0"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
@@ -52,8 +53,8 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
     testImplementation "org.mockito:mockito-junit-jupiter:2.28.2"
-    testImplementation "io.micronaut:micronaut-function-client"
-    testImplementation "io.micronaut:micronaut-inject-java"
+//    testImplementation "io.micronaut:micronaut-function-client"
+//    testImplementation "io.micronaut:micronaut-inject-java"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     runtime 'io.micronaut.configuration:micronaut-jdbc-hikari'
     runtime "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"

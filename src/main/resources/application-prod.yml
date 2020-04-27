@@ -9,8 +9,8 @@ datasources:
   default:
     url: jdbc:mysql://10.0.0.161:3306/qbairspeed
     driverClassName: com.mysql.jdbc.Driver
-    username: ${db.username:sa}
-    password: ${db.password}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD}
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     pooled: true
     jmxExport: true

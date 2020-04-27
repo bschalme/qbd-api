@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.hateoas.Resource;
 import lombok.Data;
 
 @Entity
 @Table(name = "customer")
 @Data
+@Introspected
 public class Customer implements Resource {
 
     @Id

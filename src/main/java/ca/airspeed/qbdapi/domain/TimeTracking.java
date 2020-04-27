@@ -10,8 +10,11 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import io.micronaut.core.annotation.Introspected;
+
 @Entity
 @Table(name = "timetracking")
+@Introspected
 public class TimeTracking {
 
     @Id

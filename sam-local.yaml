@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: AWS Example API - example::example
+Description: AWS QBD API - example::example
 Globals:
   Api:
     EndpointConfiguration: REGIONAL
@@ -26,8 +26,8 @@ Resources:
             Method: any
 
 Outputs:
-  ExampleApi:
+  QbdApi:
     Description: URL for application
     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping'
     Export:
-      Name: ExampleApi
+      Name: QbdApi
