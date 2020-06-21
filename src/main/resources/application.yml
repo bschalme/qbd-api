@@ -1,6 +1,8 @@
 micronaut:
   application:
     name: qbd-api
+  server:
+    contextPath: "/qbd-api"
 
 jackson:
   bean-introspection-module: true
@@ -23,3 +25,9 @@ jpa:
           provider: none
         hbm2ddl:
           auto: update
+
+endpoints:
+  all:
+    path: /manage
+  info:
+    sensitive: true

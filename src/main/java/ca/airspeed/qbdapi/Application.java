@@ -32,16 +32,16 @@ public class Application {
         this.customerRepo = customerRepo;
     }
 
-//    @EventListener
-//    public void init(StartupEvent event) {
-//        log.info("Populating data");
-//
-//        Customer megaCorp = new Customer();
-//        megaCorp.setName("MegaCorp Inc");
-//        megaCorp.setListID("1");
-//        Customer littleBiz = new Customer();
-//        littleBiz.setListID("2");
-//        littleBiz.setName("Little Biz");
-//        customerRepo.saveAll(asList(megaCorp, littleBiz));
-//    }
+    @EventListener
+    public void init(StartupEvent event) {
+        log.info("Populating data");
+
+        Customer megaCorp = new Customer();
+        megaCorp.setName("MegaCorp Inc");
+        megaCorp.setListID("1");
+        Customer littleBiz = new Customer();
+        littleBiz.setListID("2");
+        littleBiz.setName("Little Biz");
+        customerRepo.saveAll(asList(megaCorp, littleBiz));
+    }
 }

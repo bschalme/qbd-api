@@ -1,15 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM java:8
 VOLUME /tmp
 EXPOSE 8080
 
 LABEL maintainer="Brian Schalme <bschalme@airspeed.ca>"
 
-COPY . /opt/qbd-api/
-WORKDIR /opt/qbd-api/
-RUN ./gradlew build && \
-  cp ./build/libs/qbd-api-*.jar /opt/qbd-api.jar && \
-  rm -rf /opt/qbd-api/* && \
-  rm -rf ~/.gradle/
-
-WORKDIR /opt
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "qbd-api.jar"]
+ADD build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar app.jar
+RUN bash -c 'touch /app.jar'
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]

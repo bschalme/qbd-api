@@ -52,8 +52,10 @@ public class CustomerController {
         log.info("Received a request for findOneCustomer().");
         Optional<Customer> result = repo.findById(customerId);
         if (result.isPresent()) {
+            log.debug("result.get() is {}", result.get());
             CustomerResource resource = new CustomerResource(result.get());
             resource.link(SELF, format("/customers/%s", result.get().getListID()));
+            log.debug("Returning the CustomerResource");
             return resource;
         }
         else {

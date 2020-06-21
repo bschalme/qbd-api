@@ -21,7 +21,7 @@ public class PingControllerTest {
     public void testPing() throws Exception {
         try (RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class,
                 embeddedServer.getURL())) {
-            assertEquals(HttpStatus.OK, client.toBlocking().exchange("/ping").status());
+            assertEquals(HttpStatus.OK, client.toBlocking().exchange("/qbd-api/ping").status());
         }
     }
 

@@ -3,14 +3,16 @@ plugins {
     id "jp.classmethod.aws.lambda" version "0.39"
     id "net.ltgt.apt-eclipse" version "0.21"
     id "application"
+    id "com.pasam.gradle.buildinfo" version "0.1.3"
+//     id "com.gorylenko.gradle-git-properties" version "2.2.2"
 }
 aws {
     profileName = "default"
     region = "ca-central-1"
 }
 
-version = '1.0.0-SNAPSHOT'
 group "ca.airspeed"
+version = '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -46,6 +48,7 @@ dependencies {
     implementation "io.micronaut:micronaut-discovery-client"
     implementation "io.micronaut.configuration:micronaut-aws-common"
     implementation "com.amazonaws:aws-java-sdk-ssm:1.11.719"
+    implementation "io.micronaut:micronaut-management"
     runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.13.0"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
@@ -58,9 +61,10 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     runtime 'io.micronaut.configuration:micronaut-jdbc-hikari'
     runtime "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"
-    testRuntimeOnly "com.h2database:h2"
-    runtime("mysql:mysql-connector-java:5.1.48")
-    developmentOnly "io.micronaut:micronaut-http-server-netty:${micronautVersion}"
+//     testRuntimeOnly "com.h2database:h2"
+//     runtime("mysql:mysql-connector-java:5.1.48")
+    runtime "com.h2database:h2"
+    implementation "io.micronaut:micronaut-http-server-netty"
 }
 
 test.classpath += configurations.developmentOnly

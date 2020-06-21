@@ -22,7 +22,7 @@
 		</Logger>
 
 		<Logger name="ca.airspeed.qbdapi" level="debug" additivity="false">
-			<appender-ref ref="Lambda" level="debug" />
+			<appender-ref ref="Lambda" level="info" />
 		</Logger>
 
 		<Logger name="io.micronaut.discovery" level="debug" additivity="false">
