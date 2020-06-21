@@ -1,13 +1,13 @@
 version: 0.2
 phases:
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
+  # pre_build:
+    # commands:
+      # - echo Logging in to Amazon ECR...
       # Retrieves docker credentials so that the subsequent docker push command is
       # authorized. Authentication is performed automatically by the AWS CLI
       # using the AWS credentials associated with the IAM role assigned to the
       # instances in your AWS CodeBuild project.
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      # - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
       - echo Build started on `date`
