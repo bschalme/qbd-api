@@ -1,5 +1,19 @@
 version: 0.2
+env:
+  parameter-store:
+    build_ssh_key: "build_ssh_key"
 phases:
+  install:
+    commands:
+      - mkdir -p ~/.ssh
+      - echo "$build_ssh_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
+      - git config --global url."git@github.com:".insteadOf "https://github.com/"
+      - git init
+      - git remote add origin git@github.com:bschalme/qbd-api.git
+      - git fetch
+      - git checkout -t origin/master
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
