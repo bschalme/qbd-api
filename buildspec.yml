@@ -9,6 +9,7 @@ phases:
       - echo "$build_ssh_key" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
+      - eval "$(ssh-agent -s)"
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
       - git init
       - git remote add origin git@github.com:bschalme/qbd-api.git
