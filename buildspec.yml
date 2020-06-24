@@ -2,6 +2,7 @@ version: 0.2
 env:
   parameter-store:
     build_ssh_key: "build_ssh_key"
+    build_ssh_pass: "build_ssh_pass"
 phases:
   install:
     commands:
@@ -10,7 +11,7 @@ phases:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
       - eval "$(ssh-agent -s)"
-      - ssh-add ~/.ssh/id_rsa
+      - echo "build_ssh_pass" | ssh-add ~/.ssh/id_rsa
       - cat ~/.ssh/id_rsa
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
       - git init
