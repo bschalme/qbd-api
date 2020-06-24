@@ -10,6 +10,7 @@ phases:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
       - eval "$(ssh-agent -s)"
+      - ssh-add ~/.ssh/id_rsa
       - cat ~/.ssh/id_rsa
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
       - git init
