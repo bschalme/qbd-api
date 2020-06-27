@@ -2,7 +2,7 @@ package ca.airspeed.qbdapi.resource;
 
 import java.util.Objects;
 
-import ca.airspeed.qbdapi.domain.Customer;
+import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.hateoas.AbstractResource;
 import lombok.extern.slf4j.Slf4j;

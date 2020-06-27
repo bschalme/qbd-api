@@ -1,9 +1,7 @@
-package ca.airspeed.qbdapi.repository;
+package ca.airspeed.qbdapi.adapter.out.persistence;
 
 import java.util.Date;
 
-import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.domain.TimeTracking;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;

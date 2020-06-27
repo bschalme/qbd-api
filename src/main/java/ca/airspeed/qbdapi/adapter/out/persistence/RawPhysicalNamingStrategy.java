@@ -1,4 +1,4 @@
-package ca.airspeed.qbdapi.data.hibernate.naming;
+package ca.airspeed.qbdapi.adapter.out.persistence;
 
 import javax.inject.Singleton;
 

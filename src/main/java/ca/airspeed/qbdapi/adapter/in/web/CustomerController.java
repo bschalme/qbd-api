@@ -1,4 +1,4 @@
-package ca.airspeed.qbdapi.controller;
+package ca.airspeed.qbdapi.adapter.in.web;
 
 import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.repository.CustomerRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerRepository;
 import ca.airspeed.qbdapi.resource.CustomerResource;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;

@@ -18,7 +18,7 @@ datasources:
 jpa:
   default:
     entity-scan:
-      packages: 'ca.airspeed.qbdapi.domain'
+      packages: 'ca.airspeed.qbdapi.adapter.out.persistence'
     properties:
       hibernate:
         bytecode:

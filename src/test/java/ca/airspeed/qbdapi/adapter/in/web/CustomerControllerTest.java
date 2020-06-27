@@ -1,4 +1,4 @@
-package ca.airspeed.qbdapi.controller;
+package ca.airspeed.qbdapi.adapter.in.web;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.repository.CustomerRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerRepository;
 import ca.airspeed.qbdapi.resource.CustomerResource;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;

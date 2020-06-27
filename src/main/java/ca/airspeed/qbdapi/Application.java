@@ -4,8 +4,8 @@ import static java.util.Arrays.asList;
 
 import javax.inject.Singleton;
 
-import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.repository.CustomerRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerRepository;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.TypeHint;
 import io.micronaut.runtime.Micronaut;

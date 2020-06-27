@@ -1,4 +1,4 @@
-package ca.airspeed.qbdapi.controller;
+package ca.airspeed.qbdapi.adapter.in.web;
 
 import static java.lang.String.format;
 

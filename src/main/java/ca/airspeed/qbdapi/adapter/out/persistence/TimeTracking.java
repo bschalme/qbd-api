@@ -1,4 +1,4 @@
-package ca.airspeed.qbdapi.domain;
+package ca.airspeed.qbdapi.adapter.out.persistence;
 
 import java.util.Date;
 

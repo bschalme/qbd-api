@@ -24,4 +24,4 @@ jpa:
           provider: none
         hbm2ddl:
           auto: validate
-        physical_naming_strategy: ca.airspeed.qbdapi.data.hibernate.naming.RawPhysicalNamingStrategy
+        physical_naming_strategy: ca.airspeed.qbdapi.adapter.out.persistence.RawPhysicalNamingStrategy

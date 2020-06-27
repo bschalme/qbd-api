@@ -1,8 +1,7 @@
-package ca.airspeed.qbdapi.repository;
+package ca.airspeed.qbdapi.adapter.out.persistence;
 
 import java.util.List;
 
-import ca.airspeed.qbdapi.domain.Customer;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.PageableRepository;
 
