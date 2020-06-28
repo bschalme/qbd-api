@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import io.micronaut.core.annotation.Introspected;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Introspected
+@Builder
 public class Customer {
 
     private String id;

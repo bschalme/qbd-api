@@ -6,6 +6,6 @@ import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.PageableRepository;
 
 @Repository
-public interface CustomerRepository extends PageableRepository<Customer, String> {
-    List<Customer> findByIsActive(String isActive);
+public interface CustomerJpaRepository extends PageableRepository<CustomerJpaEntity, String> {
+    List<CustomerJpaEntity> findByIsActive(String isActive);
 }

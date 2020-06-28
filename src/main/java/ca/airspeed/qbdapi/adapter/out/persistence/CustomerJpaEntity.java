@@ -17,7 +17,7 @@ import lombok.Data;
 @Table(name = "customer")
 @Data
 @Introspected
-public class Customer implements Resource {
+public class CustomerJpaEntity implements Resource {
 
     @Id
     @Column(name = "ListID")

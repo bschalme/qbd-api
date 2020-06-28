@@ -8,10 +8,14 @@ public class RetrieveCustomerService implements RetrieveCustomerUseCase {
 
     private RetrieveCustomerPort customerPort;
 
+    public RetrieveCustomerService(RetrieveCustomerPort customerPort) {
+        super();
+        this.customerPort = customerPort;
+    }
+
     @Override
     public Customer retrieveCustomer(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        return customerPort.findByCustomerId(id);
     }
 
 }

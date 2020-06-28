@@ -15,7 +15,7 @@ import io.micronaut.core.annotation.Introspected;
 @Entity
 @Table(name = "timetracking")
 @Introspected
-public class TimeTracking {
+public class TimeTrackingJpaEntity {
 
     @Id
     @Column(name = "TxnID")
@@ -44,7 +44,7 @@ public class TimeTracking {
 
     @ManyToOne
     @JoinColumn(name = "CustomerRef_ListID")
-    private Customer customer;
+    private CustomerJpaEntity customer;
 
     @Column(name = "CustomerRef_FullName")
     private String customerRefFullName;
@@ -153,11 +153,11 @@ public class TimeTracking {
         this.entityRefFullName = entityRefFullName;
     }
 
-    public Customer getCustomer() {
+    public CustomerJpaEntity getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CustomerJpaEntity customer) {
         this.customer = customer;
     }
 

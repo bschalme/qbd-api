@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
-import ca.airspeed.qbdapi.adapter.out.persistence.CustomerRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
 import ca.airspeed.qbdapi.resource.CustomerResource;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerController {
 
-    private CustomerRepository repo;
+    private CustomerJpaRepository repo;
 
-    public CustomerController(CustomerRepository repo) {
+    public CustomerController(CustomerJpaRepository repo) {
         super();
         this.repo = repo;
     }
@@ -32,9 +32,9 @@ public class CustomerController {
         log.info("Received a request for findAllCustomers().");
         log.debug("Pageable size is {}.", pageable.getSize());
         List<CustomerResource> resources = new ArrayList<>();
-        Page<Customer> customers = repo.findAll(pageable);
+        Page<CustomerJpaEntity> customers = repo.findAll(pageable);
         log.debug("Found {} Customers.", customers.getContent().size());
-        for (Customer customer: customers.getContent()) {
+        for (CustomerJpaEntity customer: customers.getContent()) {
             CustomerResource resource = new CustomerResource(customer);
             resource.link(SELF, format("/customers/%s", customer.getListID()));
             resources.add(resource);
@@ -50,7 +50,7 @@ public class CustomerController {
     @Get("/{customerId}")
     public CustomerResource findOneCustomer(String customerId) {
         log.info("Received a request for findOneCustomer().");
-        Optional<Customer> result = repo.findById(customerId);
+        Optional<CustomerJpaEntity> result = repo.findById(customerId);
         if (result.isPresent()) {
             log.debug("result.get() is {}", result.get());
             CustomerResource resource = new CustomerResource(result.get());

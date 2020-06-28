@@ -4,8 +4,8 @@ import static java.util.Arrays.asList;
 
 import javax.inject.Singleton;
 
-import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
-import ca.airspeed.qbdapi.adapter.out.persistence.CustomerRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.TypeHint;
 import io.micronaut.runtime.Micronaut;
@@ -22,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 })
 @Slf4j
 public class Application {
-    private CustomerRepository customerRepo;
+    private CustomerJpaRepository customerRepo;
 
     public static void main(String[] args) {
         Micronaut.run(Application.class, args);
     }
 
-    public Application(CustomerRepository customerRepo) {
+    public Application(CustomerJpaRepository customerRepo) {
         this.customerRepo = customerRepo;
     }
 
@@ -36,10 +36,10 @@ public class Application {
     public void init(StartupEvent event) {
         log.info("Populating data");
 
-        Customer megaCorp = new Customer();
+        CustomerJpaEntity megaCorp = new CustomerJpaEntity();
         megaCorp.setName("MegaCorp Inc");
         megaCorp.setListID("1");
-        Customer littleBiz = new Customer();
+        CustomerJpaEntity littleBiz = new CustomerJpaEntity();
         littleBiz.setListID("2");
         littleBiz.setName("Little Biz");
         customerRepo.saveAll(asList(megaCorp, littleBiz));

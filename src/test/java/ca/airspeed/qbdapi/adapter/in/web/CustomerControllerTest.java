@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.airspeed.qbdapi.adapter.out.persistence.Customer;
-import ca.airspeed.qbdapi.adapter.out.persistence.CustomerRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
+import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
 import ca.airspeed.qbdapi.resource.CustomerResource;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -45,7 +45,7 @@ public class CustomerControllerTest {
     private RxHttpClient client; 
 
     @Inject
-    private CustomerRepository mockRepo;
+    private CustomerJpaRepository mockRepo;
 
     @Inject
     private ObjectMapper mapper;
@@ -100,20 +100,20 @@ public class CustomerControllerTest {
 //        }
     }
 
-    private Page<Customer> twoCustomers() {
-        Customer megaCorp = new Customer();
+    private Page<CustomerJpaEntity> twoCustomers() {
+        CustomerJpaEntity megaCorp = new CustomerJpaEntity();
         megaCorp.setListID("1");
         megaCorp.setName("MegaCorp");
-        Customer littleBiz = new Customer();
+        CustomerJpaEntity littleBiz = new CustomerJpaEntity();
         littleBiz.setListID("2");
         littleBiz.setName("Little Biz");
         Pageable pageable = Pageable.from(0);
-        Page<Customer> result = Page.of(asList(megaCorp, littleBiz), pageable, 2L);
+        Page<CustomerJpaEntity> result = Page.of(asList(megaCorp, littleBiz), pageable, 2L);
         return result;
     }
 
-    private Optional<Customer> megaCorp() {
-        Customer megaCorp = new Customer();
+    private Optional<CustomerJpaEntity> megaCorp() {
+        CustomerJpaEntity megaCorp = new CustomerJpaEntity();
         megaCorp.setListID("1");
         megaCorp.setName("MegaCorp");
         return Optional.of(megaCorp);
