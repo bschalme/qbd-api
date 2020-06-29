@@ -1,9 +1,12 @@
 package ca.airspeed.qbdapi.application.service;
 
+import javax.inject.Singleton;
+
 import ca.airspeed.qbdapi.application.port.in.RetrieveCustomerUseCase;
 import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
 import ca.airspeed.qbdapi.domain.Customer;
 
+@Singleton
 public class RetrieveCustomerService implements RetrieveCustomerUseCase {
 
     private RetrieveCustomerPort customerPort;

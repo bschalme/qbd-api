@@ -5,10 +5,11 @@ import static java.lang.String.format;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
+import ca.airspeed.qbdapi.application.port.in.RetrieveCustomerUseCase;
+import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.resource.CustomerResource;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -21,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomerController {
 
     private CustomerJpaRepository repo;
+    private RetrieveCustomerUseCase service;
 
-    public CustomerController(CustomerJpaRepository repo) {
+    public CustomerController(RetrieveCustomerUseCase service) {
         super();
-        this.repo = repo;
+        this.service = service;
     }
 
-    @Get("/")
     public Page<CustomerResource> findAllCustomers(Pageable pageable) {
         log.info("Received a request for findAllCustomers().");
         log.debug("Pageable size is {}.", pageable.getSize());
@@ -50,16 +51,16 @@ public class CustomerController {
     @Get("/{customerId}")
     public CustomerResource findOneCustomer(String customerId) {
         log.info("Received a request for findOneCustomer().");
-        Optional<CustomerJpaEntity> result = repo.findById(customerId);
-        if (result.isPresent()) {
-            log.debug("result.get() is {}", result.get());
-            CustomerResource resource = new CustomerResource(result.get());
-            resource.link(SELF, format("/customers/%s", result.get().getListID()));
-            log.debug("Returning the CustomerResource");
-            return resource;
+        Customer customer = service.retrieveCustomer(customerId);
+        if (customer == null) {
+            return null;
         }
         else {
-            return null;
+            CustomerResource result = new CustomerResource();
+            result.link(SELF, format("/customers/%s", customer.getId()));
+            result.setId(customer.getId());
+            result.setName(customer.getName());
+            return result;
         }
     }
 }

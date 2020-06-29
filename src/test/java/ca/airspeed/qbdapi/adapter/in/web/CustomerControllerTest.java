@@ -36,6 +36,7 @@ import io.micronaut.test.annotation.MicronautTest;
 import io.micronaut.test.annotation.MockBean;
 
 @MicronautTest
+@Disabled
 public class CustomerControllerTest {
     @Inject
     private EmbeddedServer embeddedServer; 

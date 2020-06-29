@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.hateoas.Resource;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity

@@ -3,7 +3,6 @@ package ca.airspeed.qbdapi.application.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,7 @@ import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
 import ca.airspeed.qbdapi.domain.Customer;
 
 @ExtendWith(MockitoExtension.class)
-public class RetrieveCustomerServiceUnitTest {
+class RetrieveCustomerServiceUnitTest {
 
     @InjectMocks
     private RetrieveCustomerService service;
@@ -25,7 +24,7 @@ public class RetrieveCustomerServiceUnitTest {
     private RetrieveCustomerPort mockCustomerPort;
 
     @Test
-    public void retrieveCustomerHappyPath() throws Exception {
+    void retrieveCustomerHappyPath() throws Exception {
         // Given:
         Mockito.lenient().when(mockCustomerPort.findByCustomerId(eq("ABC-123"))).thenReturn(Customer.builder()
                 .name("MegaCorp")
