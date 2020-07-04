@@ -13,12 +13,12 @@ import io.micronaut.test.annotation.MicronautTest;
 
 
 @MicronautTest
-public class PingControllerTest {
+class PingControllerTest {
     @Inject
     private EmbeddedServer embeddedServer;
 
     @Test
-    public void testPing() throws Exception {
+    void testPing() throws Exception {
         try (RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class,
                 embeddedServer.getURL())) {
             assertEquals(HttpStatus.OK, client.toBlocking().exchange("/qbd-api/ping").status());
