@@ -17,6 +17,7 @@ public class PingController {
     @Get("/")
     public String ping() {
         log.trace("Received a ping.");
-        return format("{\"pong\":true,\"db.username\":\"%s\"}", dbUsername);
+        String dbHost = System.getenv("DB_HOST");
+        return format("{\"pong\":true,\"db.username\":\"%s\",\"db.host\": \"%s\"}", dbUsername, dbHost);
     }
 }
