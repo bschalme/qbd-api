@@ -15,6 +15,8 @@ import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller("/customers")
@@ -49,6 +51,7 @@ public class CustomerController {
     }
 
     @Get("/{customerId}")
+    @ExecuteOn(TaskExecutors.IO)
     public CustomerResource findOneCustomer(String customerId) {
         log.info("Received a request for findOneCustomer().");
         Customer customer = service.retrieveCustomer(customerId);

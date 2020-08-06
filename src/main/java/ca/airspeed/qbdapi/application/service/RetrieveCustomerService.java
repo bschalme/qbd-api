@@ -5,8 +5,10 @@ import javax.inject.Singleton;
 import ca.airspeed.qbdapi.application.port.in.RetrieveCustomerUseCase;
 import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
 import ca.airspeed.qbdapi.domain.Customer;
+import io.micronaut.core.annotation.Introspected;
 
 @Singleton
+@Introspected
 public class RetrieveCustomerService implements RetrieveCustomerUseCase {
 
     private RetrieveCustomerPort customerPort;

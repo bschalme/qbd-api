@@ -4,9 +4,35 @@
 [![Image Size](https://images.microbadger.com/badges/image/bschalme/qbd-api.svg)](https://microbadger.com/images/bschalme/qbd-api)
 
 
-An API for QuickBooks Desktop (QBD). This uses the MySQL database created by Synergration's [OpenSync](http://synergration.com/software/opensync/) as its backing datastore. You simply issue REST-ful HTTP calls against QBD API and it will fetch and persist the data.
+An API for QuickBooks Desktop (QBD). This uses the MySQL database created by Synergration's [OpenSync](http://synergration.com/software/opensync/) as its backing datastore. You simply issue 
+REST-ful HTTP calls against QBD API and it will fetch and persist the data.
 
 Of course, you will need OpenSync running and a licensed copy of QuickBooks Desktop to synchronize the MySQL database with QuickBooks.
+
+## To build QBD API
+
+```
+./gradlew build
+```
+
+## To run QBD API
+
+```
+java -jar build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar 
+```
+
+Alternately, you can use Docker:
+
+1. docker build -t yourUserName/qbd-api:latest .
+2. docker run --rm -p 8080:8080 yourUserName/qbd-api:latest
+
+## To Check the Health of QBD API
+
+```
+curl --include -X GET http://localhost:8080/qbd-api/manage/health
+``` 
+
+You should get an HTTP Staus code 200 OK, along with a little JSON that says "status" is "UP".
 
 ## To run QBD API Against a MySQL Database
 
