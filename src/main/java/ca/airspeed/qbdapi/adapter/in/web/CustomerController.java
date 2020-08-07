@@ -17,6 +17,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micronaut.security.annotation.Secured;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller("/customers")
@@ -50,6 +51,7 @@ public class CustomerController {
         return result;
     }
 
+    @Secured("isAnonymous()")
     @Get("/{customerId}")
     @ExecuteOn(TaskExecutors.IO)
     public CustomerResource findOneCustomer(String customerId) {

@@ -49,6 +49,8 @@ dependencies {
     implementation "io.micronaut.aws:micronaut-aws-common"
     implementation "com.amazonaws:aws-java-sdk-ssm:1.11.719"
     implementation "io.micronaut:micronaut-management"
+    implementation "io.micronaut.security:micronaut-security-annotations"
+    implementation "io.micronaut.security:micronaut-security-jwt"
     runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.13.0"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
