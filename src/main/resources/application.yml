@@ -29,5 +29,4 @@ jpa:
 endpoints:
   all:
     path: /manage
-  info:
-    sensitive: true
+    sensitive: false

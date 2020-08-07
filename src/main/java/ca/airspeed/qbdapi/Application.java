@@ -12,7 +12,7 @@ import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
 import lombok.extern.slf4j.Slf4j;
 
-// @Singleton
+@Singleton
 @TypeHint(typeNames = {
     "org.h2.Driver",
     "org.h2.mvstore.db.MVTableEngine", 
@@ -33,7 +33,7 @@ public class Application {
     }
 
     @EventListener
-    public void init(StartupEvent event) {
+    void init(StartupEvent event) {
         log.info("Populating data");
 
         CustomerJpaEntity megaCorp = new CustomerJpaEntity();
