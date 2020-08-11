@@ -1,6 +1,8 @@
 package ca.airspeed.qbdapi.adapter.in.web;
 
 import static io.micronaut.core.util.CollectionUtils.mapOf;
+import static io.micronaut.security.rules.SecurityRule.IS_ANONYMOUS;
+import static io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +23,7 @@ public class PingController {
     private String dbUsername;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Secured("isAnonymous()")
+    @Secured(IS_ANONYMOUS)
     @Get("/")
     public Map ping(@Nullable Authentication authentication) {
         log.trace("Received a ping.");
