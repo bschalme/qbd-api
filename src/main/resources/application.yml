@@ -3,6 +3,13 @@ micronaut:
     name: qbd-api
   server:
     contextPath: "/qbd-api"
+  security:
+    token:
+      jwt:
+        signatures:
+          jwks:
+            awscognito:
+              url: 'https://cognito-idp.${AWS_REGION}.amazonaws.com/${COGNITO_USER_POOL_ID}/.well-known/jwks.json'
 
 jackson:
   bean-introspection-module: true
