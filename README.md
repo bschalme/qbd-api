@@ -9,6 +9,15 @@ REST-ful HTTP calls against QBD API and it will fetch and persist the data.
 
 Of course, you will need OpenSync running and a licensed copy of QuickBooks Desktop to synchronize the MySQL database with QuickBooks.
 
+## Design
+
+This is an example of a [Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) (also known as Ports and Adapters Architecture). In contrast to a layered
+architecture (such as Model-View-Controller), this further enforces a separation of concerns by making it more difficult for logic to bleed across concerns.
+
+Having a great deal of experience with layered MVC web applications, I found it rather difficult to wrap my head around the implementation of a Hexagonal Architecture. But after plowing
+through I actually find it quite liberating. When you need focus on the application core (the business logic), you are freed from the details of incoming connections and outgoing 
+database persistence. 
+
 ## To build QBD API
 
 ```
@@ -32,7 +41,7 @@ Alternately, you can use Docker:
 curl --include -X GET http://localhost:8080/qbd-api/manage/health
 ``` 
 
-You should get an HTTP Staus code 200 OK, along with a little JSON that says "status" is "UP".
+You should get an HTTP Status code 200 OK, along with a little JSON that says "status" is "UP".
 
 ## To run QBD API Against a MySQL Database
 
