@@ -6,8 +6,11 @@ import static io.micronaut.security.rules.SecurityRule.IS_ANONYMOUS;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import edu.umd.cs.findbugs.annotations.Nullable;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.context.env.Environment;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
@@ -20,6 +23,9 @@ public class PingController {
 
     @Value("${datasources.default.username:unknown}")
     private String dbUsername;
+
+    @Inject
+    private Environment env;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Secured(IS_ANONYMOUS)
@@ -38,7 +44,8 @@ public class PingController {
         }
         result.putAll(mapOf("pong", true,
                 "db.username", dbUsername,
-                "db.host", dbHost));
+                "db.host", dbHost,
+                "environments", env.getActiveNames()));
         return result;
     }
 }

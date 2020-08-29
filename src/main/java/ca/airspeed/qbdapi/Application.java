@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.TypeHint;
 import io.micronaut.runtime.Micronaut;
@@ -33,6 +34,7 @@ public class Application {
     }
 
     @EventListener
+    @Requires(env="localhost")
     void init(StartupEvent event) {
         log.info("Populating data");
 
