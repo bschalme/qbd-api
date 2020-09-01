@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: qbd-api
+  data:
+    pageable:
+      max-page-size: 10
   server:
     contextPath: "/qbd-api"
   security:

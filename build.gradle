@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
     id "jp.classmethod.aws.lambda" version "0.39"
     id "net.ltgt.apt-eclipse" version "0.21"
     id "application"
@@ -47,21 +47,21 @@ dependencies {
     implementation "io.micronaut:micronaut-management"
     implementation "io.micronaut.security:micronaut-security-annotations"
     implementation "io.micronaut.security:micronaut-security-jwt"
-    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
+//    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.13.3"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
-    testImplementation "org.mockito:mockito-junit-jupiter:3.4.6"
+    testImplementation "org.mockito:mockito-junit-jupiter:3.5.7"
 //    testImplementation "io.micronaut:micronaut-function-client"
 //    testImplementation "io.micronaut:micronaut-inject-java"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-    runtime 'io.micronaut.sql:micronaut-jdbc-hikari'
-    runtime "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"
+    runtimeOnly 'io.micronaut.sql:micronaut-jdbc-hikari'
+    runtimeOnly "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"
 //     testRuntimeOnly "com.h2database:h2"
 //     runtime("mysql:mysql-connector-java:5.1.48")
-    runtime "com.h2database:h2"
+    runtimeOnly "com.h2database:h2"
     implementation "io.micronaut:micronaut-http-server-netty"
 }
 

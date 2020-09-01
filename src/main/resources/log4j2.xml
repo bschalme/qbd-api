@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration packages="com.amazonaws.services.lambda.runtime.log4j2.LambdaAppender">
+<Configuration>
     <Appenders>
-        <Lambda name="Lambda">
-            <PatternLayout>
-                <pattern>%d{yyyy-MM-dd HH:mm:ssXXX} %X{AWSRequestId} %-5p %c{1} - %m%n</pattern>
-            </PatternLayout>
-        </Lambda>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ssXXX} %X{AWSRequestId} %-5p %c{1} - %m%n" />
+        </Console>
     </Appenders>
     <Loggers>
         
 		<Root level="info">
-            <AppenderRef ref="Lambda" />
+            <AppenderRef ref="Console" />
         </Root>
 		
 		<Logger name="io.micronaut" level="info" additivity="false">
-			<appender-ref ref="Lambda" level="info" />
+			<appender-ref ref="Console" level="info" />
 		</Logger>
 
 		<Logger name="io.micronaut.context.DefaultBeanContext" level="info" additivity="false">
-			<appender-ref ref="Lambda" level="info" />
+			<appender-ref ref="Console" level="info" />
 		</Logger>
 
 		<Logger name="ca.airspeed.qbdapi" level="debug" additivity="false">
-			<appender-ref ref="Lambda" level="info" />
+			<appender-ref ref="Console" level="info" />
 		</Logger>
 
 		<Logger name="io.micronaut.discovery" level="debug" additivity="false">
-			<appender-ref ref="Lambda" level="debug" />
+			<appender-ref ref="Console" level="debug" />
 		</Logger>
 	</Loggers>
 </Configuration>

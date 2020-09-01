@@ -27,11 +27,15 @@ public class CustomerController {
     private CustomerJpaRepository repo;
     private RetrieveCustomerUseCase service;
 
-    public CustomerController(RetrieveCustomerUseCase service) {
+    public CustomerController(RetrieveCustomerUseCase service, CustomerJpaRepository repo) {
         super();
         this.service = service;
+        this.repo= repo;
     }
 
+    @Secured("isAnonymous()")
+    @Get
+    @ExecuteOn(TaskExecutors.IO)
     public Page<CustomerResource> findAllCustomers(Pageable pageable) {
         log.info("Received a request for findAllCustomers().");
         log.debug("Pageable size is {}.", pageable.getSize());
