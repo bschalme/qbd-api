@@ -4,5 +4,5 @@ import ca.airspeed.qbdapi.domain.Customer;
 
 public interface RetrieveCustomerPort {
 
-    public Customer findByCustomerId(String id);
+    Customer findByCustomerId(String id);
 }

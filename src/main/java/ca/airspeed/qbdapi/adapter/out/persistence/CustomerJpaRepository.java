@@ -8,4 +8,6 @@ import io.micronaut.data.repository.PageableRepository;
 @Repository
 public interface CustomerJpaRepository extends PageableRepository<CustomerJpaEntity, String> {
     List<CustomerJpaEntity> findByIsActive(String isActive);
+
+    List<CustomerJpaEntity> findByFullNameStartsWith(String fullName);
 }
