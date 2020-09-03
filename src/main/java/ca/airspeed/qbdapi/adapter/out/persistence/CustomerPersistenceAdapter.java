@@ -22,9 +22,8 @@ public class CustomerPersistenceAdapter implements RetrieveCustomerPort, SearchF
 
     @Override
     public List<Customer> findByFullName(String fullName) {
-        repo.findByFullNameStartsWith(fullName);
-        // TODO Auto-generated method stub
-        return null;
+        List<CustomerJpaEntity> resultSet = repo.findByFullNameStartsWith(fullName);
+        return mapper.mapToDomainList(resultSet);
     }
 
 }

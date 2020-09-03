@@ -39,11 +39,13 @@ public class Application {
         log.info("Populating data");
 
         CustomerJpaEntity megaCorp = new CustomerJpaEntity();
-        megaCorp.setName("MegaCorp Inc");
+        megaCorp.setFullName("MegaCorp Inc:Solution Architecture");
+        megaCorp.setName("Solution Architecture");
         megaCorp.setListID("1");
         CustomerJpaEntity littleBiz = new CustomerJpaEntity();
         littleBiz.setListID("2");
-        littleBiz.setName("Little Biz");
+        littleBiz.setFullName("Little Biz:Gardening");
+        littleBiz.setName("Gardening");
         customerRepo.saveAll(asList(megaCorp, littleBiz));
     }
 }
