@@ -6,11 +6,11 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.airspeed.qbdapi.adapter.in.web.resource.CustomerResource;
+import ca.airspeed.qbdapi.adapter.in.web.resource.SearchForCustomerResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveCustomerUseCase;
 import ca.airspeed.qbdapi.application.port.in.SearchForCustomerUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.resource.CustomerResource;
-import ca.airspeed.qbdapi.resource.SearchForCustomerResponseResource;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
