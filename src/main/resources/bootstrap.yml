@@ -1,8 +1,8 @@
 micronaut:
-    application:
-        name: qbd-api
-    config-client:
-        enabled: true
+  application:
+    name: qbd-api
+  config-client:
+    enabled: true
 
 aws:
   client:
