@@ -21,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PingController {
 
-    @Value("${datasources.default.username:unknown}")
+//    @Value("${datasources.default.username:unknown}")
+    @Value("${db.username:unknown}")
     private String dbUsername;
 
     @Inject
