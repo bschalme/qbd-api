@@ -38,6 +38,7 @@ public class Application {
     void init(StartupEvent event) {
         log.info("Populating data");
 
+        customerRepo.deleteAll();
         CustomerJpaEntity megaCorp = new CustomerJpaEntity();
         megaCorp.setFullName("MegaCorp Inc:Solution Architecture");
         megaCorp.setName("Solution Architecture");

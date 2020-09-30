@@ -20,11 +20,12 @@ jackson:
 datasources:
   default:
     url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: ${DB_USERNAME:sa}
-    password: ''
+    url: jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?createDatabaseIfNotExist=true&useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     schema-generate: CREATE_DROP
-    dialect: H2
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 jpa:
   default:
     entity-scan:
@@ -35,6 +36,8 @@ jpa:
           provider: none
         hbm2ddl:
           auto: update
+        naming:
+          physical-strategy: 'ca.airspeed.qbdapi.adapter.out.persistence.RawPhysicalNamingStrategy'
 
 endpoints:
   all:

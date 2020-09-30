@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+   db:
+     image: mysql:5.7
+     container_name: db
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: adminpass
+       MYSQL_DATABASE: qbd
+       MYSQL_USER: user
+       MYSQL_PASSWORD: secret
+
+   qbd-api:
+     depends_on:
+       - db
+     image: qbd-api:latest
+     container_name: qbd-api
+     ports:
+       - "8080:8080"
+     links:
+       - db
+     restart: always
+     environment:
+       DB_HOST: db
+       DB_USERNAME: user
+       DB_PASSWORD: secret
+       DB_NAME: qbd
+       MICRONAUT_ENVIRONMENTS: localhost
+     env_file: dev-env

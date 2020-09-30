@@ -26,14 +26,11 @@ database persistence.
 
 ## To run QBD API
 
-```
-java -jar build/libs/qbd-api-1.0.0-SNAPSHOT-all.jar 
-```
+Use Docker:
 
-Alternately, you can use Docker:
-
-1. docker build -t yourUserName/qbd-api:latest .
-2. docker run --rm -p 8080:8080 yourUserName/qbd-api:latest
+1. Copy the file `dev-env-sample` to `dev-env`. Edit `dev-env` and replace the values of those environment variables with your own AWS Region and Cognito User Pool ID
+2. `docker build -t qbd-api:latest .`
+3. `docker-compose up`
 
 ## To Check the Health of QBD API
 

@@ -61,9 +61,9 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     runtimeOnly 'io.micronaut.sql:micronaut-jdbc-hikari'
     runtimeOnly "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"
-//     testRuntimeOnly "com.h2database:h2"
-//     runtime("mysql:mysql-connector-java:5.1.48")
-    runtimeOnly "com.h2database:h2"
+    testRuntimeOnly "com.h2database:h2"
+    runtimeOnly("mysql:mysql-connector-java:5.1.49")
+//     runtimeOnly "com.h2database:h2"
     implementation "io.micronaut:micronaut-http-server-netty"
 }
 

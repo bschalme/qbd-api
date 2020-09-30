@@ -5,6 +5,7 @@
 
 # Environment setup files
 /setenv
+/dev-env
 
 # web application files
 /web-app/WEB-INF

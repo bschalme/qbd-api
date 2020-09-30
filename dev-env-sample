@@ -1,0 +1,4 @@
+#
+# Copy this file to dev-env, and replace the values here with your own:
+AWS_REGION=us-east-1
+COGNITO_USER_POOL_ID=us-east-1_ju54eTnd7
