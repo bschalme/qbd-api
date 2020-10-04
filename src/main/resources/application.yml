@@ -19,7 +19,6 @@ jackson:
 ---
 datasources:
   default:
-    url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     url: jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?createDatabaseIfNotExist=true&useSSL=false
     driverClassName: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}

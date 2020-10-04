@@ -26,7 +26,9 @@ public class Application {
     private CustomerJpaRepository customerRepo;
 
     public static void main(String[] args) {
-        Micronaut.run(Application.class, args);
+        Micronaut.build(args)
+                .mainClass(Application.class)
+                .start();
     }
 
     public Application(CustomerJpaRepository customerRepo) {
