@@ -13,6 +13,7 @@ import io.micronaut.context.annotation.Value;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.context.ServerContextPathProvider;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,9 @@ public class PingController {
 
     @Inject
     private Environment env;
+
+    @Inject
+    private ServerContextPathProvider contextPathProvider;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Secured(IS_ANONYMOUS)
@@ -46,7 +50,8 @@ public class PingController {
         result.putAll(mapOf("pong", true,
                 "db.username", dbUsername,
                 "db.host", dbHost,
-                "environments", env.getActiveNames()));
+                "environments", env.getActiveNames(),
+                "contextPath", contextPathProvider.getContextPath()));
         return result;
     }
 }

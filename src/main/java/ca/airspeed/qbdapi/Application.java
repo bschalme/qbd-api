@@ -11,6 +11,10 @@ import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.TypeHint;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import lombok.extern.slf4j.Slf4j;
 
 @Singleton
@@ -22,6 +26,14 @@ import lombok.extern.slf4j.Slf4j;
     "org.hibernate.dialect.MySQL5InnoDBDialect"
 })
 @Slf4j
+@OpenAPIDefinition(
+        info = @Info(
+                title = "QBD API",
+                version = "1.0.0-SNAPSHOT",
+                description = "A REST-ful API for interacting with QuickBooks Desktop by way of Synergration Software's OpenSync.",
+                license = @License(name = "Apache 2.0", url = "https://github.com/bschalme/qbd-api/blob/master/LICENSE"),
+                contact = @Contact(url = "https://airspeed.ca", name = "Brian Schalme", email = "bschalme@airspeed.ca")
+                ))
 public class Application {
     private CustomerJpaRepository customerRepo;
 

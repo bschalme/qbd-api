@@ -35,6 +35,7 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
+    annotationProcessor "io.micronaut.openapi:micronaut-openapi:2.1.0"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"
@@ -48,6 +49,7 @@ dependencies {
     implementation "io.micronaut:micronaut-management"
     implementation "io.micronaut.security:micronaut-security-annotations"
     implementation "io.micronaut.security:micronaut-security-jwt"
+    implementation("io.swagger.core.v3:swagger-annotations")
 //    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.13.3"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
@@ -102,6 +104,8 @@ mainClassName = "ca.airspeed.qbdapi.Application"
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 	options.compilerArgs.add('-parameters')
+	options.fork = true
+	options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
 }
 task exploded(type: Copy) {
 	from sourceSets.main.output
