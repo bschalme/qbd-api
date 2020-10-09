@@ -23,8 +23,14 @@ micronaut:
           - classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
   server:
-    contextPath: "/qbd-api"
+    context-path: /qbd-api
   security:
+    intercept-url-map:
+      -
+        pattern: /swagger/**
+        http-method: GET
+        access:
+          - isAnonymous() 
     token:
       jwt:
         signatures:

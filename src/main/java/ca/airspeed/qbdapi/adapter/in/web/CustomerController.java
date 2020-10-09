@@ -27,7 +27,7 @@ public class CustomerController {
     private SearchForCustomerUseCase searchForCustomer;
     private RetrieveCustomerUseCase retrieveCustomer;
 
-    @Value("${micronaut.server.contextPath}")
+    @Value("${micronaut.server.context-path:}")
     private String serverContextPath;
 
     public CustomerController(SearchForCustomerUseCase searchForCustomer, RetrieveCustomerUseCase retrieveCustomer) {
@@ -36,6 +36,13 @@ public class CustomerController {
         this.retrieveCustomer = retrieveCustomer;
     }
 
+    /**
+     * Finds Customers by their Full Name.
+     * 
+     * @param fullName
+     *            the first few characters of the Customer's Full Name.
+     * @return a list of matching Customers.
+     */
     @Secured("isAnonymous()")
     @Get("/search/fullNameStartingWith")
     @ExecuteOn(TaskExecutors.IO)
@@ -56,7 +63,14 @@ public class CustomerController {
         }
         return results;
     }
-    
+
+    /**
+     * Retrieve one Customer.
+     * 
+     * @param customerId
+     *            the Customer's unique identifier.
+     * @return the matching Customer.
+     */
     @Secured("isAnonymous()")
     @Get("/{customerId}")
     @ExecuteOn(TaskExecutors.IO)
