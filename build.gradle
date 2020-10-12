@@ -6,6 +6,7 @@ plugins {
     id "com.pasam.gradle.buildinfo" version "0.1.3"
     id "org.owasp.dependencycheck" version "6.0.2"
     id "jacoco"
+    id "com.palantir.docker" version "0.25.0"
 }
 aws {
     profileName = "default"
@@ -119,3 +120,9 @@ task exploded(type: Copy) {
 }
 
 shadowJar.dependsOn exploded
+
+docker {
+     name "${project.name}:latest"
+     files "build/libs/${project.name}-${project.version}-all.jar"
+     copySpec.from("build/libs").into("build/libs")
+}
