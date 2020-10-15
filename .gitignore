@@ -21,6 +21,7 @@
 /ivy*
 /eclipse
 /target-eclipse
+.factorypath
 
 # default HSQL database files for production mode
 /prodDb.*

@@ -14,6 +14,8 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.context.ServerContextPathProvider;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,7 @@ public class PingController {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Secured(IS_ANONYMOUS)
     @Get("/")
+    @ExecuteOn(TaskExecutors.IO)
     public Map ping(@Nullable Authentication authentication) {
         log.trace("Received a ping.");
         String dbHost = System.getenv("DB_HOST");
