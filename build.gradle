@@ -36,7 +36,7 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
-    annotationProcessor "io.micronaut.openapi:micronaut-openapi:2.1.0"
+    annotationProcessor "io.micronaut.openapi:micronaut-openapi:2.1.1"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"
@@ -52,12 +52,12 @@ dependencies {
     implementation "io.micronaut.security:micronaut-security-jwt"
     implementation("io.swagger.core.v3:swagger-annotations")
 //    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
-    runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.13.3"
+    runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.14.0"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
-    testImplementation "org.mockito:mockito-junit-jupiter:3.5.13"
+    testImplementation "org.mockito:mockito-junit-jupiter:3.6.0"
     testImplementation "org.hamcrest:hamcrest:2.2"
 //    testImplementation "io.micronaut:micronaut-function-client"
 //    testImplementation "io.micronaut:micronaut-inject-java"

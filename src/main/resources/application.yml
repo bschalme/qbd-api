@@ -40,6 +40,8 @@ micronaut:
 
 jackson:
   bean-introspection-module: true
+  dateFormat: "yyyy-MM-dd'T'HH:mm:ssXXX"
+  timeZone: 'America/Winnipeg'
 ---
 datasources:
   default:

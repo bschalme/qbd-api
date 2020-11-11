@@ -1,0 +1,17 @@
+{
+	"timesheetList": {
+		"entries": [
+			{
+				"associateId": "ABC-123",
+				"jobId": "DEF-456",
+				"serviceItemId": "GHI-789",
+				"dateWorked": "2020-11-10",
+				"startDateTime": "2020-11-10T08:00:00-06:00",
+				"endDateTime": "2020-11-10T09:30:00-06:00",
+				"durationInMinutes": 90,
+				"notes": "Hello World!",
+				"billableStatus": "Billable"
+			}
+		]
+	}
+}
