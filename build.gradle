@@ -36,7 +36,7 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
-    annotationProcessor "io.micronaut.openapi:micronaut-openapi:2.1.1"
+    annotationProcessor "io.micronaut.openapi:micronaut-openapi:2.2.0"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"

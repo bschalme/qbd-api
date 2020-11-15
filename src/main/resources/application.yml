@@ -30,7 +30,8 @@ micronaut:
         pattern: /swagger/**
         http-method: GET
         access:
-          - isAnonymous() 
+          - isAnonymous()
+    reject-not-found: false
     token:
       jwt:
         signatures:
