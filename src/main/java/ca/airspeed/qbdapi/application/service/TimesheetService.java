@@ -13,19 +13,19 @@ import io.micronaut.validation.Validated;
 @Singleton
 @Validated
 public class TimesheetService implements EnterTimesheetUseCase {
-    private SaveTimesheetPort repo;
+    private SaveTimesheetPort port;
 
-    public TimesheetService(SaveTimesheetPort repo) {
+    public TimesheetService(SaveTimesheetPort port) {
         super();
-        this.repo = repo;
+        this.port = port;
     }
 
     @Override
-    public void enterTimesheet(@Valid List<TimesheetEntry> timesheetEntries) {
+    public List<TimesheetEntry> enterTimesheet(@Valid List<TimesheetEntry> timesheetEntries) {
         for(TimesheetEntry entry: timesheetEntries) {
             
         }
-        repo.saveTimesheetEntries(timesheetEntries);
+        return port.addTimesheetEntries(timesheetEntries);
 
     }
 

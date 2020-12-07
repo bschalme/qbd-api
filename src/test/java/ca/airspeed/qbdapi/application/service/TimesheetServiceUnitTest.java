@@ -34,7 +34,7 @@ class TimesheetServiceUnitTest {
         service.enterTimesheet(timesheets);
 
         // Then:
-        verify(mockRepo).saveTimesheetEntries(timesheets);
+        verify(mockRepo).addTimesheetEntries(timesheets);
     }
 
 }

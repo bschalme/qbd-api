@@ -50,7 +50,8 @@ dependencies {
     implementation "io.micronaut:micronaut-management"
     implementation "io.micronaut.security:micronaut-security-annotations"
     implementation "io.micronaut.security:micronaut-security-jwt"
-    implementation("io.swagger.core.v3:swagger-annotations")
+    implementation "io.swagger.core.v3:swagger-annotations"
+    implementation "org.apache.commons:commons-lang3:3.11"
 //    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.14.0"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")

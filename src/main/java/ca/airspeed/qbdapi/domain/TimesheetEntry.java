@@ -38,5 +38,6 @@ public class TimesheetEntry {
     private ZonedDateTime endDateTime;
     private Duration duration;
     private String notes;
+    private String billableStatus;
     
 }

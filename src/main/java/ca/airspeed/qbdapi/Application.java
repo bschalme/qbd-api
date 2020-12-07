@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
+import ca.airspeed.qbdapi.adapter.out.persistence.TimeTrackingJpaRepository;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.TypeHint;
@@ -36,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
                 ))
 public class Application {
     private CustomerJpaRepository customerRepo;
+    private TimeTrackingJpaRepository timeTrackingRepo;
 
     public static void main(String[] args) {
         Micronaut.build(args)
@@ -43,8 +45,10 @@ public class Application {
                 .start();
     }
 
-    public Application(CustomerJpaRepository customerRepo) {
+    public Application(CustomerJpaRepository customerRepo, TimeTrackingJpaRepository timeTrackingRepo) {
+        super();
         this.customerRepo = customerRepo;
+        this.timeTrackingRepo = timeTrackingRepo;
     }
 
     @EventListener
@@ -52,6 +56,7 @@ public class Application {
     void init(StartupEvent event) {
         log.info("Populating data");
 
+        timeTrackingRepo.deleteAll();
         customerRepo.deleteAll();
         CustomerJpaEntity megaCorp = new CustomerJpaEntity();
         megaCorp.setFullName("MegaCorp Inc:Solution Architecture");
@@ -61,6 +66,10 @@ public class Application {
         littleBiz.setListID("2");
         littleBiz.setFullName("Little Biz:Gardening");
         littleBiz.setName("Gardening");
-        customerRepo.saveAll(asList(megaCorp, littleBiz));
+        CustomerJpaEntity def456 = new CustomerJpaEntity();
+        def456.setListID("DEF-456");
+        def456.setFullName("MegaCorp:Cloud Migration");
+        def456.setName("Cloud Migration");
+        customerRepo.saveAll(asList(megaCorp, littleBiz, def456));
     }
 }

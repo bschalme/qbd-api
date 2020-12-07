@@ -6,5 +6,5 @@ import ca.airspeed.qbdapi.domain.TimesheetEntry;
 
 public interface EnterTimesheetUseCase {
     
-    public void enterTimesheet(List<TimesheetEntry> timesheetEntries);
+    public List<TimesheetEntry> enterTimesheet(List<TimesheetEntry> timesheetEntries);
 }

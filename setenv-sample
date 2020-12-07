@@ -1,0 +1,4 @@
+#
+# Copy this file to setenv, and replace the values here with your own:
+export AWS_REGION=us-east-1
+export COGNITO_USER_POOL_ID=us-east-1_ju54eTnd7

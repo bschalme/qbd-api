@@ -4,8 +4,8 @@
 /output-sam.yaml
 
 # Environment setup files
-/setenv
 /dev-env
+/setenv
 
 # web application files
 /web-app/WEB-INF

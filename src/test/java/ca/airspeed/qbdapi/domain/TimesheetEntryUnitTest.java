@@ -57,7 +57,7 @@ class TimesheetEntryUnitTest {
         assertThat(violation.getMessage(), is(message));
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name="{0} produces an error message of {1}")
     @CsvSource({
         "&*(GTRS@$34,must match \"[A-Za-z0-9-]+\"",
         "ABCDEF-123456-GH,size must be between 1 and 15"
