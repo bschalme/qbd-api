@@ -1,10 +1,10 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
     id "jp.classmethod.aws.lambda" version "0.39"
     id "net.ltgt.apt-eclipse" version "0.21"
     id "application"
     id "com.pasam.gradle.buildinfo" version "0.1.3"
-    id "org.owasp.dependencycheck" version "6.0.2"
+    id "org.owasp.dependencycheck" version "6.0.3"
     id "jacoco"
     id "com.palantir.docker" version "0.25.0"
 }
