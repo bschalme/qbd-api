@@ -1,16 +1,9 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "6.1.0"
-    id "jp.classmethod.aws.lambda" version "0.39"
-    id "net.ltgt.apt-eclipse" version "0.21"
-    id "application"
+    id "io.micronaut.application" version "1.2.0"
     id "com.pasam.gradle.buildinfo" version "0.1.3"
-    id "org.owasp.dependencycheck" version "6.0.3"
+    id "org.owasp.dependencycheck" version "6.0.4"
     id "jacoco"
-    id "com.palantir.docker" version "0.25.0"
-}
-aws {
-    profileName = "default"
-    region = "ca-central-1"
 }
 
 group "ca.airspeed"
@@ -18,15 +11,27 @@ version = '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    maven { url "https://jcenter.bintray.com" }
+    jcenter()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 
 configurations {
     // for dependencies that are needed for development only
     developmentOnly 
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("ca.airspeed.*")
+    }
 }
 
 dependencies {
@@ -73,9 +78,6 @@ dependencies {
 }
 
 test.classpath += configurations.developmentOnly
-shadowJar {
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer)
-}
 // use JUnit 5 platform
 test {
     useJUnitPlatform()
@@ -95,10 +97,6 @@ tasks.withType(JavaCompile){
     options.compilerArgs.add('-parameters')
 }
 
-shadowJar {
-    mergeServiceFiles()
-}
-
 run.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 
@@ -109,22 +107,4 @@ tasks.withType(JavaCompile) {
 	options.compilerArgs.add('-parameters')
 	options.fork = true
 	options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
-}
-task exploded(type: Copy) {
-	from sourceSets.main.output
-	into "build/exploded"
-	
-	
-	into('lib') {
-		from configurations.compileClasspath
-		from configurations.runtimeClasspath
-	}
-}
-
-shadowJar.dependsOn exploded
-
-docker {
-     name "${project.name}:latest"
-     files "build/libs/${project.name}-${project.version}-all.jar"
-     copySpec.from("build/libs").into("build/libs")
 }

@@ -68,7 +68,6 @@ public class TimesheetController {
         WebTimesheetEntryListResponse response = new WebTimesheetEntryListResponse(savedTimesheets);
         int entryCount = response.getSavedTimesheetEntries().size();
         log.info("Created {} timeheet {}.", entryCount, entryCount == 1 ? "entry" : "entries");
-        System.out.println("** TimesheetController: response = " + response);
         return created(response);
     }
 }

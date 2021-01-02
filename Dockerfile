@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM amazoncorretto:11-alpine-jdk
 VOLUME /tmp
 EXPOSE 8080
 
