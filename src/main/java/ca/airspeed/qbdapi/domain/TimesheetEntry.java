@@ -21,16 +21,16 @@ public class TimesheetEntry {
 
     @NotBlank
     @Pattern(regexp = "[A-Za-z0-9-]+")
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 36)
     private String associateId;
 
     @Pattern(regexp = "[A-Za-z0-9-]+")
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 36)
     private String jobId;
 
     @NotBlank
     @Pattern(regexp = "[A-Za-z0-9-]+")
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 36)
     private String serviceItemId;
 
     private LocalDate dateWorked;

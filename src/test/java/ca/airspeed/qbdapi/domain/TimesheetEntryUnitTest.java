@@ -40,7 +40,7 @@ class TimesheetEntryUnitTest {
     @CsvSource({
         ",must not be blank",
         "%$78,must match \"[A-Za-z0-9-]+\"",
-        "ABCDEF-123456-GH,size must be between 1 and 15"
+        "ABCDEF-123456-GHUYTREWSDGF6540JUG9863,size must be between 1 and 36"
     })
     void associateId(String associateId, String message) throws Exception {
         // Given:
@@ -60,7 +60,7 @@ class TimesheetEntryUnitTest {
     @ParameterizedTest(name="{0} produces an error message of {1}")
     @CsvSource({
         "&*(GTRS@$34,must match \"[A-Za-z0-9-]+\"",
-        "ABCDEF-123456-GH,size must be between 1 and 15"
+        "ABCDEF-123456-GHUYTREWSDGF6540JUG9863,size must be between 1 and 36"
     })
     void jobId(String jobId, String message) throws Exception {
         // Given:
@@ -81,7 +81,7 @@ class TimesheetEntryUnitTest {
     @CsvSource({
         ",must not be blank",
         "GHI*(<>?4568,must match \"[A-Za-z0-9-]+\"",
-        "GHIJKLM-12345689,size must be between 1 and 15"
+        "GHILKY-123456-GHUYTREWSDGF6540JUG9863,size must be between 1 and 36"
     })
     void serviceItemId(String serviceItemId, String message) throws Exception {
         // Given:
