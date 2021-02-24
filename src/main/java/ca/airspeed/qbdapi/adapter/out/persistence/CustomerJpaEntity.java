@@ -10,15 +10,13 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.http.hateoas.Resource;
-import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "customer")
 @Data
 @Introspected
-public class CustomerJpaEntity implements Resource {
+public class CustomerJpaEntity {
 
     @Id
     @Column(name = "ListID")

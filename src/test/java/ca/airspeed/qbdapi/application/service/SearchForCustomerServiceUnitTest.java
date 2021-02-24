@@ -19,7 +19,7 @@ import ca.airspeed.qbdapi.application.port.out.SearchForCustomerPort;
 import ca.airspeed.qbdapi.domain.Customer;
 
 @ExtendWith(MockitoExtension.class)
-public class SearchForCustomerServiceUnitTest {
+class SearchForCustomerServiceUnitTest {
 
     @InjectMocks
     private SearchForCustomerService service;

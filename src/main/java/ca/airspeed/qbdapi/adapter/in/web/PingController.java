@@ -34,6 +34,12 @@ public class PingController {
     @Inject
     private ServerContextPathProvider contextPathProvider;
 
+    /**
+     * Retrieve arbitrary information. Useful for troubleshooting.
+     * 
+     * @param authentication
+     * @return
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Secured(IS_ANONYMOUS)
     @Get("/")

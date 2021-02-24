@@ -37,7 +37,7 @@ public class CustomerController {
     }
 
     /**
-     * Finds Customers by their Full Name.
+     * Searches for Customers by their Full Name.
      * 
      * @param fullName
      *            the first few characters of the Customer's Full Name.

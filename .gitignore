@@ -2,6 +2,7 @@
 *.class
 *.swp
 /output-sam.yaml
+/02-qbd-data-prod.sql
 
 # Environment setup files
 /dev-env

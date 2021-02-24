@@ -85,7 +85,7 @@ class CustomerControllerIntegrationTest {
         // When:
         HttpResponse<List> response = client.exchange(GET("/qbd-api/customers/search/fullNameStartingWith?fullName=Mega"), List.class).blockingFirst();
 
-       // Then:
+        // Then:
         assertThat(response, notNullValue());
         assertThat(response.getStatus(), is(OK));
         @SuppressWarnings("unchecked")
@@ -93,7 +93,6 @@ class CustomerControllerIntegrationTest {
         assertThat("Null body;", body, notNullValue());
         assertThat(body, hasSize(1));
         String json = mapper.writeValueAsString(body);
-        System.out.println(json);
         Map<String, Object> customer = body.get(0);
         assertThat(customer.get("name"), is("MegaCorp Inc"));
     }
