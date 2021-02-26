@@ -59,7 +59,7 @@ class ServiceItemControllerIntegrationTest {
         // When:
         Map<String, ? super Object> parms = new HashMap<>();
         parms.put("fullName", sd100);
-        String url = UriBuilder.of("/qbd-api/service-items/search/fullNameStartingWith?fullName={fullName}").expand(parms).toString();
+        String url = UriBuilder.of("/qbd-api/service-items/?fullName={fullName}").expand(parms).toString();
         @SuppressWarnings("rawtypes")
         HttpResponse<List> response = client.exchange(GET(url), List.class).blockingFirst();
 

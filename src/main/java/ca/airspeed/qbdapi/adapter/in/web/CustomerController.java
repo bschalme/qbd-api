@@ -44,7 +44,7 @@ public class CustomerController {
      * @return a list of matching Customers.
      */
     @Secured("isAnonymous()")
-    @Get("/search/fullNameStartingWith")
+    @Get("/")
     @ExecuteOn(TaskExecutors.IO)
     public List<SearchForCustomerResponseResource> searchByFullNameStartingWith(@QueryValue String fullName) {
         List<Customer> data = searchForCustomer.findByFullName(fullName);

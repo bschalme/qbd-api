@@ -83,7 +83,7 @@ class CustomerControllerIntegrationTest {
         when(mockSearchService.findByFullName(eq(mega))).thenReturn(asList(megaCorp()));
 
         // When:
-        HttpResponse<List> response = client.exchange(GET("/qbd-api/customers/search/fullNameStartingWith?fullName=Mega"), List.class).blockingFirst();
+        HttpResponse<List> response = client.exchange(GET("/qbd-api/customers/?fullName=Mega"), List.class).blockingFirst();
 
         // Then:
         assertThat(response, notNullValue());

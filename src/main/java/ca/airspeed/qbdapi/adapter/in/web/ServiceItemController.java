@@ -36,7 +36,7 @@ public class ServiceItemController {
      * @return a list of Service Items meeting the search criteria.
      */
     @Secured("isAnonymous()")
-    @Get("/search/fullNameStartingWith")
+    @Get("/")
     @ExecuteOn(TaskExecutors.IO)
     public List<SearchForServiceItemResponseResource> searchByFullNameStartingWith(@QueryValue String fullName) {
         List<ServiceItem> data = retrieveServiceItem.findByFullName(fullName);
