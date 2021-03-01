@@ -4,5 +4,5 @@ import ca.airspeed.qbdapi.domain.Customer;
 
 public interface RetrieveCustomerUseCase {
 
-    public Customer retrieveCustomer(String id);
+    Customer retrieveCustomer(String id);
 }

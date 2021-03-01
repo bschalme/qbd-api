@@ -92,7 +92,6 @@ class CustomerControllerIntegrationTest {
         List<Map<String, Object>> body = response.body();
         assertThat("Null body;", body, notNullValue());
         assertThat(body, hasSize(1));
-        String json = mapper.writeValueAsString(body);
         Map<String, Object> customer = body.get(0);
         assertThat(customer.get("name"), is("MegaCorp Inc"));
     }

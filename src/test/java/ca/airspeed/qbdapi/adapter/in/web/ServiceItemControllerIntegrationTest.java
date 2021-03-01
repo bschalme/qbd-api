@@ -8,8 +8,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.isA;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.airspeed.qbdapi.adapter.in.web.resource.SearchForServiceItemResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveServiceItemUseCase;
 import ca.airspeed.qbdapi.application.service.ServiceItemService;
 import ca.airspeed.qbdapi.domain.ServiceItem;
@@ -51,6 +54,33 @@ class ServiceItemControllerIntegrationTest {
     private ObjectMapper mapper;
 
     @Test
+    void findServiceItem() throws Exception {
+        // Given:
+        String sd100Id = "ABC-123";
+        when(mockRetrieveServiceItemService.retrieveServiceItem(eq(sd100Id))).thenReturn(sd100());
+
+        // When:
+        Map<String, ? super Object> parms = new HashMap<>();
+        parms.put("id", sd100Id);
+        String url = UriBuilder.of("/qbd-api/service-items/{id}").expand(parms).toString();
+        HttpResponse<SearchForServiceItemResponseResource> response = client
+                .exchange(GET(url), SearchForServiceItemResponseResource.class).blockingFirst();
+//        String body = client.toBlocking().retrieve(GET(url));
+
+        // Then:
+        assertThat(response, notNullValue());
+        assertThat(response.getStatus(), is(OK));
+        SearchForServiceItemResponseResource serviceItem = response.body();
+//        SearchForServiceItemResponseResource serviceItem = mapper.readValue(body,
+//                SearchForServiceItemResponseResource.class);
+        assertThat("Null body;", serviceItem, notNullValue());
+        assertThat(serviceItem.getId(), is("ABC-123"));
+        assertThat(serviceItem.getFullName(), is("Software Development:SD100"));
+        assertThat(serviceItem.getDescription(), is("Software Development (hours)"));
+        assertThat(serviceItem.getPrice(), is(BigDecimal.valueOf(10000, 2)));
+    }
+
+    @Test
     void searchByFullNameStartingWith() throws Exception {
         // Given:
         String sd100 = "Software Development:SD100";
@@ -70,8 +100,6 @@ class ServiceItemControllerIntegrationTest {
         List<Map<String, Object>> body = response.body();
         assertThat("Null body;", body, notNullValue());
         assertThat(body, hasSize(1));
-        String json = mapper.writeValueAsString(body);
-        System.out.println(json);
         Map<String, Object> serviceItem = body.get(0);
         assertThat(serviceItem.get("id"), is("ABC-123"));
         assertThat(serviceItem.get("fullName"), is(sd100));
