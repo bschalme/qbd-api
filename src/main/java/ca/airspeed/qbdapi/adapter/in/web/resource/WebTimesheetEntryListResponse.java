@@ -4,11 +4,17 @@ import java.util.List;
 
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Introspected
 @Data
-@RequiredArgsConstructor
 public class WebTimesheetEntryListResponse {
-    private final List<WebTimesheetEntryResponseResource> savedTimesheetEntries;
+    private List<WebTimesheetEntryResponseResource> savedTimesheetEntries;
+
+    public WebTimesheetEntryListResponse() {
+
+    }
+
+    public WebTimesheetEntryListResponse(List<WebTimesheetEntryResponseResource> savedTimesheetEntries) {
+        this.savedTimesheetEntries = savedTimesheetEntries;
+    }
 }

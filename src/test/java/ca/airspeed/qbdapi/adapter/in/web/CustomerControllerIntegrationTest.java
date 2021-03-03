@@ -1,7 +1,9 @@
 package ca.airspeed.qbdapi.adapter.in.web;
 
 import static io.micronaut.http.HttpRequest.GET;
+import static io.micronaut.http.HttpStatus.FORBIDDEN;
 import static io.micronaut.http.HttpStatus.OK;
+import static io.micronaut.http.HttpStatus.UNAUTHORIZED;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -9,6 +11,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,10 +22,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.airspeed.qbdapi.adapter.in.web.resource.CustomerResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveCustomerUseCase;
 import ca.airspeed.qbdapi.application.port.in.SearchForCustomerUseCase;
 import ca.airspeed.qbdapi.application.service.RetrieveCustomerService;
@@ -30,8 +35,9 @@ import ca.airspeed.qbdapi.domain.Customer;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.annotation.MockBean;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
 @MicronautTest
 class CustomerControllerIntegrationTest {
@@ -60,13 +66,36 @@ class CustomerControllerIntegrationTest {
     private ObjectMapper mapper;
 
     @Test
+    void unauthenticatedUser_fails() throws Exception {
+        // When:
+        Executable e = () -> client.toBlocking().exchange(GET("/qbd-api/customers/?fullName=Mega"), List.class);
+
+        // Then:
+        HttpClientResponseException chucked = assertThrows(HttpClientResponseException.class, e);
+        assertEquals(UNAUTHORIZED, chucked.getStatus());
+    }
+
+    @Test
+    void unauthorizedUser_fails() throws Exception {
+        // When:
+        Executable e = () -> client.toBlocking()
+                .exchange(GET("/qbd-api/customers/1")
+                        .basicAuth("eswan", "rescueme"),
+                CustomerResource.class);
+
+        // Then:
+        HttpClientResponseException chucked = assertThrows(HttpClientResponseException.class, e);
+        assertEquals(FORBIDDEN, chucked.getStatus());
+    }
+
+    @Test
     void findOneCustomer() throws Exception {
         // Given:
         String one = "1";
         when(mockRetrieveService.retrieveCustomer(eq(one))).thenReturn(megaCorp());
 
         // When:
-        String body = client.toBlocking().retrieve(GET("/qbd-api/customers/1"));
+        String body = client.toBlocking().retrieve(GET("/qbd-api/customers/1").basicAuth("user", "password"));
 
         // Then:
         assertNotNull(body, "HTTP Response body cannot be null.");
@@ -83,7 +112,9 @@ class CustomerControllerIntegrationTest {
         when(mockSearchService.findByFullName(eq(mega))).thenReturn(asList(megaCorp()));
 
         // When:
-        HttpResponse<List> response = client.exchange(GET("/qbd-api/customers/?fullName=Mega"), List.class).blockingFirst();
+        HttpResponse<List> response = client
+                .exchange(GET("/qbd-api/customers/?fullName=Mega").basicAuth("user", "password"), List.class)
+                .blockingFirst();
 
         // Then:
         assertThat(response, notNullValue());

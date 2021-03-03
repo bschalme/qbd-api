@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller("/customers")
 @Slf4j
+@Secured({"MyGroup"})
 public class CustomerController {
 
     private SearchForCustomerUseCase searchForCustomer;
@@ -43,7 +44,6 @@ public class CustomerController {
      *            the first few characters of the Customer's Full Name.
      * @return a list of matching Customers.
      */
-    @Secured("isAnonymous()")
     @Get("/")
     @ExecuteOn(TaskExecutors.IO)
     public List<SearchForCustomerResponseResource> searchByFullNameStartingWith(@QueryValue String fullName) {
@@ -71,7 +71,6 @@ public class CustomerController {
      *            the Customer's unique identifier.
      * @return the matching Customer.
      */
-    @Secured("isAnonymous()")
     @Get("/{customerId}")
     @ExecuteOn(TaskExecutors.IO)
     public CustomerResource findOneCustomer(String customerId) {
