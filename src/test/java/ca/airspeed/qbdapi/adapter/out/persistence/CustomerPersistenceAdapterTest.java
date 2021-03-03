@@ -55,4 +55,21 @@ class CustomerPersistenceAdapterTest {
         // Then:
         assertThat(results, hasSize(1));
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testCreate() throws Exception {
+        // Given:
+        when(repo.save(isA(CustomerJpaEntity.class))).thenReturn(new CustomerJpaEntity());
+        when(mapper.mapToJpaEntity(isA(Customer.class))).thenReturn(new CustomerJpaEntity());
+        when(mapper.mapToDomainEntity(isA(Optional.class))).thenReturn(Customer.builder()
+                .build());
+
+        // When:
+        Customer result = customerPersistenceAdapter.create(Customer.builder()
+                .build());
+
+        // Then:
+        assertThat(result, notNullValue());
+    }
 }

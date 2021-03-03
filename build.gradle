@@ -66,6 +66,7 @@ dependencies {
     testImplementation "io.micronaut.test:micronaut-test-junit5"
     testImplementation "org.mockito:mockito-junit-jupiter:3.6.0"
     testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "com.tngtech.archunit:archunit-junit5:0.17.0"
 //    testImplementation "io.micronaut:micronaut-function-client"
 //    testImplementation "io.micronaut:micronaut-inject-java"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"

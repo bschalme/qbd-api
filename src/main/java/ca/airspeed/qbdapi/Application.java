@@ -4,9 +4,10 @@ import static java.util.Arrays.asList;
 
 import javax.inject.Singleton;
 
-import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
 import ca.airspeed.qbdapi.adapter.out.persistence.TimeTrackingJpaRepository;
+import ca.airspeed.qbdapi.application.port.in.CreateCustomerUseCase;
+import ca.airspeed.qbdapi.domain.Customer;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.TypeHint;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Singleton
@@ -35,9 +37,10 @@ import lombok.extern.slf4j.Slf4j;
                 license = @License(name = "Apache 2.0", url = "https://github.com/bschalme/qbd-api/blob/master/LICENSE"),
                 contact = @Contact(url = "https://airspeed.ca", name = "Brian Schalme", email = "bschalme@airspeed.ca")
                 ))
+@RequiredArgsConstructor
 public class Application {
-    private CustomerJpaRepository customerRepo;
-    private TimeTrackingJpaRepository timeTrackingRepo;
+
+    private final CreateCustomerUseCase createCustomerUseCase;
 
     public static void main(String[] args) {
         Micronaut.build(args)
@@ -45,31 +48,27 @@ public class Application {
                 .start();
     }
 
-    public Application(CustomerJpaRepository customerRepo, TimeTrackingJpaRepository timeTrackingRepo) {
-        super();
-        this.customerRepo = customerRepo;
-        this.timeTrackingRepo = timeTrackingRepo;
-    }
-
     @EventListener
     @Requires(env="localhost")
     void init(StartupEvent event) {
         log.info("Populating data");
 
-        timeTrackingRepo.deleteAll();
-        customerRepo.deleteAll();
-        CustomerJpaEntity megaCorp = new CustomerJpaEntity();
-        megaCorp.setFullName("MegaCorp Inc:Solution Architecture");
-        megaCorp.setName("Solution Architecture");
-        megaCorp.setListID("1");
-        CustomerJpaEntity littleBiz = new CustomerJpaEntity();
-        littleBiz.setListID("2");
-        littleBiz.setFullName("Little Biz:Gardening");
-        littleBiz.setName("Gardening");
-        CustomerJpaEntity def456 = new CustomerJpaEntity();
-        def456.setListID("DEF-456");
-        def456.setFullName("MegaCorp:Cloud Migration");
-        def456.setName("Cloud Migration");
-        customerRepo.saveAll(asList(megaCorp, littleBiz, def456));
+//        timeTrackingRepo.deleteAll();
+//        customerRepo.deleteAll();
+        Customer megaCorp = Customer.builder()
+                .fullName("MegaCorp Inc:Solution Architecture")
+                .name("Solution Architecture")
+                .build();
+        Customer littleBiz = Customer.builder()
+                .fullName("Little Biz:Gardening")
+                .name("Gardening")
+                .build();
+        Customer def456 = Customer.builder()
+                .fullName("MegaCorp:Cloud Migration")
+                .name("Cloud Migration")
+                .build();
+        createCustomerUseCase.createCustomer(megaCorp);
+        createCustomerUseCase.createCustomer(littleBiz);
+        createCustomerUseCase.createCustomer(def456);
     }
 }
