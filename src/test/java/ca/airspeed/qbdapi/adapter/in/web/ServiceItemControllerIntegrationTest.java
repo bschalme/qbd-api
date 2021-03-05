@@ -64,7 +64,7 @@ class ServiceItemControllerIntegrationTest {
         parms.put("id", sd100Id);
         String url = UriBuilder.of("/qbd-api/service-items/{id}").expand(parms).toString();
         HttpResponse<SearchForServiceItemResponseResource> response = client
-                .exchange(GET(url), SearchForServiceItemResponseResource.class).blockingFirst();
+                .exchange(GET(url).basicAuth("user", "password"), SearchForServiceItemResponseResource.class).blockingFirst();
 //        String body = client.toBlocking().retrieve(GET(url));
 
         // Then:
@@ -91,7 +91,7 @@ class ServiceItemControllerIntegrationTest {
         parms.put("fullName", sd100);
         String url = UriBuilder.of("/qbd-api/service-items/?fullName={fullName}").expand(parms).toString();
         @SuppressWarnings("rawtypes")
-        HttpResponse<List> response = client.exchange(GET(url), List.class).blockingFirst();
+        HttpResponse<List> response = client.exchange(GET(url).basicAuth("user", "password"), List.class).blockingFirst();
 
         // Then:
         assertThat(response, notNullValue());

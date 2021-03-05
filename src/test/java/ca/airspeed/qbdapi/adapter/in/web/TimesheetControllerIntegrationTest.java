@@ -64,7 +64,7 @@ class TimesheetControllerIntegrationTest {
 
         // When:
         HttpResponse<WebTimesheetEntryListResponse> response = client.toBlocking()
-                .exchange(POST("/qbd-api/timesheets", entryList), WebTimesheetEntryListResponse.class);
+                .exchange(POST("/qbd-api/timesheets", entryList).basicAuth("user", "password"), WebTimesheetEntryListResponse.class);
 
         // Then:
         System.out.println("*** Test class: response is a " + response);

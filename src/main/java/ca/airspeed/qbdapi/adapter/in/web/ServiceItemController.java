@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller("/service-items")
 @RequiredArgsConstructor
 @Slf4j
+@Secured("MyGroup")
 public class ServiceItemController {
 
     private final RetrieveServiceItemUseCase retrieveServiceItem;
@@ -35,7 +36,6 @@ public class ServiceItemController {
     @Value("${micronaut.server.context-path:}")
     private String serverContextPath;
 
-    @Secured("isAnonymous()")
     @Get("/{serviceItemId}")
     @ExecuteOn(TaskExecutors.IO)
     public SearchForServiceItemResponseResource findOneServiceItem(String serviceItemId) {
@@ -63,7 +63,6 @@ public class ServiceItemController {
      *            the first few characters of the Full Name.
      * @return a list of Service Items meeting the search criteria.
      */
-    @Secured("isAnonymous()")
     @Get("/")
     @ExecuteOn(TaskExecutors.IO)
     public List<SearchForServiceItemResponseResource> searchByFullNameStartingWith(@QueryValue String fullName) {

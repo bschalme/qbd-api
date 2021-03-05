@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller("/timesheets")
 @Slf4j
+@Secured("MyGroup")
 public class TimesheetController {
 
     private EnterTimesheetUseCase enterTimesheetUseCase;
@@ -38,7 +39,6 @@ public class TimesheetController {
         this.enterTimesheetUseCase = saveTimesheet;
     }
 
-    @Secured("isAnonymous()")
     @Post
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<WebTimesheetEntryListResponse> enterTimesheets(@Body WebTimesheetEntryList timesheetList) {
