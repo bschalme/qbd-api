@@ -1,11 +1,7 @@
 package ca.airspeed.qbdapi;
 
-import static java.util.Arrays.asList;
-
 import javax.inject.Singleton;
 
-import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaRepository;
-import ca.airspeed.qbdapi.adapter.out.persistence.TimeTrackingJpaRepository;
 import ca.airspeed.qbdapi.application.port.in.CreateCustomerUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
 import io.micronaut.context.annotation.Requires;

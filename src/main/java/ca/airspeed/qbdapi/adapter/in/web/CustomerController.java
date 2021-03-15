@@ -18,6 +18,7 @@ import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller("/customers")
@@ -73,13 +74,15 @@ public class CustomerController {
      */
     @Get("/{customerId}")
     @ExecuteOn(TaskExecutors.IO)
-    public CustomerResource findOneCustomer(String customerId) {
-        log.info("Received a request for findOneCustomer().");
+    public CustomerResource findOneCustomer(String customerId, Authentication authn) {
         Customer customer = retrieveCustomer.retrieveCustomer(customerId);
         if (customer == null) {
+            log.info("Principal '{}' asked for customer ID '{}', but was not found.", authn.getName(), customerId);
             return null;
         }
         else {
+            log.info("Principal '{}' asked for and received customer ID '{}', name '{}'.", authn.getName(), customerId,
+                    customer.getFullName());
             CustomerResource result = new CustomerResource();
             result.link(SELF, format("%s/customers/%s", serverContextPath, customer.getId()));
             result.setId(customer.getId());

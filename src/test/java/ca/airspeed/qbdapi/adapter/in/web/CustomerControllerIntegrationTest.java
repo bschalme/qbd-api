@@ -112,6 +112,7 @@ class CustomerControllerIntegrationTest {
         when(mockSearchService.findByFullName(eq(mega))).thenReturn(asList(megaCorp()));
 
         // When:
+        @SuppressWarnings("rawtypes")
         HttpResponse<List> response = client
                 .exchange(GET("/qbd-api/customers/?fullName=Mega").basicAuth("user", "password"), List.class)
                 .blockingFirst();

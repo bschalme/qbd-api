@@ -8,10 +8,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.isA;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -21,8 +19,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.airspeed.qbdapi.adapter.in.web.resource.SearchForServiceItemResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveServiceItemUseCase;
@@ -49,9 +45,6 @@ class ServiceItemControllerIntegrationTest {
     RetrieveServiceItemUseCase mockRetrieveServiceItemService() {
         return mock(RetrieveServiceItemUseCase.class);
     }
-
-    @Inject
-    private ObjectMapper mapper;
 
     @Test
     void findServiceItem() throws Exception {
