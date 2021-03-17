@@ -38,6 +38,7 @@ micronaut:
           jwks:
             awscognito:
               url: 'https://cognito-idp.${AWS_REGION}.amazonaws.com/${COGNITO_USER_POOL_ID}/.well-known/jwks.json'
+      roles-name: cognito:groups
 
 jackson:
   bean-introspection-module: true
