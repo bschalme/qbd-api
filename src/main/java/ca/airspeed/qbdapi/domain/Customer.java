@@ -3,6 +3,9 @@ package ca.airspeed.qbdapi.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import io.micronaut.core.annotation.Introspected;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +15,8 @@ import lombok.Data;
 @Builder
 public class Customer {
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String id;
 
     private String timeCreated;
@@ -30,6 +35,8 @@ public class Customer {
 
     private String classRefFullName;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String parentRefListID;
 
     private String parentRefFullName;
@@ -110,14 +117,20 @@ public class Customer {
 
     private String altContact;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String customerTypeRefListID;
 
     private String customerTypeRefFullName;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String termsRefListID;
 
     private String termsRefFullName;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String salesRepRefListID;
 
     private String salesRepRefFullName;
@@ -126,10 +139,14 @@ public class Customer {
 
     private BigDecimal totalBalance;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String salesTaxCodeRefListID;
 
     private String salesTaxCodeRefFullName;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String itemSalesTaxRefListID;
 
     private String itemSalesTaxRefFullName;
@@ -142,6 +159,8 @@ public class Customer {
 
     private BigDecimal creditLimit;
 
+    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @Size(min = 1, max = 36)
     private String preferredPaymentMethodRefListID;
 
     private String preferredPaymentMethodRefFullName;

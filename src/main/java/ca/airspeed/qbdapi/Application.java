@@ -1,5 +1,7 @@
 package ca.airspeed.qbdapi;
 
+import static io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP;
+
 import javax.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.in.CreateCustomerUseCase;
@@ -13,6 +15,8 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +36,14 @@ import lombok.extern.slf4j.Slf4j;
                 description = "A REST-ful API for interacting with QuickBooks Desktop by way of Synergration Software's OpenSync.",
                 license = @License(name = "Apache 2.0", url = "https://github.com/bschalme/qbd-api/blob/master/LICENSE"),
                 contact = @Contact(url = "https://airspeed.ca", name = "Brian Schalme", email = "bschalme@airspeed.ca")
-                ))
+                ),
+        security = {
+                @SecurityRequirement(name="basicAuth"),
+                @SecurityRequirement(name="bearer")
+        }
+)
+@SecurityScheme(name = "basicAuth", type = HTTP, scheme = "basic", description = "For localhost testing and development")
+@SecurityScheme(name = "bearer", type = HTTP, scheme = "bearer", bearerFormat = "JWT", description = "For test and higher environments including Production")
 @RequiredArgsConstructor
 public class Application {
 
