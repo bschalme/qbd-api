@@ -4,6 +4,8 @@ import java.util.List;
 
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 
-public interface SaveTimesheetPort {
+public interface TimesheetPort {
     List<TimesheetEntry> addTimesheetEntries(List<TimesheetEntry> entries);
+
+    TimesheetEntry findByTimesheetEntryId(String id);
 }

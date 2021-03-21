@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,6 +15,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,6 +58,25 @@ class TimeTrackingPersistenceAdapterUnitTest {
         assertThat(captor.getValue().get(0).getStatus(), is("ADD"));
         assertThat(results, hasSize(1));
         assertThat(results.get(0).getId(), not(emptyOrNullString()));
+    }
+
+    @Test
+    void retrieveOneTimesheetEntry() throws Exception {
+        // Given:
+        String txnId = "ABC-123";
+        TimeTrackingJpaEntity timeTrackingJpaEntity = new TimeTrackingJpaEntity();
+        timeTrackingJpaEntity.setTxnId(txnId);
+        when(mockRepo.findById(isA(String.class))).thenReturn(Optional.of(timeTrackingJpaEntity));
+        when(mockMapper.mapToDomainObject(isA(TimeTrackingJpaEntity.class))).thenReturn(makeTimesheetEntries().get(0));
+
+        // When:
+        TimesheetEntry result = adapter.findByTimesheetEntryId(txnId);
+
+        // Then:
+        assertThat(result, notNullValue());
+        assertThat(result.getId(), is(txnId));
+        assertThat(result.getJobId(), is("GHI-789"));
+        assertThat(result.getNotes(), is("Project ID:Task ID:Architecture Review with the team."));
     }
 
     private List<TimesheetEntry> makeTimesheetEntries() {

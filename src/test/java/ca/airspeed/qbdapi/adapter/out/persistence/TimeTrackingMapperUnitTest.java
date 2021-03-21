@@ -68,4 +68,34 @@ class TimeTrackingMapperUnitTest {
         assertThat(entity.getBillableStatus(), is("Billable"));
         assertThat(entity.getIsBillable(), is("true"));
     }
+
+    @Test
+    void mapToDomainObject() throws Exception {
+        // Given:
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        CustomerJpaEntity customer = new CustomerJpaEntity();
+        customer.setListID("BBB-4567");
+        TimeTrackingJpaEntity jpa = new TimeTrackingJpaEntity();
+        jpa.setTxnId("ABC-123");
+        jpa.setEntityRefListId("DEF-456");
+        jpa.setCustomer(customer);
+        jpa.setItemServiceRefListId("JKL=012");
+        jpa.setTxnDate(Date.from(yesterday.atStartOfDay(systemDefault()).toInstant()));
+        jpa.setDuration("PT1H30M");
+        jpa.setNotes("0900-1030:Project ID:Task ID:Architecture Review with the team.");
+        jpa.setBillableStatus("Billable");
+
+        // When:
+        TimesheetEntry result = mapper.mapToDomainObject(jpa);
+
+        // Then:
+        assertThat(result, notNullValue());
+        assertThat(result.getId(), is("ABC-123"));
+        assertThat(result.getAssociateId(), is("DEF-456"));
+        assertThat(result.getJobId(), is("BBB-4567"));
+        assertThat(result.getDateWorked(), is(yesterday));
+        assertThat(result.getDuration(), is(Duration.ofMinutes(90)));
+        assertThat(result.getNotes(), is("0900-1030:Project ID:Task ID:Architecture Review with the team."));
+        assertThat(result.getBillableStatus(), is("Billable"));
+    }
 }

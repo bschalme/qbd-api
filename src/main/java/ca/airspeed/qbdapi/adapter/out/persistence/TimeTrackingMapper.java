@@ -4,6 +4,9 @@ import static io.micronaut.core.util.StringUtils.isNotEmpty;
 import static java.lang.String.format;
 import static java.time.ZoneId.systemDefault;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,9 +55,18 @@ class TimeTrackingMapper {
     }
 
     TimesheetEntry mapToDomainObject(TimeTrackingJpaEntity entity) {
-        TimesheetEntry result = TimesheetEntry.builder()
+        return TimesheetEntry.builder()
+                .id(entity.getTxnId())
+                .associateId(entity.getEntityRefListId())
+                .jobId(entity.getCustomer() != null ? entity.getCustomer().getListID() : null)
+                .dateWorked(entity.getTxnDate()
+                        .toInstant()
+                        .atZone(ZoneId.of("America/Winnipeg"))
+                        .toLocalDate())
+                .duration(Duration.parse(entity.getDuration()))
+                .notes(entity.getNotes())
+                .billableStatus(entity.getBillableStatus())
                 .build();
-        return result;
     }
 
     List<TimesheetEntry> mapListToDomainObjects(List<TimeTrackingJpaEntity> entities) {

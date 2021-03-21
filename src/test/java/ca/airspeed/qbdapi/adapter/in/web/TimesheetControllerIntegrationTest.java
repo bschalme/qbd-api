@@ -1,17 +1,30 @@
 package ca.airspeed.qbdapi.adapter.in.web;
 
+import static io.micronaut.http.HttpRequest.GET;
 import static io.micronaut.http.HttpRequest.POST;
 import static io.micronaut.http.HttpStatus.CREATED;
+import static io.micronaut.http.HttpStatus.FORBIDDEN;
+import static io.micronaut.http.HttpStatus.OK;
+import static io.micronaut.http.HttpStatus.UNAUTHORIZED;
+import static io.micronaut.http.hateoas.Link.SELF;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -19,14 +32,22 @@ import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntry;
 import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntryList;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryListResponse;
+import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryResponseResource;
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
+import ca.airspeed.qbdapi.application.port.in.RetrieveTimesheetEntryUseCase;
+import ca.airspeed.qbdapi.domain.TimesheetEntry;
+import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
+import io.micronaut.http.hateoas.Link;
+import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
 @MicronautTest
@@ -38,6 +59,14 @@ class TimesheetControllerIntegrationTest {
 
     @Inject
     private EntityManager entityManager;
+
+    @Inject
+    private RetrieveTimesheetEntryUseCase mockRetrieveTimesheetEntryUseCase;
+
+    @MockBean(RetrieveTimesheetEntryUseCase.class)
+    RetrieveTimesheetEntryUseCase mockRetrieveTimesheetEntryUseCase() {
+        return mock(RetrieveTimesheetEntryUseCase.class);
+    }
 
     @Test
     @DisplayName("Enter a set of Timesheets")
@@ -77,4 +106,61 @@ class TimesheetControllerIntegrationTest {
         WebTimesheetEntry responseEntry = entryList.getEntries().get(0);
     }
 
+    @Test
+    @DisplayName("An unauthenticated user tries to retrieve a Timesheet entry")
+    void retrieveOneTimesheetUnauthenticated_fails() throws Exception {
+        // When:
+        Executable e = () -> client.toBlocking().exchange(
+                GET("/qbd-api/timesheets/AAAA-1234"), WebTimesheetEntryResponseResource.class);
+
+        // Then:
+        HttpClientResponseException thrown = assertThrows(HttpClientResponseException.class, e);
+        assertEquals(UNAUTHORIZED, thrown.getStatus());
+    }
+
+    @Test
+    @DisplayName("A user without any permissions tries to retrieve a Timesheet entry")
+    void retrieveOneTimesheetUnauthorized_fails() throws Exception {
+        // When:
+        Executable e = () -> client.toBlocking().exchange(
+                GET("/qbd-api/timesheets/AAAA-1234").basicAuth("eswan", "rescueme"),
+                WebTimesheetEntryResponseResource.class);
+
+        // Then:
+        HttpClientResponseException thrown = assertThrows(HttpClientResponseException.class, e);
+        assertEquals(FORBIDDEN, thrown.getStatus());
+    }
+
+    @Test
+    @DisplayName("A duly authenticated and authorized user can retrieve a Timesheet entry")
+    void retrieveOneTimesheetEntry_succeeds() throws Exception {
+        // Given:
+        when(mockRetrieveTimesheetEntryUseCase.retrieveTimesheet(isA(String.class))).thenReturn(TimesheetEntry.builder()
+                .id("AAAA-1234")
+                .associateId("ABC-123")
+                .duration(Duration.ofMinutes(150))
+                .notes("Hello World!")
+                .build());
+
+        // When:
+        HttpResponse<WebTimesheetEntryResponseResource> response = client.exchange(
+                GET("/qbd-api/timesheets/AAAA-1234").basicAuth("user", "password"),
+                WebTimesheetEntryResponseResource.class).blockingFirst();
+
+        // Then:
+        assertThat(response, notNullValue());
+        assertThat(response.getStatus(), is(OK));
+        WebTimesheetEntryResponseResource body = response.body();
+        assertThat("Response body;", body, notNullValue());
+        assertThat("ID;", body.getId(), is("AAAA-1234"));
+        assertThat("associateId;", body.getAssociateId(), is("ABC-123"));
+        assertThat("durationInMinutes;", body.getDurationInMinutes(), is(150));
+        assertThat("Notes;", body.getNotes(), is("Hello World!"));
+        OptionalMultiValues<Link> links = body.getLinks();
+        Optional<List<Link>> selfOptional = links.get(SELF);
+        assertTrue(selfOptional.isPresent(), "Missing 'self' link;");
+        List<Link> selfLinks = selfOptional.get();
+        assertThat(selfLinks, hasSize(greaterThan(0)));
+        assertThat("_self link;", selfLinks.get(0).getHref(), is("/qbd-api/timesheets/AAAA-1234"));
+    }
 }

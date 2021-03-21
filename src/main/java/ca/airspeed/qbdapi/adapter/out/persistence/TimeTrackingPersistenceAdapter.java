@@ -3,16 +3,17 @@ package ca.airspeed.qbdapi.adapter.out.persistence;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Singleton;
 
-import ca.airspeed.qbdapi.application.port.out.SaveTimesheetPort;
+import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
 @RequiredArgsConstructor
-public class TimeTrackingPersistenceAdapter implements SaveTimesheetPort {
+public class TimeTrackingPersistenceAdapter implements TimesheetPort {
 
     private static final String ADD = "ADD";
 
@@ -32,6 +33,12 @@ public class TimeTrackingPersistenceAdapter implements SaveTimesheetPort {
         }
         repo.saveAll(jpaEntities);
         return entries;
+    }
+
+    @Override
+    public TimesheetEntry findByTimesheetEntryId(String id) {
+        Optional<TimeTrackingJpaEntity> jpaEntity = repo.findById(id);
+        return mapper.mapToDomainObject(jpaEntity.orElseThrow());
     }
 
 }

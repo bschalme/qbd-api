@@ -6,16 +6,17 @@ import javax.inject.Singleton;
 import javax.validation.Valid;
 
 import ca.airspeed.qbdapi.application.port.in.EnterTimesheetUseCase;
-import ca.airspeed.qbdapi.application.port.out.SaveTimesheetPort;
+import ca.airspeed.qbdapi.application.port.in.RetrieveTimesheetEntryUseCase;
+import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 import io.micronaut.validation.Validated;
 
 @Singleton
 @Validated
-public class TimesheetService implements EnterTimesheetUseCase {
-    private SaveTimesheetPort port;
+public class TimesheetService implements EnterTimesheetUseCase, RetrieveTimesheetEntryUseCase {
+    private TimesheetPort port;
 
-    public TimesheetService(SaveTimesheetPort port) {
+    public TimesheetService(TimesheetPort port) {
         super();
         this.port = port;
     }
@@ -27,6 +28,11 @@ public class TimesheetService implements EnterTimesheetUseCase {
         }
         return port.addTimesheetEntries(timesheetEntries);
 
+    }
+
+    @Override
+    public TimesheetEntry retrieveTimesheet(String id) {
+        return port.findByTimesheetEntryId(id);
     }
 
 }
