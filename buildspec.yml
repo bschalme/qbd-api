@@ -13,9 +13,7 @@ phases:
       - eval "$(ssh-agent -s)"
       - echo "$build_ssh_pass" | ssh-add ~/.ssh/id_rsa
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
-      - git init
-      - git remote add origin git@github.com:bschalme/qbd-api.git
-      - git fetch
+      - git clone git@github.com:bschalme/qbd-api.git
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -27,6 +25,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - cd qbd-api
       - ./gradlew --stacktrace build
       - docker build -t qbd-api:latest .
       - docker tag qbd-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/qbd-api:latest

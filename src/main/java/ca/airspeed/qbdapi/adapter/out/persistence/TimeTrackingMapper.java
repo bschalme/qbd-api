@@ -61,7 +61,7 @@ class TimeTrackingMapper {
                 .jobId(entity.getCustomer() != null ? entity.getCustomer().getListID() : null)
                 .dateWorked(entity.getTxnDate()
                         .toInstant()
-                        .atZone(ZoneId.of("America/Winnipeg"))
+                        .atZone(ZoneId.systemDefault())
                         .toLocalDate())
                 .duration(Duration.parse(entity.getDuration()))
                 .notes(entity.getNotes())
