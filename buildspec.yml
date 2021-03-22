@@ -43,8 +43,9 @@ phases:
 artifacts:
   # Indicate that the created imagedefinitions.json file created on the previous
   # line is to be referenceable as an artifact of the build execution job.
+  base-directory: 'qbd-api'
   files:
-    - qbd-api/imagedefinitions.json
+    - imagedefinitions.json
 reports: #New
   SurefireReports: # CodeBuild will create a report group called "SurefireReports".
     files: #Store all of the files
