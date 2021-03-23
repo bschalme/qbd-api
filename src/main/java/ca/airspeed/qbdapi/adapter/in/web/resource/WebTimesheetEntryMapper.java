@@ -3,6 +3,7 @@ package ca.airspeed.qbdapi.adapter.in.web.resource;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,6 +15,8 @@ import ca.airspeed.qbdapi.domain.TimesheetEntry;
 public interface WebTimesheetEntryMapper {
 
     WebTimesheetEntryMapper INSTANCE = Mappers.getMapper(WebTimesheetEntryMapper.class);
+
+    List<WebTimesheetEntryResponseResource> domainObjectsToWebTimesheetEntryResponseResources(List<TimesheetEntry> timesheetEntries);
 
     @Mapping(source = "duration", target = "durationInMinutes")
     WebTimesheetEntryResponseResource domainObjectToWebTimesheetEntry(TimesheetEntry timesheetEntry);

@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ class TimeTrackingPersistenceAdapterUnitTest {
     void addTimesheetEntries() throws Exception {
         // Given:
         List<TimesheetEntry> timesheetEntries = makeTimesheetEntries();
-        List<TimeTrackingJpaEntity> timeTrackingEntities = makeTimeTrackingEntries();
+        List<TimeTrackingJpaEntity> timeTrackingEntities = makeTimeTrackingEntities();
         when(mockMapper.mapListToJpaEntries(timesheetEntries)).thenReturn(timeTrackingEntities);
 
         // When:
@@ -79,6 +80,26 @@ class TimeTrackingPersistenceAdapterUnitTest {
         assertThat(result.getNotes(), is("Project ID:Task ID:Architecture Review with the team."));
     }
 
+    @Test
+    void searchForTimesheetEntriesForAssociateInDateRange() throws Exception {
+        // Given:
+        LocalDate fromDate = LocalDate.now().minusMonths(1).withDayOfMonth(1);
+        LocalDate toDate = LocalDate.now().minusMonths(1).withDayOfMonth(28);
+        String associateId = "ABC-123";
+        List<TimeTrackingJpaEntity> jpaEntities = asList(new TimeTrackingJpaEntity());
+        when(mockRepo.findByTxnDateBetweenAndEntityRefListId(isA(Date.class), isA(Date.class), isA(String.class)))
+                .thenReturn(jpaEntities);
+        when(mockMapper.mapListToDomainObjects(jpaEntities)).thenReturn(makeTimesheetEntries());
+
+        // When:
+        List<TimesheetEntry> results = adapter.findByTxnDatesBetweenAndAssociateId(fromDate, toDate, associateId);
+
+        // Then:
+        assertThat(results, hasSize(1));
+        TimesheetEntry entry = results.get(0);
+        assertThat(entry.getId(), is("ABC-123"));
+    }
+
     private List<TimesheetEntry> makeTimesheetEntries() {
         LocalDate yesterday = LocalDate.now().minusDays(1);
         ZonedDateTime yesterdayAt0900 = ZonedDateTime.now().minusDays(1).withHour(9).withMinute(0).withSecond(0);
@@ -99,7 +120,7 @@ class TimeTrackingPersistenceAdapterUnitTest {
         return asList(timesheetEntry);
     }
 
-    private List<TimeTrackingJpaEntity> makeTimeTrackingEntries() {
+    private List<TimeTrackingJpaEntity> makeTimeTrackingEntities() {
         return asList(new TimeTrackingJpaEntity());
     }
 }

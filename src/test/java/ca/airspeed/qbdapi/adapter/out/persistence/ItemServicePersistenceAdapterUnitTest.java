@@ -30,6 +30,7 @@ class ItemServicePersistenceAdapterUnitTest {
     @InjectMocks
     private ItemServicePersistenceAdapter adapter;
 
+    @SuppressWarnings("unchecked")
     @Test
     void findById() throws Exception {
         // Given:
@@ -43,6 +44,7 @@ class ItemServicePersistenceAdapterUnitTest {
         assertThat(result, notNullValue());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testFindByFullName() throws Exception {
         // Given:

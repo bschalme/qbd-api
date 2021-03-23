@@ -1,18 +1,15 @@
 package ca.airspeed.qbdapi.adapter.out.persistence;
 
+import static java.time.ZoneId.systemDefault;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-
-import static java.time.ZoneId.systemDefault;
-import static java.util.Arrays.asList;
-
 import java.util.Date;
 import java.util.List;
 

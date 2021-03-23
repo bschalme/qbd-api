@@ -43,6 +43,7 @@ class CustomerPersistenceAdapterTest {
         assertThat(result, notNullValue());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testFindByFullName() throws Exception {
         // Given:

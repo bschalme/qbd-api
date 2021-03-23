@@ -6,6 +6,7 @@ import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,16 @@ import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryMapper;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryResponseResource;
 import ca.airspeed.qbdapi.application.port.in.EnterTimesheetUseCase;
 import ca.airspeed.qbdapi.application.port.in.RetrieveTimesheetEntryUseCase;
+import ca.airspeed.qbdapi.application.port.in.SearchForTimesheetEntriesUseCase;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.core.convert.format.Format;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
@@ -38,10 +42,17 @@ public class TimesheetController {
 
     private final EnterTimesheetUseCase enterTimesheetUseCase;
     private final RetrieveTimesheetEntryUseCase retrieveTimesheetEntryUseCase;
+    private final SearchForTimesheetEntriesUseCase searchForTimesheetEntriesUseCase;
     
     @Value("${micronaut.server.context-path:}")
     private String serverContextPath;
 
+    /**
+     * Create a new Timesheet.
+     * 
+     * @param timesheetList
+     * @return
+     */
     @Post
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<WebTimesheetEntryListResponse> enterTimesheets(@Body WebTimesheetEntryList timesheetList) {
@@ -74,6 +85,13 @@ public class TimesheetController {
         return created(response);
     }
 
+    /**
+     * Retrieve one Timesheet Entry using its id.
+     * 
+     * @param id
+     * @param authn
+     * @return
+     */
     @Get("/{id}")
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<WebTimesheetEntryResponseResource> findOneTimesheetEntry(String id, Authentication authn) {
@@ -82,5 +100,29 @@ public class TimesheetController {
                 .domainObjectToWebTimesheetEntry(entry);
         response.link(SELF, format("%s/timesheets/%s", serverContextPath, id));
         return ok(response);
+    }
+
+    /**
+     * Search for Timesheet Entries.
+     * 
+     * @param fromDate
+     * @param toDate
+     * @param associateId
+     * @return
+     */
+    @Get("/")
+    @ExecuteOn(TaskExecutors.IO)
+    public HttpResponse<WebTimesheetEntryListResponse> findByTxnDatesBetweenAndAssociateId(
+            @Format("yyyy-MM-dd") @QueryValue LocalDate fromDate,
+            @Format("yyyy-MM-dd") @QueryValue LocalDate toDate,
+            @QueryValue String associateId) {
+        List<TimesheetEntry> timesheetEntries = searchForTimesheetEntriesUseCase
+                .findByTxnDatesBetweenAndAssociateId(fromDate, toDate, associateId);
+        List<WebTimesheetEntryResponseResource> responseResources = WebTimesheetEntryMapper.INSTANCE
+                .domainObjectsToWebTimesheetEntryResponseResources(timesheetEntries);
+        for (WebTimesheetEntryResponseResource responseResource: responseResources) {
+            responseResource.link(SELF, format("%s/timesheets/%s", serverContextPath, responseResource.getId()));
+        }
+        return ok(new WebTimesheetEntryListResponse(responseResources));
     }
 }

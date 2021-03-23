@@ -13,9 +13,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -40,6 +38,7 @@ import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryListResponse;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryResponseResource;
 import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
 import ca.airspeed.qbdapi.application.port.in.RetrieveTimesheetEntryUseCase;
+import ca.airspeed.qbdapi.application.port.in.SearchForTimesheetEntriesUseCase;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
@@ -63,9 +62,17 @@ class TimesheetControllerIntegrationTest {
     @Inject
     private RetrieveTimesheetEntryUseCase mockRetrieveTimesheetEntryUseCase;
 
+    @Inject
+    private SearchForTimesheetEntriesUseCase mockSearchForTimesheetEntriesUseCase;
+
     @MockBean(RetrieveTimesheetEntryUseCase.class)
     RetrieveTimesheetEntryUseCase mockRetrieveTimesheetEntryUseCase() {
         return mock(RetrieveTimesheetEntryUseCase.class);
+    }
+
+    @MockBean(SearchForTimesheetEntriesUseCase.class)
+    SearchForTimesheetEntriesUseCase mockSearchForTimesheetEntriesUseCase() {
+        return mock(SearchForTimesheetEntriesUseCase.class);
     }
 
     @Test
@@ -96,7 +103,6 @@ class TimesheetControllerIntegrationTest {
                 .exchange(POST("/qbd-api/timesheets", entryList).basicAuth("user", "password"), WebTimesheetEntryListResponse.class);
 
         // Then:
-        System.out.println("*** Test class: response is a " + response);
         assertThat(response, notNullValue());
         assertThat(response.getStatus(), is(CREATED));
         Optional<WebTimesheetEntryListResponse> bodyOptional = response.getBody();
@@ -132,7 +138,7 @@ class TimesheetControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("A duly authenticated and authorized user can retrieve a Timesheet entry")
+    @DisplayName("A duly authorized user can retrieve a Timesheet entry")
     void retrieveOneTimesheetEntry_succeeds() throws Exception {
         // Given:
         when(mockRetrieveTimesheetEntryUseCase.retrieveTimesheet(isA(String.class))).thenReturn(TimesheetEntry.builder()
@@ -162,5 +168,85 @@ class TimesheetControllerIntegrationTest {
         List<Link> selfLinks = selfOptional.get();
         assertThat(selfLinks, hasSize(greaterThan(0)));
         assertThat("_self link;", selfLinks.get(0).getHref(), is("/qbd-api/timesheets/AAAA-1234"));
+    }
+
+    @Test
+    @DisplayName("An unauthenticated user tries to search for an Associate's timesheet entries in a date range")
+    void searchByDatesAndAssociateIdUnauthenticated_fails() throws Exception {
+        // When:
+        Executable e = () -> client.toBlocking().exchange(
+                GET("/qbd-api/timesheets/?fromDate=2020-06-01&toDate=2020-06-30&associateId=ABC-123"), WebTimesheetEntryListResponse.class);
+
+        // Then:
+        HttpClientResponseException thrown = assertThrows(HttpClientResponseException.class, e);
+        assertEquals(UNAUTHORIZED, thrown.getStatus());
+    }
+
+    @Test
+    @DisplayName("An unauthorized user tries to search for an Associate's timesheet entries in a date range")
+    void searchByDatesAndAssociateIdUnauthorized_fails() throws Exception {
+        // When:
+        Executable e = () -> client.toBlocking().exchange(
+                GET("/qbd-api/timesheets/?fromDate=2020-06-01&toDate=2020-06-30&associateId=ABC-123").basicAuth("eswan",
+                        "rescueme"),
+                WebTimesheetEntryListResponse.class);
+
+        // Then:
+        HttpClientResponseException thrown = assertThrows(HttpClientResponseException.class, e);
+        assertEquals(FORBIDDEN, thrown.getStatus());
+    }
+
+    @Test
+    @DisplayName("An authorized user can search for an Associate's timesheet entries for a given date range")
+    void searchByDatesAndAssociateId_succeeds() throws Exception {
+        // Given:
+        when(mockSearchForTimesheetEntriesUseCase.findByTxnDatesBetweenAndAssociateId(isA(LocalDate.class),
+                isA(LocalDate.class), isA(String.class)))
+                .thenReturn(twoTimesheetEntries());
+
+        // When:
+        HttpResponse<WebTimesheetEntryListResponse> response = client.exchange(
+                GET("/qbd-api/timesheets/?fromDate=2020-06-01&toDate=2020-06-30&associateId=ABC-123")
+                .basicAuth("user", "password"),
+                WebTimesheetEntryListResponse.class).blockingFirst();
+
+        // Then:
+        assertThat(response, notNullValue());
+        assertThat(response.getStatus(), is(OK));
+        WebTimesheetEntryListResponse body = response.body();
+        assertThat("Response body;", body, notNullValue());
+        List<WebTimesheetEntryResponseResource> timesheetEntryResources = body.getSavedTimesheetEntries();
+        assertThat("Timesheet entry resources;", timesheetEntryResources, hasSize(2));
+        WebTimesheetEntryResponseResource resource = timesheetEntryResources.get(0);
+        assertThat(resource.getId(), is("ABC-123"));
+        OptionalMultiValues<Link> links = resource.getLinks();
+        Optional<List<Link>> selfOptional = links.get(SELF);
+        assertTrue(selfOptional.isPresent(), "Missing 'self' link;");
+        List<Link> selfLinks = selfOptional.get();
+        assertThat(selfLinks, hasSize(greaterThan(0)));
+        assertThat(selfLinks.get(0).getHref(), is("/qbd-api/timesheets/ABC-123"));
+    }
+
+    private List<TimesheetEntry> twoTimesheetEntries() {
+        return asList(
+                TimesheetEntry.builder()
+                .id("ABC-123")
+                .build(),
+                TimesheetEntry.builder()
+                .id("DEF-456")
+                .build());
+    }
+
+    private List<TimesheetEntry> threeTimesheetEntries() {
+        return asList(
+                TimesheetEntry.builder()
+                .id("ABC-123")
+                .build(),
+                TimesheetEntry.builder()
+                .id("DEF-456")
+                .build(),
+                TimesheetEntry.builder()
+                .id("GHI-789")
+                .build());
     }
 }

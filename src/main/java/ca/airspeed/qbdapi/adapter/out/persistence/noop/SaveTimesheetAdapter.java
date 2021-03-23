@@ -1,5 +1,7 @@
 package ca.airspeed.qbdapi.adapter.out.persistence.noop;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
@@ -16,6 +18,17 @@ public class SaveTimesheetAdapter implements TimesheetPort {
     public TimesheetEntry findByTimesheetEntryId(String id) {
         return TimesheetEntry.builder()
                 .build();
+    }
+
+    @Override
+    public List<TimesheetEntry> findByTxnDatesBetweenAndAssociateId(LocalDate fromDate, LocalDate toDate,
+            String associateId) {
+        return new ArrayList<TimesheetEntry>();
+    }
+
+    @Override
+    public List<TimesheetEntry> findByTxnDatesBetween(LocalDate fromDate, LocalDate toDate) {
+        return new ArrayList<TimesheetEntry>();
     }
 
 }

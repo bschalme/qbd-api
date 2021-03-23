@@ -2,6 +2,10 @@ package ca.airspeed.qbdapi.adapter.out.persistence;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +43,20 @@ public class TimeTrackingPersistenceAdapter implements TimesheetPort {
     public TimesheetEntry findByTimesheetEntryId(String id) {
         Optional<TimeTrackingJpaEntity> jpaEntity = repo.findById(id);
         return mapper.mapToDomainObject(jpaEntity.orElseThrow());
+    }
+
+    @Override
+    public List<TimesheetEntry> findByTxnDatesBetweenAndAssociateId(LocalDate fromDate, LocalDate toDate,
+            String associateId) {
+        List<TimeTrackingJpaEntity> jpaEntities = repo.findByTxnDateBetweenAndEntityRefListId(
+                Date.from(fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                Date.from(toDate.atStartOfDay(ZoneId.systemDefault()).toInstant()), associateId);
+        return mapper.mapListToDomainObjects(jpaEntities);
+    }
+
+    @Override
+    public List<TimesheetEntry> findByTxnDatesBetween(LocalDate fromDate, LocalDate toDate) {
+        return new ArrayList<>();
     }
 
 }
