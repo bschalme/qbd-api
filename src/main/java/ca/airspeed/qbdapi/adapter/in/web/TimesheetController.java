@@ -31,6 +31,7 @@ import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,6 +54,8 @@ public class TimesheetController {
      * @param timesheetList
      * @return
      */
+    @ApiResponse(responseCode = "201", description = "Successfully created.")
+    @ApiResponse(responseCode = "500", description = "Something horrible happened on our end.")
     @Post
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<WebTimesheetEntryListResponse> enterTimesheets(@Body WebTimesheetEntryList timesheetList) {
@@ -92,6 +95,8 @@ public class TimesheetController {
      * @param authn
      * @return
      */
+    @ApiResponse(responseCode = "200", description = "Success.")
+    @ApiResponse(responseCode = "500", description = "Something horrible happened on our end.")
     @Get("/{id}")
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<WebTimesheetEntryResponseResource> findOneTimesheetEntry(String id, Authentication authn) {
@@ -110,6 +115,8 @@ public class TimesheetController {
      * @param associateId
      * @return
      */
+    @ApiResponse(responseCode = "200", description = "Success.")
+    @ApiResponse(responseCode = "500", description = "Something horrible happened on our end.")
     @Get("/")
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<WebTimesheetEntryListResponse> findByTxnDatesBetweenAndAssociateId(

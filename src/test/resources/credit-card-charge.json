@@ -1,0 +1,23 @@
+{
+    "account": {
+        "id": "3A0000-929919781",
+        "name": "Pirate Express"
+    },
+    "payee": {
+        "id": "800000E8-1240875361",
+        "name": "English Harbour"
+    },
+    "txnDate": "2021-03-02",
+    "refNumber": "ABC123",
+    "amount": 13.27,
+    "memo": "Repair Black Pearl sails.",
+    "expenseLines": [
+        {
+            "account": {
+               "id": "8000009E-1262031172",
+               "fullName": "Services:Ship repair"
+            },
+            "amount": 13.27
+        }
+    ]
+}

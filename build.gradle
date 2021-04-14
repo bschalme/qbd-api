@@ -36,13 +36,14 @@ micronaut {
 
 dependencies {
     compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
     annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.data:micronaut-data-processor"
     annotationProcessor "io.micronaut.openapi:micronaut-openapi"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"
