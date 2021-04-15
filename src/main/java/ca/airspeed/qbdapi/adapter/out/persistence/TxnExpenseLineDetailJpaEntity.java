@@ -1,6 +1,6 @@
 package ca.airspeed.qbdapi.adapter.out.persistence;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import java.math.BigDecimal;
 
@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -23,8 +22,12 @@ public class TxnExpenseLineDetailJpaEntity {
     @Column(name = "TxnLineID")
     private String txnLineID;
 
-    @OneToOne
-    @JoinColumn(name = "AccountRef_ListID", referencedColumnName = "ListID")
+    @ManyToOne
+    @JoinColumn(name = "AccountRef_ListID",
+            referencedColumnName = "ListID",
+            insertable = true, 
+            updatable = true, 
+            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
     private AccountJpaEntity account;
 
     @Column(name = "AccountRef_FullName")

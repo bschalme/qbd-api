@@ -1,7 +1,6 @@
 package ca.airspeed.qbdapi.adapter.out.persistence;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,11 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
@@ -36,22 +33,29 @@ public class CreditCardChargeJpaEntity {
     @Column(name = "TimeModified")
     private String timeModified;
 
-//    @Version
     @Column(name = "EditSequence")
     private String editSequence;
 
     @Column(name = "TxnNumber")
     private Integer txnNumber;
 
-    @OneToOne
-    @JoinColumn(name = "AccountRef_ListID", referencedColumnName = "ListID")
+    @ManyToOne
+    @JoinColumn(name = "AccountRef_ListID",
+            referencedColumnName = "ListID",
+            insertable = true, 
+            updatable = true, 
+            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
     private AccountJpaEntity account;
 
     @Column(name = "AccountRef_FullName")
     private String accountRefFullName;
 
-    @OneToOne
-    @JoinColumn(name = "PayeeEntityRef_ListID", referencedColumnName = "ListID")
+    @ManyToOne
+    @JoinColumn(name = "PayeeEntityRef_ListID",
+            referencedColumnName = "ListID",
+            insertable = true, 
+            updatable = true, 
+            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
     private VendorJpaEntity payee;
 
     @Column(name = "PayeeEntityRef_FullName")

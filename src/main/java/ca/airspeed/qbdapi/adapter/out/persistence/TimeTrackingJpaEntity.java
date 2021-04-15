@@ -1,5 +1,7 @@
 package ca.airspeed.qbdapi.adapter.out.persistence;
 
+import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -45,7 +47,11 @@ public class TimeTrackingJpaEntity {
     private String entityRefFullName;
 
     @ManyToOne
-    @JoinColumn(name = "CustomerRef_ListID")
+    @JoinColumn(name = "CustomerRef_ListID",
+            referencedColumnName = "ListID",
+            insertable = true, 
+            updatable = true, 
+            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
     private CustomerJpaEntity customer;
 
     @Column(name = "CustomerRef_FullName")
