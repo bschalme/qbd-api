@@ -34,7 +34,9 @@ class TimeTrackingMapper {
                 timesheetEntry.getStartDateTime().format(formatter),
                 timesheetEntry.getEndDateTime().format(formatter),
                 timesheetEntry.getNotes()));
-        result.setDuration(timesheetEntry.getDuration().toString());
+        long durationInMinutes = timesheetEntry.getDuration().toMinutes();
+        result.setDuration(
+                format("PT%dH%dM", durationInMinutes / 60, durationInMinutes % 60));
         result.setBillableStatus(timesheetEntry.getBillableStatus());
         if (timesheetEntry.getBillableStatus().equals("Billable")) {
             result.setIsBillable("true");
