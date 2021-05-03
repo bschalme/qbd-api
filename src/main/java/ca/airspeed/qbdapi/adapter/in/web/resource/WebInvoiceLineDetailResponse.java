@@ -13,4 +13,6 @@ public class WebInvoiceLineDetailResponse {
     private ServiceItem serviceItem; 
     private String description;
     private BigDecimal quantity;
+    private BigDecimal rate;
+    private BigDecimal amount;
 }

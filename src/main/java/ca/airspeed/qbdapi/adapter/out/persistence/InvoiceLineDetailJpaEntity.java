@@ -1,15 +1,11 @@
 package ca.airspeed.qbdapi.adapter.out.persistence;
 
-import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import io.micronaut.core.annotation.Introspected;
@@ -144,14 +140,6 @@ public class InvoiceLineDetailJpaEntity {
 
     @Column(name = "CustomField15")
     private String customField15;
-
-    @ManyToOne
-    @JoinColumn(name = "IDKEY",
-            referencedColumnName = "TxnID",
-            insertable = true, 
-            updatable = true, 
-            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
-    private InvoiceJpaEntity invoice;
 
     @Column(name = "GroupIDKEY")
     private String groupIDKEY;

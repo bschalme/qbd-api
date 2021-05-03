@@ -5,6 +5,7 @@ import static javax.persistence.FetchType.EAGER;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -14,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
@@ -24,6 +24,10 @@ import lombok.Data;
 @Data
 @Introspected
 public class InvoiceJpaEntity {
+
+    public InvoiceJpaEntity() {
+        detailLines = new HashSet<>();
+    }
 
     @Id
     @Column(name = "TxnID")
@@ -294,5 +298,5 @@ public class InvoiceJpaEntity {
             insertable = true, 
             updatable = true, 
             foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
-    private Set<InvoiceLineDetailJpaEntity> details;
+    private Set<InvoiceLineDetailJpaEntity> detailLines;
 }

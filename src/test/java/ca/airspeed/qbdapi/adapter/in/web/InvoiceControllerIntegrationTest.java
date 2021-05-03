@@ -23,8 +23,10 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.airspeed.qbdapi.adapter.in.web.resource.CustomerResource;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
+import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
@@ -61,6 +63,10 @@ class InvoiceControllerIntegrationTest {
         when(mockRetrieveInvoiceUseCase.retrieveInvoice(eq("ABC-123"))).thenReturn(Invoice.builder()
                 .id("ABC-123")
                 .invoiceNumber("406")
+                .customer(Customer.builder()
+                        .id("DEF-456")
+                        .fullName("East India Company")
+                        .build())
                 .build());
 
         // When:
@@ -75,6 +81,8 @@ class InvoiceControllerIntegrationTest {
         assertThat("Null body;", body, notNullValue());
         assertThat("Invoice ID;", body.getId(), is("ABC-123"));
         assertThat("Invoice number;", body.getInvoiceNumber(), is("406"));
+        CustomerResource customer = body.getCustomer();
+        assertThat("Customer;", customer, notNullValue());
 
         OptionalMultiValues<Link> links = body.getLinks();
         Optional<List<Link>> selfOptional = links.get(SELF);
@@ -82,6 +90,12 @@ class InvoiceControllerIntegrationTest {
         List<Link> selfLinks = selfOptional.get();
         assertThat(selfLinks, hasSize(greaterThan(0)));
         assertThat(selfLinks.get(0).getHref(), is("/qbd-api/invoices/ABC-123"));
+
+        Optional<List<Link>> customerOptional = links.get("customer");
+        assertTrue(customerOptional.isPresent(), "'customer' link exists;");
+        List<Link> customerLinks = customerOptional.get();
+        assertThat(customerLinks, hasSize(greaterThan(0)));
+        assertThat(customerLinks.get(0).getHref(), is("/qbd-api/customers/DEF-456"));
     }
 
 }

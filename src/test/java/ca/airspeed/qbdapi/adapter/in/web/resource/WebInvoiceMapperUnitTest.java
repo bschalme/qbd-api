@@ -30,6 +30,7 @@ class WebInvoiceMapperUnitTest {
         // Given:
         Invoice domainInvoice = Invoice.builder()
                 .id("ABC-123")
+                .invoiceNumber("409")
                 .customer(Customer.builder()
                         .id("DEF-456")
                         .name("East India Company")
@@ -52,6 +53,11 @@ class WebInvoiceMapperUnitTest {
 
         // Then:
         assertThat(result, notNullValue());
+        assertThat("Invoice number;", result.getInvoiceNumber(), is("409"));
+        CustomerResource customer = result.getCustomer();
+        assertThat("Customer;", customer, notNullValue());
+        assertThat("Customer ID;", customer.getId(), is("DEF-456"));
+        assertThat("Customer name;", customer.getName(), is("East India Company"));
         Set<WebInvoiceLineDetailResponse> details = result.getDetailLines();
         assertThat("Detail line count;", details, hasSize(2));
         Iterator<WebInvoiceLineDetailResponse> iterator = result.getDetailLines().iterator();

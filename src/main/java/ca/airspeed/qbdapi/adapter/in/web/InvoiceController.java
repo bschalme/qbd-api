@@ -6,6 +6,7 @@ import static java.lang.String.format;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceMapper;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
+import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
@@ -34,8 +35,13 @@ public class InvoiceController {
     public WebInvoiceResponseResource findById(String id, Authentication authn) {
         Invoice invoice = retrieveInvoiceUseCase.retrieveInvoice(id);
         WebInvoiceResponseResource response = WebInvoiceMapper.INSTANCE.domainObjectToWebInvoiceResponseResource(invoice);
-        log.info("Principal '{}' retrieved Invoice ID '{}'", authn.getName(), response.getId());
+        log.info("Principal '{}' retrieved Invoice ID '{}', Invoice number '{}'.", authn.getName(), response.getId(),
+                response.getInvoiceNumber());
         response.link(SELF, format("%s/invoices/%s", serverContextPath, id));
+        Customer customer = invoice.getCustomer();
+        if (customer != null) {
+            response.link("customer", format("%s/customers/%s", serverContextPath, customer.getId()));
+        }
         return response;
     }
 }

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Currency;
 import java.util.Set;
 
-import ca.airspeed.qbdapi.domain.Customer;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.hateoas.AbstractResource;
 import lombok.Builder;
@@ -21,12 +20,12 @@ public class WebInvoiceResponseResource extends AbstractResource<WebInvoiceRespo
     private String invoiceNumber;
     private LocalDate invoiceDate;
     private LocalDate dueDate;
-    private Customer customer;
+    private CustomerResource customer;
     private String poNumber;
     private String terms;
     private Currency currency;
     private Set<WebInvoiceLineDetailResponse> detailLines;
-    private BigDecimal subTotal;
+    private BigDecimal subtotal;
     private BigDecimal salesTaxTotal;
     private BigDecimal balanceRemaining;
     private BigDecimal appliedAmount;

@@ -22,7 +22,7 @@ public class Invoice {
     private String terms;
     private Currency currency;
     private Set<InvoiceLineDetail> detailLines;
-    private BigDecimal subTotal;
+    private BigDecimal subtotal;
     private BigDecimal salesTaxTotal;
     private BigDecimal balanceRemaining;
     private BigDecimal appliedAmount;
