@@ -3,14 +3,20 @@ package ca.airspeed.qbdapi.adapter.in.web;
 import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
 
+import java.util.List;
+
+import ca.airspeed.qbdapi.adapter.in.web.resource.CustomerResource;
+import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceListResponse;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceMapper;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
+import ca.airspeed.qbdapi.application.port.in.SearchForInvoiceUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
@@ -25,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class InvoiceController {
 
     private final RetrieveInvoiceUseCase retrieveInvoiceUseCase;
+    private final SearchForInvoiceUseCase searchForInvoiceUseCase;
 
     @Value("${micronaut.server.context-path:}")
     private String serverContextPath;
@@ -43,5 +50,22 @@ public class InvoiceController {
             response.link("customer", format("%s/customers/%s", serverContextPath, customer.getId()));
         }
         return response;
+    }
+
+    @Get("/")
+    @ExecuteOn(TaskExecutors.IO)
+    public WebInvoiceListResponse findByInvoiceNumber(@QueryValue String invoiceNumber, Authentication authn) {
+        List<Invoice> invoices = searchForInvoiceUseCase.findByInvoiceNumber(invoiceNumber);
+        List<WebInvoiceResponseResource> responseResources = WebInvoiceMapper.INSTANCE
+                .domainObjectsToWebInvoiceResponseResources(invoices);
+        log.info("Principal '{}' retrieved Invoice number '{}'.", authn.getName(), invoiceNumber);
+        for (WebInvoiceResponseResource response: responseResources) {
+            response.link(SELF, format("%s/invoices/%s", serverContextPath, response.getId()));
+            CustomerResource customer = response.getCustomer();
+            if (customer != null) {
+                response.link("customer", format("%s/customers/%s", serverContextPath, customer.getId()));
+            }
+        }
+        return new WebInvoiceListResponse(responseResources);
     }
 }

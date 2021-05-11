@@ -1,5 +1,7 @@
 package ca.airspeed.qbdapi.adapter.out.persistence.invoice;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -21,4 +23,6 @@ public interface InvoiceJpaMapper {
 
     @Mapping(source = "txnLineID", target = "id")
     InvoiceLineDetail jpaEntityToInvoiceLineDetail(InvoiceLineDetailJpaEntity entity);
+
+    List<Invoice> jpaEntitiesToInvoices(List<InvoiceJpaEntity> entities);
 }

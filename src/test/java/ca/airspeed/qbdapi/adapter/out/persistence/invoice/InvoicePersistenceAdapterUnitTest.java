@@ -1,10 +1,13 @@
 package ca.airspeed.qbdapi.adapter.out.persistence.invoice;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -38,5 +41,24 @@ class InvoicePersistenceAdapterUnitTest {
 
         // Then:
         assertThat(result, notNullValue());
+    }
+
+    @Test
+    void findByInvoiceNumber() throws Exception {
+        // Given:
+        String refNumber = "609";
+        InvoiceJpaEntity entity = new InvoiceJpaEntity();
+        entity.setTxnID("ABC-123");
+        entity.setRefNumber(refNumber);
+        entity.setBalanceRemaining(BigDecimal.valueOf(4598.34));
+        when(mockInvoiceRepo.findByRefNumber(refNumber)).thenReturn(List.of(entity));
+
+        // When:
+        List<Invoice> results = adapter.findByInvoiceNumber(refNumber);
+
+        // Then:
+        assertThat("Result set;", results, hasSize(1));
+        Invoice result = results.get(0);
+        assertThat("Invoice number;", result.getInvoiceNumber(), is("609"));
     }
 }

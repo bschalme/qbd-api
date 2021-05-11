@@ -24,8 +24,10 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.airspeed.qbdapi.adapter.in.web.resource.CustomerResource;
+import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceListResponse;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebInvoiceResponseResource;
 import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
+import ca.airspeed.qbdapi.application.port.in.SearchForInvoiceUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import io.micronaut.core.value.OptionalMultiValues;
@@ -49,9 +51,17 @@ class InvoiceControllerIntegrationTest {
     @Inject
     private RetrieveInvoiceUseCase mockRetrieveInvoiceUseCase;
 
+    @Inject
+    private SearchForInvoiceUseCase mockSearchForInvoiceUseCase;
+
     @MockBean(RetrieveInvoiceUseCase.class)
     RetrieveInvoiceUseCase mockRetrieveInvoiceUseCase() {
         return mock(RetrieveInvoiceUseCase.class);
+    }
+
+    @MockBean(SearchForInvoiceUseCase.class)
+    SearchForInvoiceUseCase mockSearchForInvoiceUseCase() {
+        return mock(SearchForInvoiceUseCase.class);
     }
 
     @Inject
@@ -98,4 +108,45 @@ class InvoiceControllerIntegrationTest {
         assertThat(customerLinks.get(0).getHref(), is("/qbd-api/customers/DEF-456"));
     }
 
+    @Test
+    void findByInvoiceNumber() throws Exception {
+        // Given:
+        when(mockSearchForInvoiceUseCase.findByInvoiceNumber(eq("406"))).thenReturn(List.of(Invoice.builder()
+                .id("ABC-123")
+                .invoiceNumber("406")
+                .customer(Customer.builder()
+                        .id("DEF-456")
+                        .fullName("East India Company")
+                        .build())
+                .build()));
+
+        // When:
+        HttpResponse<WebInvoiceListResponse> response = client
+                .exchange(GET("/qbd-api/invoices/?invoiceNumber=406").basicAuth("user", "password"), WebInvoiceListResponse.class)
+                .blockingFirst();
+
+        // Then:
+        assertThat(response, notNullValue());
+        assertThat(response.getStatus(), is(OK));
+        WebInvoiceListResponse body = response.body();
+        assertThat("Null body;", body, notNullValue());
+        List<WebInvoiceResponseResource> invoices = body.getInvoices();
+        assertThat("Invoices;", invoices, hasSize(1));
+        WebInvoiceResponseResource invoice = invoices.get(0);
+        assertThat("Invoice ID;", invoice.getId(), is("ABC-123"));
+        assertThat("Invoice number;", invoice.getInvoiceNumber(), is("406"));
+
+        OptionalMultiValues<Link> links = invoice.getLinks();
+        Optional<List<Link>> selfOptional = links.get(SELF);
+        assertTrue(selfOptional.isPresent(), "'self' link exists;");
+        List<Link> selfLinks = selfOptional.get();
+        assertThat(selfLinks, hasSize(greaterThan(0)));
+        assertThat(selfLinks.get(0).getHref(), is("/qbd-api/invoices/ABC-123"));
+
+        Optional<List<Link>> customerOptional = links.get("customer");
+        assertTrue(customerOptional.isPresent(), "'customer' link exists;");
+        List<Link> customerLinks = customerOptional.get();
+        assertThat(customerLinks, hasSize(greaterThan(0)));
+        assertThat(customerLinks.get(0).getHref(), is("/qbd-api/customers/DEF-456"));
+    }
 }

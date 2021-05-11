@@ -1,6 +1,5 @@
 package ca.airspeed.qbdapi.adapter.out.persistence.invoice;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +17,7 @@ public class InvoicePersistenceAdapter implements InvoicePort {
 
     @Override
     public List<Invoice> findByInvoiceNumber(String invoiceNumber) {
-        return new ArrayList<>();
+        return InvoiceJpaMapper.INSTANCE.jpaEntitiesToInvoices(repo.findByRefNumber(invoiceNumber));
     }
 
     @Override
