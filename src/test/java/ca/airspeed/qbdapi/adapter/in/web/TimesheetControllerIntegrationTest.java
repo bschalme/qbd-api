@@ -38,7 +38,7 @@ import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntry;
 import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntryList;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryListResponse;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryResponseResource;
-import ca.airspeed.qbdapi.adapter.out.persistence.CustomerJpaEntity;
+import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
 import ca.airspeed.qbdapi.application.port.in.RetrieveTimesheetEntryUseCase;
 import ca.airspeed.qbdapi.application.port.in.SearchForTimesheetEntriesUseCase;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
