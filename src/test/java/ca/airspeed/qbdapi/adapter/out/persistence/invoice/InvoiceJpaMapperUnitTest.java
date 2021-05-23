@@ -18,6 +18,7 @@ import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
+import ca.airspeed.qbdapi.domain.ServiceItem;
 
 class InvoiceJpaMapperUnitTest {
 
@@ -44,6 +45,8 @@ class InvoiceJpaMapperUnitTest {
         entity.setCustomer(customerEntity);
         InvoiceLineDetailJpaEntity entityDetail = new InvoiceLineDetailJpaEntity();
         entityDetail.setTxnLineID("DEF-456");
+        entityDetail.setItemRefListID("XYZ-987");
+        entityDetail.setItemRefFullName("45-foot Sail");
         entityDetail.setDescription("Sail, 45-foot");
         entityDetail.setAmount(BigDecimal.valueOf(45.25));
         entity.getDetailLines().add(entityDetail);
@@ -66,6 +69,10 @@ class InvoiceJpaMapperUnitTest {
         Iterator<InvoiceLineDetail> iterator = result.getDetailLines().iterator();
         InvoiceLineDetail resultDetail = iterator.next();
         assertThat(resultDetail.getId(), is("DEF-456"));
+        ServiceItem serviceItem = resultDetail.getServiceItem();
+        assertThat("Invoice detail Service Item;", serviceItem, notNullValue());
+        assertThat(serviceItem.getId(), is("XYZ-987"));
+        assertThat(serviceItem.getFullName(), is("45-foot Sail"));
         assertThat(resultDetail.getDescription(), is("Sail, 45-foot"));
         assertThat(resultDetail.getAmount(), is(BigDecimal.valueOf(45.25)));
     }

@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import ca.airspeed.qbdapi.domain.Invoice;
 
-@Mapper(uses = WebCustomerResourceMapper.class)
+@Mapper(uses = {WebCustomerResourceMapper.class})
 public interface WebInvoiceMapper {
 
     public static final WebInvoiceMapper INSTANCE = Mappers.getMapper(WebInvoiceMapper.class);
@@ -15,4 +15,5 @@ public interface WebInvoiceMapper {
     public WebInvoiceResponseResource domainObjectToWebInvoiceResponseResource(Invoice domainInvoice);
 
     public List<WebInvoiceResponseResource> domainObjectsToWebInvoiceResponseResources(List<Invoice> domainInvoices);
+
 }

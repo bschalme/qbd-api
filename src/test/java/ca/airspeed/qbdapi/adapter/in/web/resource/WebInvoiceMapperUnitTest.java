@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.hasSize;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
+import ca.airspeed.qbdapi.domain.ServiceItem;
 
 class WebInvoiceMapperUnitTest {
     private WebInvoiceMapper mapper;
@@ -38,11 +39,19 @@ class WebInvoiceMapperUnitTest {
                 .currency(Currency.getInstance("CAD"))
                 .detailLines(Set.of(InvoiceLineDetail.builder()
                         .id("GHI-789")
+                        .serviceItem(ServiceItem.builder()
+                                .id("XYZ-987")
+                                .fullName("Rum Bottles")
+                                .build())
                         .description("Rum, bottles")
                         .quantity(BigDecimal.valueOf(12, 0))
                         .build(),
                         InvoiceLineDetail.builder()
                         .id("JKL-012")
+                        .serviceItem(ServiceItem.builder()
+                                .id("WXY-765")
+                                .fullName("Chest, Treasure")
+                                .build())
                         .description("Treasure chest")
                         .quantity(BigDecimal.valueOf(2))
                         .build()))
@@ -60,8 +69,14 @@ class WebInvoiceMapperUnitTest {
         assertThat("Customer name;", customer.getName(), is("East India Company"));
         Set<WebInvoiceLineDetailResponse> details = result.getDetailLines();
         assertThat("Detail line count;", details, hasSize(2));
-        Iterator<WebInvoiceLineDetailResponse> iterator = result.getDetailLines().iterator();
-        WebInvoiceLineDetailResponse detail = iterator.next();
-        assertThat(detail.getId(), is("GHI-789"));
+        Optional<WebInvoiceLineDetailResponse> detailOptional = details.stream()
+                .filter(invDetail -> invDetail.getId().equals("GHI-789"))
+                .findFirst();
+        WebInvoiceLineDetailResponse detail = detailOptional.get();
+        assertThat("Invoice Line Detail ID;", detail.getId(), is("GHI-789"));
+        WebServiceItemResponse serviceItem = detail.getServiceItem();
+        assertThat("Invoice detail Service Item;", serviceItem, notNullValue());
+        assertThat(serviceItem.getId(), is("XYZ-987"));
+        assertThat(serviceItem.getFullName(), is("Rum Bottles"));
     }
 }
