@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
+import ca.airspeed.qbdapi.domain.Item;
 import ca.airspeed.qbdapi.domain.ServiceItem;
 
 class WebInvoiceMapperUnitTest {
@@ -39,7 +40,7 @@ class WebInvoiceMapperUnitTest {
                 .currency(Currency.getInstance("CAD"))
                 .detailLines(Set.of(InvoiceLineDetail.builder()
                         .id("GHI-789")
-                        .serviceItem(ServiceItem.builder()
+                        .item(Item.builder()
                                 .id("XYZ-987")
                                 .fullName("Rum Bottles")
                                 .build())
@@ -48,7 +49,7 @@ class WebInvoiceMapperUnitTest {
                         .build(),
                         InvoiceLineDetail.builder()
                         .id("JKL-012")
-                        .serviceItem(ServiceItem.builder()
+                        .item(Item.builder()
                                 .id("WXY-765")
                                 .fullName("Chest, Treasure")
                                 .build())
@@ -74,9 +75,9 @@ class WebInvoiceMapperUnitTest {
                 .findFirst();
         WebInvoiceLineDetailResponse detail = detailOptional.get();
         assertThat("Invoice Line Detail ID;", detail.getId(), is("GHI-789"));
-        WebServiceItemResponse serviceItem = detail.getServiceItem();
-        assertThat("Invoice detail Service Item;", serviceItem, notNullValue());
-        assertThat(serviceItem.getId(), is("XYZ-987"));
-        assertThat(serviceItem.getFullName(), is("Rum Bottles"));
+        WebItemResponse item = detail.getItem();
+        assertThat("Invoice detail Item;", item, notNullValue());
+        assertThat(item.getId(), is("XYZ-987"));
+        assertThat(item.getFullName(), is("Rum Bottles"));
     }
 }

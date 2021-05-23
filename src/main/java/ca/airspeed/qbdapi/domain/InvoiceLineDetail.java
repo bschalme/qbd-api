@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class InvoiceLineDetail {
     private String id;
-    private ServiceItem serviceItem; 
+    private Item item; 
     private String description;
     private BigDecimal quantity;
     private BigDecimal rate;

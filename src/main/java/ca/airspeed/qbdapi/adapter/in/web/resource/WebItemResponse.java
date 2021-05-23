@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class WebServiceItemResponse {
+public class WebItemResponse {
     private String id;
     private String name;
     private String fullName;

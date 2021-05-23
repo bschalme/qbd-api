@@ -22,8 +22,8 @@ public interface InvoiceJpaMapper {
     Invoice jpaEntityToInvoice(InvoiceJpaEntity entity);
 
     @Mapping(source = "txnLineID", target = "id")
-    @Mapping(source = "itemRefListID", target = "serviceItem.id")
-    @Mapping(source = "itemRefFullName", target = "serviceItem.fullName")
+    @Mapping(source = "itemRefListID", target = "item.id")
+    @Mapping(source = "itemRefFullName", target = "item.fullName")
     InvoiceLineDetail jpaEntityToInvoiceLineDetail(InvoiceLineDetailJpaEntity entity);
 
     List<Invoice> jpaEntitiesToInvoices(List<InvoiceJpaEntity> entities);

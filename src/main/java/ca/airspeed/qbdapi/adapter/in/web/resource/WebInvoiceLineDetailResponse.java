@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class WebInvoiceLineDetailResponse {
     private String id;
-    private WebServiceItemResponse serviceItem; 
+    private WebItemResponse item; 
     private String description;
     private BigDecimal quantity;
     private BigDecimal rate;
