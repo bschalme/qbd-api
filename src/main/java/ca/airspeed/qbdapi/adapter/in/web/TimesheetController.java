@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntry;
-import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntryList;
+import ca.airspeed.qbdapi.adapter.in.model.InputTimesheetEntry;
+import ca.airspeed.qbdapi.adapter.in.model.InputTimesheetEntryList;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryListResponse;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryMapper;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryResponseResource;
@@ -58,10 +58,10 @@ public class TimesheetController {
     @ApiResponse(responseCode = "500", description = "Something horrible happened on our end.")
     @Post
     @ExecuteOn(TaskExecutors.IO)
-    public HttpResponse<WebTimesheetEntryListResponse> enterTimesheets(@Body WebTimesheetEntryList timesheetList) {
-        List<WebTimesheetEntry> webEntries = timesheetList.getEntries();
+    public HttpResponse<WebTimesheetEntryListResponse> enterTimesheets(@Body InputTimesheetEntryList timesheetList) {
+        List<InputTimesheetEntry> webEntries = timesheetList.getEntries();
         List<TimesheetEntry> domainTimesheetEntries = new ArrayList<>();
-        for (WebTimesheetEntry webEntry: webEntries) {
+        for (InputTimesheetEntry webEntry: webEntries) {
             domainTimesheetEntries.add(TimesheetEntry.builder()
                     .associateId(webEntry.getAssociateId())
                     .billableStatus(webEntry.getBillableStatus())

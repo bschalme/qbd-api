@@ -1,9 +1,17 @@
+airspeed:
+  queues:
+    timesheet:
+      name: ${TIMESHEET_QUEUE_NAME)
+
 micronaut:
   application:
     name: qbd-api
   data:
     pageable:
       max-page-size: 10
+  jms:
+    sqs:
+      enabled: true
   router:
     static-resources:
       swagger:

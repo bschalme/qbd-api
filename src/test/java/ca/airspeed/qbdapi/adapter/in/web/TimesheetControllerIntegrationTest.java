@@ -34,8 +34,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntry;
-import ca.airspeed.qbdapi.adapter.in.web.model.WebTimesheetEntryList;
+import ca.airspeed.qbdapi.adapter.in.model.InputTimesheetEntry;
+import ca.airspeed.qbdapi.adapter.in.model.InputTimesheetEntryList;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryListResponse;
 import ca.airspeed.qbdapi.adapter.in.web.resource.WebTimesheetEntryResponseResource;
 import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
@@ -87,7 +87,7 @@ class TimesheetControllerIntegrationTest {
         entityManager.persist(def456);
         entityManager.getTransaction().commit();
 
-        WebTimesheetEntry entry = new WebTimesheetEntry();
+        InputTimesheetEntry entry = new InputTimesheetEntry();
         entry.setAssociateId("ABC-123");
         entry.setJobId("DEF-456");
         entry.setServiceItemId("GHI-789");
@@ -97,7 +97,7 @@ class TimesheetControllerIntegrationTest {
         entry.setDurationInMinutes(90);
         entry.setNotes("Hello World!");
         entry.setBillableStatus("Billable");
-        WebTimesheetEntryList entryList = new WebTimesheetEntryList();
+        InputTimesheetEntryList entryList = new InputTimesheetEntryList();
         entryList.setEntries(asList(entry));
 
         // When:
@@ -111,7 +111,7 @@ class TimesheetControllerIntegrationTest {
         assertTrue(bodyOptional.isPresent(), "No body in the HTTP response;");
         WebTimesheetEntryListResponse body = bodyOptional.get();
         assertThat(body.getSavedTimesheetEntries(), hasSize(entryList.getEntries().size()));
-        WebTimesheetEntry responseEntry = entryList.getEntries().get(0);
+        InputTimesheetEntry responseEntry = entryList.getEntries().get(0);
     }
 
     @Test

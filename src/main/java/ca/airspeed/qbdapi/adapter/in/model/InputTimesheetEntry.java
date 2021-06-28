@@ -1,4 +1,4 @@
-package ca.airspeed.qbdapi.adapter.in.web.model;
+package ca.airspeed.qbdapi.adapter.in.model;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Introspected
-public class WebTimesheetEntry {
+public class InputTimesheetEntry {
     private String associateId;
     private String jobId;
     private String serviceItemId;
