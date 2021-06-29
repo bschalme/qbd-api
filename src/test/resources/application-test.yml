@@ -1,3 +1,8 @@
+airspeed:
+  queues:
+    timesheet:
+      name: ${TIMESHEET_QUEUE_NAME)
+
 micronaut:
   application:
     name: qbd-api
