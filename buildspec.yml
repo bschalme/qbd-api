@@ -3,6 +3,8 @@ env:
   parameter-store:
     build_ssh_key: "build_ssh_key"
     build_ssh_pass: "build_ssh_pass"
+    AWS_ACCESS_KEY_ID: "/codebuild/key-id"
+    AWS_SECRET_ACCESS_KEY: "/codebuild/key-secret"
 phases:
   install:
     commands:
