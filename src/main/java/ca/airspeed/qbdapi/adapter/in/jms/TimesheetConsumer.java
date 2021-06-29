@@ -15,7 +15,7 @@ import static io.micronaut.jms.sqs.configuration.SqsConfiguration.CONNECTION_FAC
 @Requires(env = AMAZON_EC2)
 public class TimesheetConsumer {
 
-    @Queue("${airspeed.queues.timesheet.name}")
+    @Queue(value = "${airspeed.queues.timesheet.name}", concurrency = "1-5")
     public void receive(@MessageBody InputTimesheetEntryList body) {
         log.info("Received {} TimesheetEntries, but doing nothing with them.", body.getEntries().size());
     }
