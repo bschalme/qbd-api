@@ -1,6 +1,6 @@
 package ca.airspeed.qbdapi.application.service;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.in.EnterCreditCardChargeUseCase;
 import ca.airspeed.qbdapi.application.port.out.CreditCardChargePort;

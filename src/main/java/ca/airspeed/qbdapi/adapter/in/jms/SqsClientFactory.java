@@ -6,7 +6,7 @@ import io.micronaut.aws.sdk.v1.EnvironmentAWSCredentialsProvider;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.env.Environment;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Factory
 public class SqsClientFactory {

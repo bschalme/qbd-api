@@ -2,12 +2,12 @@ package ca.airspeed.qbdapi.adapter.in.web;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.inject.Inject;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
@@ -19,7 +19,7 @@ class PingControllerTest {
 
     @Test
     void testPing() throws Exception {
-        try (RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class,
+        try (HttpClient client = embeddedServer.getApplicationContext().createBean(HttpClient.class,
                 embeddedServer.getURL())) {
             assertEquals(HttpStatus.OK, client.toBlocking().exchange("/qbd-api/ping").status());
         }

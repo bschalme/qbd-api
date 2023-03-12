@@ -21,7 +21,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -32,7 +34,6 @@ import ca.airspeed.qbdapi.domain.DividendSummary;
 import ca.airspeed.qbdapi.domain.DividendYear;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.http.hateoas.Link;
@@ -47,7 +48,7 @@ class DividendControllerUnitTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client; 
+    HttpClient client;
 
     @MockBean(RetrieveDividendHistoryUseCase.class)
     RetrieveDividendHistoryUseCase mockRetrieveDividends() {
@@ -83,9 +84,8 @@ class DividendControllerUnitTest {
                 .thenReturn(new DividendSummary(asList(new DividendYear(2020, BigDecimal.valueOf(1234.56D)))));
 
         // When:
-        HttpResponse<DividendSummaryResponseResource> response = client
-                .exchange(GET("/qbd-api/dividends/dividend-history").basicAuth("user", "password"), DividendSummaryResponseResource.class)
-                .blockingFirst();
+        HttpResponse<DividendSummaryResponseResource> response = client.toBlocking()
+                .exchange(GET("/qbd-api/dividends/dividend-history").basicAuth("user", "password"), Argument.of(DividendSummaryResponseResource.class));
 
         // Then:
         assertThat(response, notNullValue());

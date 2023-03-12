@@ -1,6 +1,6 @@
 package ca.airspeed.qbdapi.adapter.out.persistence;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

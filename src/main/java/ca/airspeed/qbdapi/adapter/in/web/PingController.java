@@ -6,9 +6,9 @@ import static io.micronaut.security.rules.SecurityRule.IS_ANONYMOUS;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
+import io.micronaut.core.annotation.Nullable;
+import jakarta.inject.Inject;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.annotation.Controller;

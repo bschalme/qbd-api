@@ -19,7 +19,10 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
+import ca.airspeed.qbdapi.adapter.in.web.resource.SearchForCustomerResponseResource;
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -33,7 +36,6 @@ import ca.airspeed.qbdapi.application.port.in.SearchForCustomerUseCase;
 import ca.airspeed.qbdapi.application.service.RetrieveCustomerService;
 import ca.airspeed.qbdapi.domain.Customer;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.annotation.MockBean;
@@ -50,7 +52,7 @@ class CustomerControllerIntegrationTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client; 
+    HttpClient client;
 
     @MockBean(RetrieveCustomerService.class)
     RetrieveCustomerUseCase mockRetrieveService() {
@@ -113,19 +115,18 @@ class CustomerControllerIntegrationTest {
 
         // When:
         @SuppressWarnings("rawtypes")
-        HttpResponse<List> response = client
-                .exchange(GET("/qbd-api/customers/?fullName=Mega").basicAuth("user", "password"), List.class)
-                .blockingFirst();
+        HttpResponse<List<SearchForCustomerResponseResource>> response = client.toBlocking()
+                .exchange(GET("/qbd-api/customers/?fullName=Mega").basicAuth("user", "password"), Argument.listOf(SearchForCustomerResponseResource.class));
 
         // Then:
         assertThat(response, notNullValue());
         assertThat(response.getStatus(), is(OK));
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> body = response.body();
+        List<SearchForCustomerResponseResource> body = response.body();
         assertThat("Null body;", body, notNullValue());
         assertThat(body, hasSize(1));
-        Map<String, Object> customer = body.get(0);
-        assertThat(customer.get("name"), is("MegaCorp Inc"));
+        SearchForCustomerResponseResource customer = body.get(0);
+        assertThat(customer.getName(), is("MegaCorp Inc"));
     }
 
     private Customer megaCorp() {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;

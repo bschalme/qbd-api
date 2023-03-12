@@ -15,7 +15,7 @@ import ca.airspeed.qbdapi.domain.ServiceItem;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 import lombok.RequiredArgsConstructor;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;

@@ -16,7 +16,8 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,6 @@ import ca.airspeed.qbdapi.application.port.in.EnterCreditCardChargeUseCase;
 import ca.airspeed.qbdapi.domain.CreditCardCharge;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.hateoas.Link;
 import io.micronaut.test.annotation.MockBean;
@@ -38,7 +38,7 @@ class CreditCardChargeControllerUnitTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client;
+    HttpClient client;
 
     @Inject
     private EntityManager entityManager;

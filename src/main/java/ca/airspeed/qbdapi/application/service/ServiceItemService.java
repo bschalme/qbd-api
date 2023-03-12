@@ -2,7 +2,7 @@ package ca.airspeed.qbdapi.application.service;
 
 import java.util.List;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.in.RetrieveServiceItemUseCase;
 import ca.airspeed.qbdapi.application.port.out.ServiceItemPort;

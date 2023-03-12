@@ -27,7 +27,9 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +46,6 @@ import ca.airspeed.qbdapi.application.port.in.SearchForTimesheetEntriesUseCase;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.http.hateoas.Link;
@@ -56,7 +57,7 @@ class TimesheetControllerIntegrationTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client;
+    HttpClient client;
 
     @Inject
     private EntityManager entityManager;
@@ -151,9 +152,9 @@ class TimesheetControllerIntegrationTest {
                 .build());
 
         // When:
-        HttpResponse<WebTimesheetEntryResponseResource> response = client.exchange(
-                GET("/qbd-api/timesheets/AAAA-1234").basicAuth("user", "password"),
-                WebTimesheetEntryResponseResource.class).blockingFirst();
+        HttpResponse<WebTimesheetEntryResponseResource> response = client.toBlocking()
+                .exchange(GET("/qbd-api/timesheets/AAAA-1234").basicAuth("user", "password"),
+                Argument.of(WebTimesheetEntryResponseResource.class));
 
         // Then:
         assertThat(response, notNullValue());
@@ -207,10 +208,10 @@ class TimesheetControllerIntegrationTest {
                 .thenReturn(twoTimesheetEntries());
 
         // When:
-        HttpResponse<WebTimesheetEntryListResponse> response = client.exchange(
-                GET("/qbd-api/timesheets/?fromDate=2020-06-01&toDate=2020-06-30&associateId=ABC-123")
+        HttpResponse<WebTimesheetEntryListResponse> response = client.toBlocking()
+                .exchange(GET("/qbd-api/timesheets/?fromDate=2020-06-01&toDate=2020-06-30&associateId=ABC-123")
                 .basicAuth("user", "password"),
-                WebTimesheetEntryListResponse.class).blockingFirst();
+                        Argument.of(WebTimesheetEntryListResponse.class));
 
         // Then:
         assertThat(response, notNullValue());

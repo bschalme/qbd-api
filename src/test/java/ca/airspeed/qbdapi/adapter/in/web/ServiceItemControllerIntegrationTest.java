@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +27,6 @@ import ca.airspeed.qbdapi.application.port.in.RetrieveServiceItemUseCase;
 import ca.airspeed.qbdapi.application.service.ServiceItemService;
 import ca.airspeed.qbdapi.domain.ServiceItem;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.uri.UriBuilder;
 import io.micronaut.test.annotation.MockBean;
@@ -39,7 +40,7 @@ class ServiceItemControllerIntegrationTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client; 
+    HttpClient client;
 
     @MockBean(ServiceItemService.class)
     RetrieveServiceItemUseCase mockRetrieveServiceItemService() {
@@ -56,8 +57,8 @@ class ServiceItemControllerIntegrationTest {
         Map<String, ? super Object> parms = new HashMap<>();
         parms.put("id", sd100Id);
         String url = UriBuilder.of("/qbd-api/service-items/{id}").expand(parms).toString();
-        HttpResponse<SearchForServiceItemResponseResource> response = client
-                .exchange(GET(url).basicAuth("user", "password"), SearchForServiceItemResponseResource.class).blockingFirst();
+        HttpResponse<SearchForServiceItemResponseResource> response = client.toBlocking()
+                .exchange(GET(url).basicAuth("user", "password"), Argument.of(SearchForServiceItemResponseResource.class));
 //        String body = client.toBlocking().retrieve(GET(url));
 
         // Then:
@@ -84,20 +85,21 @@ class ServiceItemControllerIntegrationTest {
         parms.put("fullName", sd100);
         String url = UriBuilder.of("/qbd-api/service-items/?fullName={fullName}").expand(parms).toString();
         @SuppressWarnings("rawtypes")
-        HttpResponse<List> response = client.exchange(GET(url).basicAuth("user", "password"), List.class).blockingFirst();
+        HttpResponse<List<SearchForServiceItemResponseResource>> response = client.toBlocking()
+                .exchange(GET(url).basicAuth("user", "password"), Argument.listOf(SearchForServiceItemResponseResource.class));
 
         // Then:
         assertThat(response, notNullValue());
         assertThat(response.getStatus(), is(OK));
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> body = response.body();
+        List<SearchForServiceItemResponseResource> body = response.body();
         assertThat("Null body;", body, notNullValue());
         assertThat(body, hasSize(1));
-        Map<String, Object> serviceItem = body.get(0);
-        assertThat(serviceItem.get("id"), is("ABC-123"));
-        assertThat(serviceItem.get("fullName"), is(sd100));
-        assertThat(serviceItem.get("description"), is("Software Development (hours)"));
-        assertThat(serviceItem.get("price"), is(100.00));
+        SearchForServiceItemResponseResource serviceItem = body.get(0);
+        assertThat(serviceItem.getId(), is("ABC-123"));
+        assertThat(serviceItem.getFullName(), is(sd100));
+        assertThat(serviceItem.getDescription(), is("Software Development (hours)"));
+        assertThat("Price;", serviceItem.getPrice(), is(BigDecimal.valueOf(10000, 2)));
     }
 
     private ServiceItem sd100() {

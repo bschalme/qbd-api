@@ -3,7 +3,7 @@ package ca.airspeed.qbdapi.application.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import javax.validation.Valid;
 
 import ca.airspeed.qbdapi.application.port.in.EnterTimesheetUseCase;

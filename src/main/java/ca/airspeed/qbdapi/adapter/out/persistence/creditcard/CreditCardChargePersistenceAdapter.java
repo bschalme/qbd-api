@@ -2,7 +2,7 @@ package ca.airspeed.qbdapi.adapter.out.persistence.creditcard;
 
 import static java.util.UUID.randomUUID;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import javax.transaction.Transactional;
 
 import ca.airspeed.qbdapi.adapter.out.persistence.TxnExpenseLineDetailJpaEntity;

@@ -3,7 +3,7 @@ package ca.airspeed.qbdapi.adapter.out.persistence.cheque;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.out.ChequePort;
 import ca.airspeed.qbdapi.domain.DividendSummary;

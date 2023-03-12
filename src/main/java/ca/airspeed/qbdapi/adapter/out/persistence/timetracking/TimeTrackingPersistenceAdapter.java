@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
 import ca.airspeed.qbdapi.domain.TimesheetEntry;

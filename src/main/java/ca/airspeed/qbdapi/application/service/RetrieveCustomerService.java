@@ -1,6 +1,6 @@
 package ca.airspeed.qbdapi.application.service;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.in.RetrieveCustomerUseCase;
 import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;

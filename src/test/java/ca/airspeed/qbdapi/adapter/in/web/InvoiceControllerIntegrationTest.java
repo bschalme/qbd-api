@@ -16,7 +16,9 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.client.HttpClient;
+import jakarta.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,6 @@ import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.hateoas.Link;
 import io.micronaut.test.annotation.MockBean;
@@ -43,7 +44,7 @@ class InvoiceControllerIntegrationTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client;
+    HttpClient client;
 
     @Inject
     private EntityManager entityManager;
@@ -80,9 +81,8 @@ class InvoiceControllerIntegrationTest {
                 .build());
 
         // When:
-        HttpResponse<WebInvoiceResponseResource> response = client
-                .exchange(GET("/qbd-api/invoices/ABC-123").basicAuth("user", "password"), WebInvoiceResponseResource.class)
-                .blockingFirst();
+        HttpResponse<WebInvoiceResponseResource> response = client.toBlocking()
+                .exchange(GET("/qbd-api/invoices/ABC-123").basicAuth("user", "password"), Argument.of(WebInvoiceResponseResource.class));
 
         // Then:
         assertThat(response, notNullValue());
@@ -121,9 +121,8 @@ class InvoiceControllerIntegrationTest {
                 .build()));
 
         // When:
-        HttpResponse<WebInvoiceListResponse> response = client
-                .exchange(GET("/qbd-api/invoices/?invoiceNumber=406").basicAuth("user", "password"), WebInvoiceListResponse.class)
-                .blockingFirst();
+        HttpResponse<WebInvoiceListResponse> response = client.toBlocking()
+                .exchange(GET("/qbd-api/invoices/?invoiceNumber=406").basicAuth("user", "password"), Argument.of(WebInvoiceListResponse.class));
 
         // Then:
         assertThat(response, notNullValue());

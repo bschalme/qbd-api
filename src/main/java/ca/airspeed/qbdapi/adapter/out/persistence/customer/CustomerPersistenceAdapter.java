@@ -3,7 +3,7 @@ package ca.airspeed.qbdapi.adapter.out.persistence.customer;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.out.CustomerPort;
 import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;

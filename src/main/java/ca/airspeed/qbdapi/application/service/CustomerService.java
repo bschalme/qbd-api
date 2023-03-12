@@ -2,7 +2,7 @@ package ca.airspeed.qbdapi.application.service;
 
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.in.CreateCustomerUseCase;
 import ca.airspeed.qbdapi.application.port.out.CustomerPort;

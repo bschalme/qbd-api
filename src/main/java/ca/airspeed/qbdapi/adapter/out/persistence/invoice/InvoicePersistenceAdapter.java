@@ -3,7 +3,7 @@ package ca.airspeed.qbdapi.adapter.out.persistence.invoice;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.out.InvoicePort;
 import ca.airspeed.qbdapi.domain.Invoice;

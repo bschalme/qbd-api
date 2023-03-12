@@ -29,7 +29,7 @@ database persistence.
 Use Docker:
 
 1. Copy the file `dev-env-sample` to `dev-env`. Edit `dev-env` and replace the values of those environment variables with your own AWS Region and Cognito User Pool ID
-2. `./gradlew docker`
+2. `docker build -t qbd-api .`
 3. `docker-compose up`
 
 ## To Check the Health of QBD API

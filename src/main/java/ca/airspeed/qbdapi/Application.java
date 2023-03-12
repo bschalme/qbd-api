@@ -2,7 +2,7 @@ package ca.airspeed.qbdapi;
 
 import static io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ca.airspeed.qbdapi.application.port.in.CreateCustomerUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
