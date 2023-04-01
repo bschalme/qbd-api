@@ -11,6 +11,7 @@ phases:
       - mkdir -p ~/.ssh
       - echo "$build_ssh_key" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
+      - ssh-keygen -R github.com
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
       - eval "$(ssh-agent -s)"
       - echo "$build_ssh_pass" | ssh-add ~/.ssh/id_rsa
