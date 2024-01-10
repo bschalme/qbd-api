@@ -15,7 +15,7 @@ public interface WebCreditCardChargeMapper {
     CreditCardChargeResponseResource domainObjectToCreditCardChargeResponseResource(
             CreditCardCharge creditCardCharge);
 
-    CreditCardCharge webCreditCardChargeToDomainObject(WebCreditCardCharge webCrditCardCharge);
+    CreditCardCharge webCreditCardChargeToDomainObject(WebCreditCardCharge webCreditCardCharge);
 
     AccountResponse domainAccountToAccountResponse(Account account);
 }

@@ -119,6 +119,12 @@ tasks.withType(JavaCompile) {
 	options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
 }
 
+compileJava {
+    options.compilerArgs += [
+        '-Amapstruct.unmappedTargetPolicy=IGNORE'
+    ]
+}
+
 rewrite {
     activeRecipe("org.openrewrite.java.micronaut.Micronaut2to3Migration")
     }
