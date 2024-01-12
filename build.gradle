@@ -97,7 +97,12 @@ jacocoTestReport {
     dependsOn test
     afterEvaluate {
         classDirectories.from = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: '**/Application.*')
+            fileTree(dir: it, exclude: [
+                '**/Application.*',
+                'ca/airspeed/qbdapi/adapter/in/web/resource/WebCreditCardChargeMapperImpl.class',
+                'ca/airspeed/qbdapi/adapter/out/persistence/creditcard/CreditCardChargeMapperImpl.class',
+                'ca/airspeed/qbdapi/adapter/out/persistence/VendorMapperImpl.class'
+            ])
         })
     }
 }
