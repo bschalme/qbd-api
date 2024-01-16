@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import io.micronaut.http.client.HttpClient;
 import jakarta.inject.Inject;
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
 

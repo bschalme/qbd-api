@@ -1,18 +1,18 @@
 package ca.airspeed.qbdapi.adapter.out.persistence.creditcard;
 
-import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import ca.airspeed.qbdapi.adapter.out.persistence.AccountJpaEntity;
 import ca.airspeed.qbdapi.adapter.out.persistence.TxnExpenseLineDetailJpaEntity;
@@ -47,7 +47,7 @@ public class CreditCardChargeJpaEntity {
             referencedColumnName = "ListID",
             insertable = true, 
             updatable = true, 
-            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
+            foreignKey = @jakarta.persistence.ForeignKey(value = NO_CONSTRAINT))
     private AccountJpaEntity account;
 
     @Column(name = "AccountRef_FullName")
@@ -58,7 +58,7 @@ public class CreditCardChargeJpaEntity {
             referencedColumnName = "ListID",
             insertable = true, 
             updatable = true, 
-            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
+            foreignKey = @jakarta.persistence.ForeignKey(value = NO_CONSTRAINT))
     private VendorJpaEntity payee;
 
     @Column(name = "PayeeEntityRef_FullName")

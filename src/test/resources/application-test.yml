@@ -29,7 +29,7 @@ jpa:
     properties:
       hibernate:
         bytecode:
-          provider: none
+          provider: bytebuddy
         hbm2ddl:
           auto: update
 

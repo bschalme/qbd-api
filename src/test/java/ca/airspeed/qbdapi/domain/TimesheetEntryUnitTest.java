@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.inject.Inject;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

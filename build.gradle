@@ -1,10 +1,11 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-    id "io.micronaut.application" version "3.7.9"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "io.micronaut.application" version "$micronautVersion"
+    id "io.micronaut.library" version "$micronautVersion"
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
     id "org.owasp.dependencycheck" version "8.2.1"
     id "jacoco"
-    id("org.openrewrite.rewrite") version "5.37.1"
+    id("org.openrewrite.rewrite") version "latest.release"
 }
 
 group "ca.airspeed"
@@ -16,7 +17,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -39,34 +40,31 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
-    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     annotationProcessor "io.micronaut:micronaut-inject-java"
-    annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.data:micronaut-data-processor"
     annotationProcessor "io.micronaut.openapi:micronaut-openapi"
     annotationProcessor "io.micronaut.micrometer:micronaut-micrometer-annotation:${micronautMicrometerAnnotationVersion}"
-    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-inject"
-    implementation "io.micronaut:micronaut-validation"
-    implementation "io.micronaut:micronaut-runtime"
     implementation("io.micronaut.rxjava3:micronaut-rxjava3")
     implementation "io.micronaut.data:micronaut-data-hibernate-jpa"
     implementation "io.micronaut.discovery:micronaut-discovery-client"
-    implementation "io.micronaut.aws:micronaut-aws-common"
-    implementation "com.amazonaws:aws-java-sdk-ssm:1.11.1006"
+    implementation("io.micronaut.aws:micronaut-aws-sdk-v2")
+    implementation "software.amazon.awssdk:sqs"
+    implementation "software.amazon.awssdk:ssm"
     implementation "io.micronaut:micronaut-management"
     implementation "io.micronaut.micrometer:micronaut-micrometer-core"
     implementation "io.micronaut.security:micronaut-security-annotations"
     implementation "io.micronaut.security:micronaut-security-jwt"
     implementation "io.micronaut.jms:micronaut-jms-sqs"
     implementation "io.swagger.core.v3:swagger-annotations"
+    implementation "jakarta.persistence:jakarta.persistence-api:3.1.0"
     implementation "org.apache.commons:commons-lang3:3.12.0"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 //    runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
-    runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.14.1"
-    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    runtimeOnly "org.apache.logging.log4j:log4j-slf4j2-impl:2.22.1"
+    runtimeOnly "org.yaml:snakeyaml"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "org.junit.jupiter:junit-jupiter-params"
@@ -75,16 +73,17 @@ dependencies {
     testImplementation "org.hamcrest:hamcrest:2.2"
     testImplementation "com.tngtech.archunit:archunit-junit5:0.17.0"
     testImplementation("io.micronaut.reactor:micronaut-reactor-http-client")
+    testImplementation "com.fasterxml.jackson.core:jackson-databind"
 //    testImplementation "io.micronaut:micronaut-function-client"
 //    testImplementation "io.micronaut:micronaut-inject-java"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
     runtimeOnly 'io.micronaut.sql:micronaut-jdbc-hikari'
     runtimeOnly "io.micronaut.data:micronaut-data-runtime"
     testRuntimeOnly "com.h2database:h2"
-    runtimeOnly("mysql:mysql-connector-java:5.1.49")
+    runtimeOnly("mysql:mysql-connector-java")
 //     runtimeOnly "com.h2database:h2"
     implementation "io.micronaut:micronaut-http-server-netty"
-    rewrite("org.openrewrite.recipe:rewrite-micronaut:1.22.0")
+    rewrite("org.openrewrite.recipe:rewrite-micronaut:2.1.9")
 }
 
 test.classpath += configurations.developmentOnly
@@ -131,5 +130,5 @@ compileJava {
 }
 
 rewrite {
-    activeRecipe("org.openrewrite.java.micronaut.Micronaut2to3Migration")
+    activeRecipe("org.openrewrite.java.micronaut.Micronaut3to4Migration")
     }

@@ -24,6 +24,7 @@
 /target-eclipse
 .factorypath
 /.idea
+.vscode/
 
 # default HSQL database files for production mode
 /prodDb.*

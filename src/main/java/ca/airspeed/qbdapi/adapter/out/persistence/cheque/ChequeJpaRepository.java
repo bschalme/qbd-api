@@ -4,8 +4,8 @@ import static java.lang.String.format;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import ca.airspeed.qbdapi.domain.DividendYear;
 import io.micronaut.data.annotation.Repository;

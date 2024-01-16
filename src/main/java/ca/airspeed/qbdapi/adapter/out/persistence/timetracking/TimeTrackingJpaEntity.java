@@ -1,19 +1,18 @@
 package ca.airspeed.qbdapi.adapter.out.persistence.timetracking;
 
-import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
 import io.micronaut.core.annotation.Introspected;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
@@ -52,7 +51,7 @@ public class TimeTrackingJpaEntity {
             referencedColumnName = "ListID",
             insertable = true, 
             updatable = true, 
-            foreignKey = @javax.persistence.ForeignKey(value = NO_CONSTRAINT))
+            foreignKey = @jakarta.persistence.ForeignKey(value = NO_CONSTRAINT))
     private CustomerJpaEntity customer;
 
     @Column(name = "CustomerRef_FullName")
@@ -82,7 +81,7 @@ public class TimeTrackingJpaEntity {
     @Column(name = "PayrollItemWageRef_FullName")
     private String payrollItemWageRefFullName;
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     @Lob
     private String notes;
 

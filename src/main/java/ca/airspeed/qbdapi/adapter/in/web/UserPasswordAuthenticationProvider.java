@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 
 @Singleton
 @Requires(env={"localhost", "test"})
-public class UserPasswordAuthenticationProvider implements AuthenticationProvider {
+public class UserPasswordAuthenticationProvider implements AuthenticationProvider<HttpRequest<?>> {
 
     private Map<String, String> users;
     private Map<String, List<String>> userGroups;

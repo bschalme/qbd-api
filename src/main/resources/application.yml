@@ -60,7 +60,7 @@ datasources:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     schema-generate: VALIDATE
-    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    dialect: org.hibernate.dialect.MySQLDialect
 jpa:
   default:
     entity-scan:
@@ -68,7 +68,7 @@ jpa:
     properties:
       hibernate:
         bytecode:
-          provider: none
+          provider: bytebuddy
         hbm2ddl:
           auto: update
         naming:
