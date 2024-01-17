@@ -17,7 +17,6 @@ import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
 import ca.airspeed.qbdapi.domain.Item;
-import ca.airspeed.qbdapi.domain.ServiceItem;
 
 class WebInvoiceMapperUnitTest {
     private WebInvoiceMapper mapper;
@@ -30,9 +29,11 @@ class WebInvoiceMapperUnitTest {
     @Test
     void domainObjectToWebInvoiceResponseResource() throws Exception {
         // Given:
+        Currency cad = Currency.getInstance("CAD");
         Invoice domainInvoice = Invoice.builder()
                 .id("ABC-123")
                 .invoiceNumber("409")
+                .currency(cad)
                 .customer(Customer.builder()
                         .id("DEF-456")
                         .name("East India Company")
@@ -64,6 +65,7 @@ class WebInvoiceMapperUnitTest {
         // Then:
         assertThat(result, notNullValue());
         assertThat("Invoice number;", result.getInvoiceNumber(), is("409"));
+        assertThat("Currency;", result.getCurrency(), is(cad));
         CustomerResource customer = result.getCustomer();
         assertThat("Customer;", customer, notNullValue());
         assertThat("Customer ID;", customer.getId(), is("DEF-456"));

@@ -18,6 +18,7 @@ public interface InvoiceJpaMapper {
     @Mapping(source = "txnID", target = "id")
     @Mapping(source = "refNumber", target = "invoiceNumber")
     @Mapping(source = "txnDate", target = "invoiceDate")
+    @Mapping(source = "currency.currencyCode", target = "currency")
     @Mapping(source = "customerMsgRefFullName", target = "notesForCustomer")
     Invoice jpaEntityToInvoice(InvoiceJpaEntity entity);
 

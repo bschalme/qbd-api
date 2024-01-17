@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +57,7 @@ class InvoiceServiceUnitTest {
         Invoice invoice = Invoice.builder()
                 .id("ABC-123")
                 .invoiceNumber("609")
+                .currency(Currency.getInstance("CAD"))
                 .build();
         when(mockInvoicePort.findById(eq("ABC-123"))).thenReturn(invoice);
 
@@ -66,6 +68,7 @@ class InvoiceServiceUnitTest {
         assertThat("Resulting Invoice;", result, notNullValue());
         assertThat("Invoice ID;", result.getId(), is("ABC-123"));
         assertThat("Invoice Number;", result.getInvoiceNumber(), is("609"));
+        assertThat("Currency;", result.getCurrency(), is(Currency.getInstance("CAD")));
     }
 
     @Test

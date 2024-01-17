@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import ca.airspeed.qbdapi.adapter.out.persistence.CurrencyJpaEntity;
+import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
+import io.micronaut.core.annotation.Introspected;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,9 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
-import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
 
 @Entity
@@ -198,8 +198,13 @@ public class InvoiceJpaEntity {
     @Column(name = "BalanceRemaining")
     private BigDecimal balanceRemaining;
 
-    @Column(name = "CurrencyRef_ListID")
-    private String currencyRefListID;
+    @ManyToOne
+    @JoinColumn(name = "CurrencyRef_ListID",
+            referencedColumnName = "ListID",
+            insertable = true, 
+            updatable = true, 
+            foreignKey = @jakarta.persistence.ForeignKey(value = NO_CONSTRAINT))
+    private CurrencyJpaEntity currency;
 
     @Column(name = "CurrencyRef_FullName")
     private String currencyRefFullName;

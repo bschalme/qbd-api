@@ -8,12 +8,14 @@ import static org.hamcrest.Matchers.hasSize;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.airspeed.qbdapi.adapter.out.persistence.CurrencyJpaEntity;
 import ca.airspeed.qbdapi.adapter.out.persistence.customer.CustomerJpaEntity;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
@@ -38,6 +40,11 @@ class InvoiceJpaMapperUnitTest {
         entity.setTxnDate(Date.from(today.atStartOfDay(systemDefault()).toInstant()));
         entity.setDueDate(Date.from(today.plusDays(30).atStartOfDay(systemDefault()).toInstant()));
         entity.setRefNumber("409");
+        CurrencyJpaEntity currencyEntity = new CurrencyJpaEntity();
+        currencyEntity.setListID("JKL-990");
+        currencyEntity.setName("Canadian Dollar");
+        currencyEntity.setCurrencyCode("CAD");
+        entity.setCurrency(currencyEntity);
         entity.setCustomerMsgRefFullName("Hello World!");
         CustomerJpaEntity customerEntity = new CustomerJpaEntity();
         customerEntity.setListID("GHI-789");
@@ -61,6 +68,7 @@ class InvoiceJpaMapperUnitTest {
         assertThat("Invoice date;", result.getInvoiceDate(), is(today));
         assertThat("Due date;", result.getDueDate(), is(today.plusDays(30)));
         assertThat("Notes for Customer;", result.getNotesForCustomer(), is("Hello World!"));
+        assertThat("Currency", result.getCurrency(), is(Currency.getInstance("CAD")));
         Customer customer = result.getCustomer();
         assertThat("Customer;", customer, notNullValue());
         assertThat("Customer ID;", customer.getId(), is("GHI-789"));

@@ -13,6 +13,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,6 +114,7 @@ class InvoiceControllerIntegrationTest {
         when(mockSearchForInvoiceUseCase.findByInvoiceNumber(eq("406"))).thenReturn(List.of(Invoice.builder()
                 .id("ABC-123")
                 .invoiceNumber("406")
+                .currency(Currency.getInstance("CAD"))
                 .customer(Customer.builder()
                         .id("DEF-456")
                         .fullName("East India Company")
@@ -133,6 +135,7 @@ class InvoiceControllerIntegrationTest {
         when(mockRetrieveInvoiceUseCase.retrieveLastInvoice()).thenReturn(List.of(Invoice.builder()
                 .id("ABC-123")
                 .invoiceNumber("406")
+                .currency(Currency.getInstance("CAD"))
                 .customer(Customer.builder()
                         .id("DEF-456")
                         .fullName("East India Company")
@@ -157,6 +160,7 @@ class InvoiceControllerIntegrationTest {
         WebInvoiceResponseResource invoice = invoices.get(0);
         assertThat("Invoice ID;", invoice.getId(), is("ABC-123"));
         assertThat("Invoice number;", invoice.getInvoiceNumber(), is("406"));
+        assertThat("Currency;", invoice.getCurrency().toString(), is("CAD"));
 
         OptionalMultiValues<Link> links = invoice.getLinks();
         Optional<List<Link>> selfOptional = links.get(SELF);
