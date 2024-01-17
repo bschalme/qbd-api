@@ -1,21 +1,7 @@
 package ca.airspeed.qbdapi.application.service;
 
-import ca.airspeed.qbdapi.application.port.in.GenerateInvoicesUseCase;
-import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
-import ca.airspeed.qbdapi.application.port.in.SearchForInvoiceUseCase;
-import ca.airspeed.qbdapi.application.port.out.InvoicePort;
-import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
-import ca.airspeed.qbdapi.application.port.out.ServiceItemPort;
-import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
-import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.domain.Invoice;
-import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
-import ca.airspeed.qbdapi.domain.Item;
-import ca.airspeed.qbdapi.domain.ServiceItem;
-import ca.airspeed.qbdapi.domain.TimesheetEntry;
-import lombok.RequiredArgsConstructor;
+import static java.lang.String.format;
 
-import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -30,7 +16,21 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
+import ca.airspeed.qbdapi.application.port.in.GenerateInvoicesUseCase;
+import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
+import ca.airspeed.qbdapi.application.port.in.SearchForInvoiceUseCase;
+import ca.airspeed.qbdapi.application.port.out.InvoicePort;
+import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
+import ca.airspeed.qbdapi.application.port.out.ServiceItemPort;
+import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
+import ca.airspeed.qbdapi.domain.Customer;
+import ca.airspeed.qbdapi.domain.Invoice;
+import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
+import ca.airspeed.qbdapi.domain.Item;
+import ca.airspeed.qbdapi.domain.ServiceItem;
+import ca.airspeed.qbdapi.domain.TimesheetEntry;
+import jakarta.inject.Singleton;
+import lombok.RequiredArgsConstructor;
 
 @Singleton
 @RequiredArgsConstructor
@@ -85,6 +85,11 @@ public class InvoiceService implements RetrieveInvoiceUseCase, SearchForInvoiceU
         }
         
         return results;
+    }
+
+    @Override
+    public List<Invoice> retrieveLastInvoice() {
+        return invoicePort.findLast();
     }
 
     private Customer getCustomer(String jobId) {

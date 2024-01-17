@@ -8,4 +8,6 @@ public interface InvoicePort {
     List<Invoice> findByInvoiceNumber(String invoiceNumber);
 
     Invoice findById(String id);
+
+    List<Invoice> findLast();
 }

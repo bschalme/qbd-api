@@ -3,10 +3,9 @@ package ca.airspeed.qbdapi.adapter.out.persistence.invoice;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.inject.Singleton;
-
 import ca.airspeed.qbdapi.application.port.out.InvoicePort;
 import ca.airspeed.qbdapi.domain.Invoice;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
@@ -27,6 +26,11 @@ public class InvoicePersistenceAdapter implements InvoicePort {
             return InvoiceJpaMapper.INSTANCE.jpaEntityToInvoice(entityOptional.get());
         }
         return null;
+    }
+
+    @Override
+    public List<Invoice> findLast() {
+        return InvoiceJpaMapper.INSTANCE.jpaEntitiesToInvoices(repo.findlastInvoice());
     }
 
 }

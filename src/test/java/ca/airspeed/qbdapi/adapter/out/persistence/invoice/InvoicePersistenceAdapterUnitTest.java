@@ -61,4 +61,23 @@ class InvoicePersistenceAdapterUnitTest {
         Invoice result = results.get(0);
         assertThat("Invoice number;", result.getInvoiceNumber(), is("609"));
     }
+
+    @Test
+    void findLast() throws Exception {
+        // Given:
+        String refNumber = "609";
+        InvoiceJpaEntity entity = new InvoiceJpaEntity();
+        entity.setTxnID("ABC-123");
+        entity.setRefNumber(refNumber);
+        entity.setBalanceRemaining(BigDecimal.valueOf(4598.34));
+        when(mockInvoiceRepo.findlastInvoice()).thenReturn(List.of(entity));
+
+        // When:
+        List<Invoice> results= adapter.findLast();
+
+        // Then:
+        assertThat("Result set;", results, hasSize(1));
+        Invoice result = results.get(0);
+        assertThat("Invoice number;", result.getInvoiceNumber(), is("609"));
+    }
 }

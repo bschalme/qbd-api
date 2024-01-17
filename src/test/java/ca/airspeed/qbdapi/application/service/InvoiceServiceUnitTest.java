@@ -1,26 +1,5 @@
 package ca.airspeed.qbdapi.application.service;
 
-import ca.airspeed.qbdapi.application.port.out.InvoicePort;
-import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
-import ca.airspeed.qbdapi.application.port.out.ServiceItemPort;
-import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
-import ca.airspeed.qbdapi.domain.Customer;
-import ca.airspeed.qbdapi.domain.Invoice;
-import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
-import ca.airspeed.qbdapi.domain.ServiceItem;
-import ca.airspeed.qbdapi.domain.TimesheetEntry;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -30,6 +9,28 @@ import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import ca.airspeed.qbdapi.application.port.out.InvoicePort;
+import ca.airspeed.qbdapi.application.port.out.RetrieveCustomerPort;
+import ca.airspeed.qbdapi.application.port.out.ServiceItemPort;
+import ca.airspeed.qbdapi.application.port.out.TimesheetPort;
+import ca.airspeed.qbdapi.domain.Customer;
+import ca.airspeed.qbdapi.domain.Invoice;
+import ca.airspeed.qbdapi.domain.InvoiceLineDetail;
+import ca.airspeed.qbdapi.domain.ServiceItem;
+import ca.airspeed.qbdapi.domain.TimesheetEntry;
 
 @ExtendWith(MockitoExtension.class)
 class InvoiceServiceUnitTest {
@@ -81,6 +82,25 @@ class InvoiceServiceUnitTest {
 
         // Then:
         assertThat("Result set;", results, hasSize(1));
+        Invoice result = results.get(0);
+        assertThat("Invoice ID;", result.getId(), is("ABC-123"));
+        assertThat("Invoice Number;", result.getInvoiceNumber(), is("609"));
+    }
+
+    @Test
+    void retrieveLastInvoice() throws Exception {
+        // Given:
+        Invoice invoice = Invoice.builder()
+                .id("ABC-123")
+                .invoiceNumber("609")
+                .build();
+        when(mockInvoicePort.findLast()).thenReturn(List.of(invoice));
+
+        // When:
+        List<Invoice> results = service.retrieveLastInvoice();
+
+        // Then:
+        assertThat("Retrieved invoice;", results, hasSize(1));
         Invoice result = results.get(0);
         assertThat("Invoice ID;", result.getId(), is("ABC-123"));
         assertThat("Invoice Number;", result.getInvoiceNumber(), is("609"));

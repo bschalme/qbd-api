@@ -16,11 +16,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
-import io.micronaut.core.type.Argument;
-import io.micronaut.http.client.HttpClient;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,12 +27,16 @@ import ca.airspeed.qbdapi.application.port.in.RetrieveInvoiceUseCase;
 import ca.airspeed.qbdapi.application.port.in.SearchForInvoiceUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
+import io.micronaut.core.type.Argument;
 import io.micronaut.core.value.OptionalMultiValues;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.hateoas.Link;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 
 @MicronautTest
 class InvoiceControllerIntegrationTest {
@@ -125,6 +124,30 @@ class InvoiceControllerIntegrationTest {
                 .exchange(GET("/qbd-api/invoices/?invoiceNumber=406").basicAuth("user", "password"), Argument.of(WebInvoiceListResponse.class));
 
         // Then:
+        assertInvoice406(response);
+    }
+
+    @Test
+    void findLastInvoice() throws Exception {
+        // Given:
+        when(mockRetrieveInvoiceUseCase.retrieveLastInvoice()).thenReturn(List.of(Invoice.builder()
+                .id("ABC-123")
+                .invoiceNumber("406")
+                .customer(Customer.builder()
+                        .id("DEF-456")
+                        .fullName("East India Company")
+                        .build())
+                .build()));
+
+        // When:
+        HttpResponse<WebInvoiceListResponse> response = client.toBlocking()
+                .exchange(GET("/qbd-api/invoices/lastInvoice").basicAuth("user", "password"), Argument.of(WebInvoiceListResponse.class));
+
+        // Then:
+        assertInvoice406(response);
+    }
+
+    private void assertInvoice406(HttpResponse<WebInvoiceListResponse> response) throws Exception {
         assertThat(response, notNullValue());
         assertThat(response.getStatus(), is(OK));
         WebInvoiceListResponse body = response.body();
