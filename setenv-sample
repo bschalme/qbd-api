@@ -5,4 +5,6 @@ export COGNITO_USER_POOL_ID=us-east-1_ju54eTnd7
 #
 # This in case you are on an ARM64 platform (such as Applie Silicon):
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
-
+#
+# Get your own NVD API key from https://nvd.nist.gov/developers/request-an-api-key
+export NVD_API_KEY=<Your-NVD-API-key>

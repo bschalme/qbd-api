@@ -3,9 +3,8 @@ plugins {
     id "io.micronaut.application" version "$micronautVersion"
     id "io.micronaut.library" version "$micronautVersion"
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
-    id "org.owasp.dependencycheck" version "8.2.1"
+    id "org.owasp.dependencycheck" version "latest.release"
     id "jacoco"
-    id("org.openrewrite.rewrite") version "latest.release"
 }
 
 group "ca.airspeed"
@@ -83,7 +82,6 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
 //     runtimeOnly "com.h2database:h2"
     implementation "io.micronaut:micronaut-http-server-netty"
-    rewrite("org.openrewrite.recipe:rewrite-micronaut:2.1.9")
 }
 
 test.classpath += configurations.developmentOnly
@@ -129,6 +127,9 @@ compileJava {
     ]
 }
 
-rewrite {
-    activeRecipe("org.openrewrite.java.micronaut.Micronaut3to4Migration")
+def nvdApiKey = System.getenv('NVD_API_KEY')
+dependencyCheck {
+    nvd {
+        apiKey=nvdApiKey
     }
+}

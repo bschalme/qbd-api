@@ -9,6 +9,8 @@ An API for [QuickBooks Desktop](https://quickbooks.intuit.com/ca/desktop/premier
 
 Of course, you will need OpenSync running and a licensed copy of QuickBooks Desktop to synchronize the MySQL database with QuickBooks.
 
+This product uses the NVD API but is not endorsed or certified by the NVD. Get your NVD API key [here](https://nvd.nist.gov/developers/request-an-api-key).
+
 ## Design
 
 This is an example of a [Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) (also known as Ports and Adapters Architecture). In contrast to a layered
