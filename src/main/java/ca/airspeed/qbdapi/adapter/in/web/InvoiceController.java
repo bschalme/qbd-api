@@ -1,6 +1,7 @@
 package ca.airspeed.qbdapi.adapter.in.web;
 
-import static io.micronaut.http.HttpResponse.redirect;
+import static io.micronaut.http.HttpHeaders.LOCATION;
+import static io.micronaut.http.HttpStatus.MOVED_PERMANENTLY;
 import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
 
@@ -21,6 +22,8 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
+import io.micronaut.http.hateoas.JsonError;
+import io.micronaut.http.hateoas.Link;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
@@ -94,13 +97,17 @@ public class InvoiceController {
 
     @Get("/lastInvoice")
     @ExecuteOn(TaskExecutors.IO)
-    public HttpResponse<String> oldFindLastInvoice(HttpRequest request, Authentication authn) {
+    public HttpResponse<JsonError> oldFindLastInvoice(HttpRequest request, Authentication authn) {
         log.info("Principal '{}' called the old /lastInvoice endpoint.", authn.getName());
         URI requestUri = request.getUri();
         String requestString = requestUri.toString();
         URI redirectUri = URI.create(requestString.replace("/lastInvoice", "/last-invoice"));
         log.debug("redirectUri = '{}'.", redirectUri.toString());
-        return redirect(redirectUri);
+        JsonError error = new JsonError(format("Moved to %s.", redirectUri.toString()))
+            .link(Link.SELF, Link.of(request.getUri()));
+        return HttpResponse.<JsonError>status(MOVED_PERMANENTLY)
+                .header(LOCATION, redirectUri.toString())
+                .body(error);
     }
 
     @Get("/")
