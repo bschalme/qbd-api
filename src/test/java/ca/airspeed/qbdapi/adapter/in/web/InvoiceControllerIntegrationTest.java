@@ -1,6 +1,8 @@
 package ca.airspeed.qbdapi.adapter.in.web;
 
+import static io.micronaut.http.HttpHeaders.LOCATION;
 import static io.micronaut.http.HttpRequest.GET;
+import static io.micronaut.http.HttpStatus.MOVED_PERMANENTLY;
 import static io.micronaut.http.HttpStatus.OK;
 import static io.micronaut.http.hateoas.Link.SELF;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -38,8 +40,10 @@ import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 
 @MicronautTest
+@Slf4j
 class InvoiceControllerIntegrationTest {
 
     @Inject
@@ -144,10 +148,23 @@ class InvoiceControllerIntegrationTest {
 
         // When:
         HttpResponse<WebInvoiceListResponse> response = client.toBlocking()
-                .exchange(GET("/qbd-api/invoices/lastInvoice").basicAuth("user", "password"), Argument.of(WebInvoiceListResponse.class));
+                .exchange(GET("/qbd-api/invoices/last-invoice").basicAuth("user", "password"), Argument.of(WebInvoiceListResponse.class));
 
         // Then:
         assertInvoice406(response);
+    }
+
+    @Test
+    void oldFindLastInvoice_redirect() throws Exception {
+        // When:
+        HttpResponse<?> response = client.toBlocking()
+                .exchange(GET("/qbd-api/invoices/lastInvoice").basicAuth("user", "password"), String.class);
+
+        // Then:
+        log.debug("Returned from the service call.");
+        assertThat(response, notNullValue());
+        assertThat(response.getStatus(), is(MOVED_PERMANENTLY));
+        assertThat(response.getHeaders().get(LOCATION), is("/qbd-api/invoices/last-invoice"));
     }
 
     private void assertInvoice406(HttpResponse<WebInvoiceListResponse> response) throws Exception {

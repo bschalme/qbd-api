@@ -6,6 +6,9 @@ airspeed:
 micronaut:
   application:
     name: qbd-api
+  http:
+    client:
+      followRedirects: false
   server:
     contextPath: "/qbd-api"
 

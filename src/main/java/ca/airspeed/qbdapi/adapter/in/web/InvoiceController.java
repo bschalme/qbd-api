@@ -1,8 +1,10 @@
 package ca.airspeed.qbdapi.adapter.in.web;
 
+import static io.micronaut.http.HttpResponse.redirect;
 import static io.micronaut.http.hateoas.Link.SELF;
 import static java.lang.String.format;
 
+import java.net.URI;
 import java.util.List;
 
 import ca.airspeed.qbdapi.adapter.in.web.resource.CustomerResource;
@@ -14,6 +16,8 @@ import ca.airspeed.qbdapi.application.port.in.SearchForInvoiceUseCase;
 import ca.airspeed.qbdapi.domain.Customer;
 import ca.airspeed.qbdapi.domain.Invoice;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
@@ -71,7 +75,7 @@ public class InvoiceController {
     @ApiResponse(responseCode = "200", description = "Success.")
     @ApiResponse(responseCode = "401", description = "You need to authenticate to make this call. Give me a Bearer token in the Authorization header. Or, if you are testing locally, then Basic auth is fine.")
     @ApiResponse(responseCode = "500", description = "Something horrible happened on our end.")
-    @Get("/lastInvoice")
+    @Get("/last-invoice")
     @ExecuteOn(TaskExecutors.IO)
     public WebInvoiceListResponse findLastInvoice(Authentication authn) {
         List<Invoice> invoices = retrieveInvoiceUseCase.retrieveLastInvoice();
@@ -86,6 +90,17 @@ public class InvoiceController {
             log.info("Principal '{}' retrieved the last Invoice, number '{}'.", authn.getName(), response.getInvoiceNumber());
         }
         return new WebInvoiceListResponse(responseResources);
+    }
+
+    @Get("/lastInvoice")
+    @ExecuteOn(TaskExecutors.IO)
+    public HttpResponse<String> oldFindLastInvoice(HttpRequest request, Authentication authn) {
+        log.info("Principal '{}' called the old /lastInvoice endpoint.", authn.getName());
+        URI requestUri = request.getUri();
+        String requestString = requestUri.toString();
+        URI redirectUri = URI.create(requestString.replace("/lastInvoice", "/last-invoice"));
+        log.debug("redirectUri = '{}'.", redirectUri.toString());
+        return redirect(redirectUri);
     }
 
     @Get("/")
