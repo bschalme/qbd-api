@@ -42,6 +42,7 @@ dependencies {
     annotationProcessor "io.micronaut.data:micronaut-data-processor"
     annotationProcessor "io.micronaut.openapi:micronaut-openapi"
     annotationProcessor "io.micronaut.micrometer:micronaut-micrometer-annotation:${micronautMicrometerAnnotationVersion}"
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
     implementation "io.micronaut:micronaut-http"
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-inject"
@@ -56,6 +57,7 @@ dependencies {
     implementation "io.micronaut.security:micronaut-security-annotations"
     implementation "io.micronaut.security:micronaut-security-jwt"
     implementation "io.micronaut.jms:micronaut-jms-sqs"
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation "io.swagger.core.v3:swagger-annotations"
     implementation "jakarta.persistence:jakarta.persistence-api:3.1.0"
     implementation "org.apache.commons:commons-lang3:3.20.0"

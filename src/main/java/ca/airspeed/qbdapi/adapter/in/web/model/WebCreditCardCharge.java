@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import io.micronaut.core.annotation.Introspected;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -13,6 +14,8 @@ public class WebCreditCardCharge {
     private WebAccount account;
     private WebVendor payee;
     private LocalDate txnDate;
+
+    @Size(max = 11)
     private String refNumber;
     private BigDecimal amount;
     private String memo;

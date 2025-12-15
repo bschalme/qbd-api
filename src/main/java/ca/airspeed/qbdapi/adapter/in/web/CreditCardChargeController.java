@@ -18,10 +18,13 @@ import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
+import io.micronaut.validation.Validated;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Validated
 @Controller("/credit-card-charges")
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +48,7 @@ public class CreditCardChargeController {
     @Post
     @ExecuteOn(TaskExecutors.IO)
     public HttpResponse<CreditCardChargeResponseResource> enterCreditCardCharge(
-            @Body WebCreditCardCharge creditCardCharge, Authentication authn) {
+            @Body @Valid WebCreditCardCharge creditCardCharge, Authentication authn) {
         CreditCardCharge domainCreditCardCharge = WebCreditCardChargeMapper.INSTANCE.webCreditCardChargeToDomainObject(creditCardCharge);
         CreditCardCharge savedCreditCardCharge = enterCreditCardChargeUseCase
                 .enterCreditCardCharge(domainCreditCardCharge);
